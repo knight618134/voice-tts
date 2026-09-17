@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#f6f7fb" />
+    <meta name="description" content="A mobile-first vocabulary reader with browser and local Kokoro speech." />
+    <title>Vocabulary Reader</title>
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">LOCAL LANGUAGE PRACTICE</p>
+          <h1>Vocabulary Reader</h1>
+        </div>
+        <div class="topbar-note">Browser voice first · Kokoro on demand</div>
+      </header>
+
+      <main class="app-grid">
+        <section class="workspace" aria-label="Reader workspace">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">READING SESSION</p>
+              <h2 id="sessionTitle">Everyday English</h2>
+            </div>
+            <div class="progress-wrap" aria-label="Reading progress">
+              <span id="progressLabel">0 / 0</span>
+              <div class="progress-track"><span id="progressBar"></span></div>
+            </div>
+          </div>
+
+          <div class="mode-tabs" role="tablist" aria-label="Reading mode">
+            <button class="tab-button is-active" type="button" data-mode="word" role="tab" aria-selected="true">Word mode</button>
+            <button class="tab-button" type="button" data-mode="dialog" role="tab" aria-selected="false">Dialog mode</button>
+          </div>
+
+          <div id="reader" class="reader" aria-live="polite"></div>
+
+          <div class="player-card">
+            <div class="player-current">
+              <span class="status-dot" id="statusDot"></span>
+              <div>
+                <strong id="currentLabel">Ready to read</strong>
+                <p id="statusText">Choose an item or press play.</p>
+                <div class="model-progress is-hidden" id="modelProgress" aria-label="Kokoro model loading progress"><span id="modelProgressBar"></span></div>
+              </div>
+            </div>
+            <div class="player-actions">
+              <button class="icon-button" id="previousButton" type="button" aria-label="Previous item">←</button>
+              <button class="play-button" id="playButton" type="button"><span id="playIcon">▶</span><span id="playText">Play</span></button>
+              <button class="icon-button" id="nextButton" type="button" aria-label="Next item">→</button>
+              <button class="secondary-button" id="stopButton" type="button">Stop</button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar" aria-label="Reader settings">
+          <section class="panel input-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">CONTENT</p>
+                <h2>Build a session</h2>
+              </div>
+              <button class="text-button" id="sampleButton" type="button">Use sample</button>
+            </div>
+            <label class="field-label" for="contentInput">Paste lines</label>
+            <textarea id="contentInput" rows="7" spellcheck="false"></textarea>
+            <p class="field-hint" id="contentHint">Word mode: word | pronunciation | meaning | example</p>
+            <button class="primary-button full-width" id="loadContentButton" type="button">Load content</button>
+          </section>
+
+          <section class="panel settings-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">VOICE</p>
+                <h2>Speech settings</h2>
+              </div>
+              <span class="pill">No account</span>
+            </div>
+
+            <label class="field-label" for="engineSelect">TTS engine</label>
+            <select id="engineSelect">
+              <option value="native">Browser Voice</option>
+              <option value="kokoro">Kokoro Local Voice</option>
+            </select>
+
+            <div id="browserVoiceFields">
+              <label class="field-label" for="voiceASelect">Voice A <span class="field-note">dialog speaker A</span></label>
+              <select id="voiceASelect"></select>
+              <label class="field-label" for="voiceBSelect">Voice B <span class="field-note">dialog speaker B</span></label>
+              <select id="voiceBSelect"></select>
+            </div>
+
+            <div id="kokoroVoiceFields" class="is-hidden">
+              <label class="field-label" for="kokoroVoiceSelect">Kokoro voice</label>
+              <select id="kokoroVoiceSelect">
+                <option value="af_heart">af_heart · American female</option>
+                <option value="af_bella">af_bella · American female</option>
+                <option value="am_fenrir">am_fenrir · American male</option>
+                <option value="bf_emma">bf_emma · British female</option>
+                <option value="bm_george">bm_george · British male</option>
+              </select>
+              <p class="field-hint">Runs locally with WASM + q8. The first play downloads the model.</p>
+            </div>
+
+            <div class="range-field">
+              <div class="range-heading"><label class="field-label" for="rateInput">Speed</label><output id="rateValue">1.0×</output></div>
+              <input id="rateInput" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+            </div>
+            <div class="range-field">
+              <div class="range-heading"><label class="field-label" for="delayInput">Delay between items</label><output id="delayValue">0.5s</output></div>
+              <input id="delayInput" type="range" min="0" max="3" step="0.1" value="0.5" />
+            </div>
+            <label class="field-label" for="repeatInput">Repeats per item</label>
+            <select id="repeatInput">
+              <option value="1">Once</option>
+              <option value="2">Twice</option>
+              <option value="3">Three times</option>
+            </select>
+          </section>
+
+          <section class="panel weak-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">REVIEW</p>
+                <h2>Weak words <span id="weakCount" class="count-badge">0</span></h2>
+              </div>
+              <button class="text-button" id="clearWeakButton" type="button">Clear</button>
+            </div>
+            <div id="weakList" class="weak-list"><p class="empty-state">Tap “Weak” on a word to save it here.</p></div>
+            <button class="secondary-button full-width" id="practiceButton" type="button">Practice weak words</button>
+          </section>
+
+          <div class="notice" id="notice" role="status" aria-live="polite"></div>
+        </aside>
+      </main>
+
+      <footer class="footer">Your reading data stays in this browser. Kokoro audio is generated locally after you choose it.</footer>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
