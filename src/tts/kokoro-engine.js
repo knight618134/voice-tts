@@ -165,6 +165,7 @@ export class KokoroTtsEngine {
     audio.setAttribute('playsinline', '');
     audio.setAttribute('webkit-playsinline', '');
     audio.src = url;
+    audio.load();
     this.audio = audio;
     this.activeUrl = url;
     this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice' });
