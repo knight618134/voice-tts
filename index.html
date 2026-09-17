@@ -33,9 +33,21 @@
           <div class="mode-tabs" role="tablist" aria-label="Reading mode">
             <button class="tab-button is-active" type="button" data-mode="word" role="tab" aria-selected="true">Word mode</button>
             <button class="tab-button" type="button" data-mode="dialog" role="tab" aria-selected="false">Dialog mode</button>
+            <button class="tab-button" type="button" data-mode="article" role="tab" aria-selected="false">Article mode</button>
           </div>
 
           <div id="reader" class="reader" aria-live="polite"></div>
+
+          <section class="quiz-panel is-hidden" id="quizPanel" aria-labelledby="quizTitle">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">CHECK YOUR READING</p>
+                <h2 id="quizTitle">Quick quiz</h2>
+              </div>
+              <button class="text-button" id="showAnswersButton" type="button">Show answers</button>
+            </div>
+            <div id="quizList" class="quiz-list"></div>
+          </section>
 
           <div class="player-card">
             <div class="player-current">
@@ -66,6 +78,39 @@
             </div>
             <label class="field-label" for="contentInput">Paste lines</label>
             <textarea id="contentInput" rows="7" spellcheck="false"></textarea>
+            <div id="articleFields" class="article-fields is-hidden">
+              <label class="field-label" for="articleTitleInput">Article title</label>
+              <input id="articleTitleInput" type="text" value="A Morning in the Garden" />
+              <div class="split-fields">
+                <div>
+                  <label class="field-label" for="articleLevelSelect">Level</label>
+                  <select id="articleLevelSelect">
+                    <option value="a1">A1 · Beginner</option>
+                    <option value="a2">A2 · Elementary</option>
+                    <option value="b1">B1 · Intermediate</option>
+                    <option value="b2">B2 · Upper-intermediate</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="articleTopicSelect">Topic</label>
+                  <select id="articleTopicSelect">
+                    <option value="nature">Nature</option>
+                    <option value="culture">Culture</option>
+                    <option value="geography">Geography</option>
+                  </select>
+                </div>
+              </div>
+              <div class="article-actions">
+                <input id="articleFileInput" type="file" accept=".txt,text/plain" hidden />
+                <button class="secondary-button" id="importArticleButton" type="button">Import .txt</button>
+                <button class="secondary-button" id="generateN8nButton" type="button">Generate with n8n</button>
+              </div>
+              <label class="field-label" for="n8nWebhookInput">Optional n8n webhook URL</label>
+              <input id="n8nWebhookInput" type="url" placeholder="https://your-n8n.example/webhook/article" />
+              <p class="field-hint">n8n should return title, body, and quiz. Do not put private API keys in this browser form.</p>
+              <label class="field-label" for="quizInput">Quiz JSON (optional)</label>
+              <textarea id="quizInput" rows="4" spellcheck="false" placeholder='[{"question":"...","options":["A","B","C","D"],"answer":0,"explanation":"..."}]'></textarea>
+            </div>
             <p class="field-hint" id="contentHint">Word mode: word | pronunciation | meaning | example</p>
             <button class="primary-button full-width" id="loadContentButton" type="button">Load content</button>
           </section>

@@ -1,8 +1,10 @@
 import './styles.css';
 import { getSample } from './data/default-content.js';
+import { getArticleSample, getArticleLevelLabel, getArticleTopicLabel } from './data/article-content.js';
 import { TtsManager } from './tts/tts-manager.js';
 
 const STORAGE_KEY = 'vocabulary-reader-weak-words';
+const N8N_WEBHOOK_KEY = 'vocabulary-reader-n8n-webhook';
 const $ = (selector) => document.querySelector(selector);
 
 const elements = {
@@ -40,6 +42,19 @@ const elements = {
   weakCount: $('#weakCount'),
   clearWeakButton: $('#clearWeakButton'),
   practiceButton: $('#practiceButton'),
+  weakPanel: $('.weak-panel'),
+  articleFields: $('#articleFields'),
+  articleTitleInput: $('#articleTitleInput'),
+  articleLevelSelect: $('#articleLevelSelect'),
+  articleTopicSelect: $('#articleTopicSelect'),
+  articleFileInput: $('#articleFileInput'),
+  importArticleButton: $('#importArticleButton'),
+  generateN8nButton: $('#generateN8nButton'),
+  n8nWebhookInput: $('#n8nWebhookInput'),
+  quizInput: $('#quizInput'),
+  quizPanel: $('#quizPanel'),
+  quizList: $('#quizList'),
+  showAnswersButton: $('#showAnswersButton'),
   notice: $('#notice'),
 };
 
@@ -62,6 +77,10 @@ const state = {
   playToken: 0,
   practiceOnly: false,
   weakWords: loadWeakWords(),
+  article: null,
+  quiz: [],
+  quizSelections: {},
+  showAnswers: false,
   statusKey: 'ready',
 };
 
@@ -99,12 +118,58 @@ function parseDialogLines(value) {
   });
 }
 
+function splitIntoSentences(value) {
+  const paragraphs = value.split(/\n\s*\n/).map((paragraph) => paragraph.trim()).filter(Boolean);
+  const segmenter = typeof Intl !== 'undefined' && Intl.Segmenter ? new Intl.Segmenter('en', { granularity: 'sentence' }) : null;
+  return paragraphs.flatMap((paragraph) => {
+    if (segmenter) return [...segmenter.segment(paragraph)].map(({ segment }) => segment.trim()).filter(Boolean);
+    return paragraph.match(/[^.!?]+[.!?]+|[^.!?]+$/g)?.map((sentence) => sentence.trim()).filter(Boolean) || [];
+  });
+}
+
+function parseQuiz(value) {
+  if (!value.trim()) return [];
+  try {
+    const parsed = JSON.parse(value);
+    const questions = Array.isArray(parsed) ? parsed : parsed.questions;
+    if (!Array.isArray(questions)) return [];
+    return questions.map((question) => ({
+      question: String(question.question || '').trim(),
+      options: Array.isArray(question.options) ? question.options.map((option) => String(option)) : [],
+      answer: Number.isInteger(question.answer) ? question.answer : Number(question.answer),
+      explanation: String(question.explanation || '').trim(),
+    })).filter((question) => question.question && question.options.length >= 2 && question.answer >= 0 && question.answer < question.options.length);
+  } catch {
+    return [];
+  }
+}
+
+function parseArticleContent(showMessage = true) {
+  const title = elements.articleTitleInput.value.trim() || 'Untitled article';
+  const level = elements.articleLevelSelect.value;
+  const topic = elements.articleTopicSelect.value;
+  const sentences = splitIntoSentences(elements.contentInput.value);
+  state.article = { title, level, topic };
+  state.items = sentences.map((text, index) => ({ id: `article-${index}-${text.slice(0, 12)}`, type: 'article', text, label: `Sentence ${index + 1}`, sentenceNumber: index + 1 }));
+  state.quiz = parseQuiz(elements.quizInput.value);
+  state.quizSelections = {};
+  state.showAnswers = false;
+  elements.sessionTitle.textContent = title;
+  if (showMessage) showNotice(`${state.items.length} sentences loaded · ${getArticleLevelLabel(level)} · ${getArticleTopicLabel(topic)}`, 'success');
+}
+
 function parseContent() {
-  state.items = state.mode === 'word' ? parseWordLines(elements.contentInput.value) : parseDialogLines(elements.contentInput.value);
+  if (state.mode === 'article') parseArticleContent(false);
+  else {
+    state.items = state.mode === 'word' ? parseWordLines(elements.contentInput.value) : parseDialogLines(elements.contentInput.value);
+    state.article = null;
+    state.quiz = [];
+    elements.sessionTitle.textContent = 'Everyday English';
+  }
   state.currentIndex = 0;
   state.practiceOnly = false;
   renderAll();
-  showNotice(`${state.items.length} items loaded.`, 'success');
+  if (state.mode !== 'article') showNotice(`${state.items.length} items loaded.`, 'success');
 }
 
 function visibleItems() {
@@ -116,6 +181,7 @@ function renderAll() {
   renderReader();
   renderProgress();
   renderWeakWords();
+  renderQuiz();
   updateModeFields();
 }
 
@@ -128,7 +194,7 @@ function renderReader() {
   }
   items.forEach((item, index) => {
     const card = document.createElement('article');
-    card.className = `reader-item ${index === state.currentIndex ? 'is-current' : ''} ${item.type === 'dialog' ? `speaker-${item.speaker.toLowerCase()}` : ''}`;
+    card.className = `reader-item ${index === state.currentIndex ? 'is-current' : ''} ${item.type === 'dialog' ? `speaker-${item.speaker.toLowerCase()}` : ''} ${item.type === 'article' ? 'article-item' : ''}`;
     card.dataset.index = String(index);
     card.tabIndex = 0;
     card.addEventListener('click', () => selectItem(index));
@@ -142,8 +208,10 @@ function renderReader() {
         event.stopPropagation();
         toggleWeak(item.text);
       });
-    } else {
+    } else if (item.type === 'dialog') {
       card.innerHTML = `<div class="speaker-label">Speaker ${item.speaker}</div><p>${escapeHtml(item.text)}</p>`;
+    } else {
+      card.innerHTML = `<div class="article-index">${escapeHtml(item.label)}</div><p>${escapeHtml(item.text)}</p>`;
     }
     elements.reader.appendChild(card);
   });
@@ -158,12 +226,30 @@ function renderProgress() {
   const item = items[state.currentIndex];
   elements.currentLabel.textContent = item?.label || 'Ready to read';
   if (state.mode === 'dialog' && item) elements.currentLabel.textContent = `Speaker ${item.speaker}`;
+  if (state.mode === 'article' && item) elements.currentLabel.textContent = `${item.label} · ${item.text.slice(0, 48)}${item.text.length > 48 ? '…' : ''}`;
 }
 
 function renderWeakWords() {
   const weak = [...state.weakWords];
   elements.weakCount.textContent = String(weak.length);
   elements.weakList.innerHTML = weak.length ? weak.map((word) => `<span class="weak-chip">${escapeHtml(word)}</span>`).join('') : '<p class="empty-state">Tap “Mark weak” on a word to save it here.</p>';
+}
+
+function renderQuiz() {
+  const visible = state.mode === 'article' && state.quiz.length > 0;
+  elements.quizPanel.classList.toggle('is-hidden', !visible);
+  if (!visible) return;
+  elements.showAnswersButton.textContent = state.showAnswers ? 'Hide answers' : 'Show answers';
+  elements.quizList.innerHTML = state.quiz.map((question, questionIndex) => {
+    const selected = state.quizSelections[questionIndex];
+    const answerVisible = state.showAnswers || selected !== undefined;
+    const result = selected === undefined ? '' : selected === question.answer ? 'Correct' : 'Not quite';
+    return `<article class="quiz-question"><p><strong>${questionIndex + 1}.</strong> ${escapeHtml(question.question)}</p><div class="quiz-options">${question.options.map((option, optionIndex) => `<button class="quiz-option ${selected === optionIndex ? 'is-selected' : ''} ${state.showAnswers && optionIndex === question.answer ? 'is-answer' : ''}" type="button" data-question="${questionIndex}" data-option="${optionIndex}">${String.fromCharCode(65 + optionIndex)}. ${escapeHtml(option)}</button>`).join('')}</div>${answerVisible ? `<p class="quiz-feedback ${selected === question.answer ? 'is-correct' : state.showAnswers && selected === undefined ? '' : 'is-wrong'}">${selected === undefined ? `Answer: ${String.fromCharCode(65 + question.answer)}` : result}${question.explanation ? ` · ${escapeHtml(question.explanation)}` : ''}</p>` : ''}</article>`;
+  }).join('');
+  elements.quizList.querySelectorAll('.quiz-option').forEach((button) => button.addEventListener('click', () => {
+    state.quizSelections[button.dataset.question] = Number(button.dataset.option);
+    renderQuiz();
+  }));
 }
 
 function selectItem(index) {
@@ -187,7 +273,12 @@ function escapeHtml(value) {
 }
 
 function updateModeFields() {
-  elements.contentHint.textContent = state.mode === 'word' ? 'Word mode: word | pronunciation | meaning | example' : 'Dialog mode: one line per turn, e.g. A: Hello there.';
+  const isArticle = state.mode === 'article';
+  elements.articleFields.classList.toggle('is-hidden', !isArticle);
+  elements.weakPanel.classList.toggle('is-hidden', state.mode !== 'word');
+  elements.contentInput.previousElementSibling.textContent = isArticle ? 'Article text' : 'Paste lines';
+  elements.contentHint.textContent = state.mode === 'word' ? 'Word mode: word | pronunciation | meaning | example' : state.mode === 'dialog' ? 'Dialog mode: one line per turn, e.g. A: Hello there.' : 'Article mode: paste paragraphs; the reader will split them into sentences.';
+  elements.loadContentButton.textContent = isArticle ? 'Load article' : 'Load content';
 }
 
 function updateEngineFields() {
@@ -219,6 +310,115 @@ function getVoiceFor(item) {
   return state.mode === 'dialog' && item?.speaker === 'B' ? elements.voiceBSelect.value : elements.voiceASelect.value;
 }
 
+function applyArticle(article, showMessage = true) {
+  elements.articleTitleInput.value = article.title || 'Untitled article';
+  elements.articleLevelSelect.value = article.level || 'a1';
+  elements.articleTopicSelect.value = article.topic || 'nature';
+  elements.contentInput.value = article.body || '';
+  elements.quizInput.value = article.quiz?.length ? JSON.stringify(article.quiz, null, 2) : '';
+  parseContent();
+  if (showMessage) showNotice(`${state.items.length} sentences loaded · ${getArticleLevelLabel(article.level || 'a1')} · ${getArticleTopicLabel(article.topic || 'nature')}`, 'success');
+}
+
+function loadArticleSample() {
+  const article = getArticleSample(elements.articleLevelSelect.value, elements.articleTopicSelect.value);
+  applyArticle(article);
+}
+
+async function importArticleFile() {
+  const file = elements.articleFileInput.files?.[0];
+  if (!file) return;
+  const body = await file.text();
+  const title = file.name.replace(/\.txt$/i, '').replace(/[-_]+/g, ' ').trim();
+  applyArticle({
+    title: title || 'Imported article',
+    level: elements.articleLevelSelect.value,
+    topic: elements.articleTopicSelect.value,
+    body,
+    quiz: [],
+  });
+  elements.articleFileInput.value = '';
+  showNotice('Article imported. Add quiz JSON if you want comprehension questions.', 'success');
+}
+
+function parseN8nPayload(payload) {
+  let candidate = Array.isArray(payload) ? payload[0] : payload;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    if (typeof candidate === 'string') {
+      try {
+        candidate = JSON.parse(candidate);
+        continue;
+      } catch {
+        break;
+      }
+    }
+    if (candidate?.article) {
+      candidate = candidate.article;
+      continue;
+    }
+    if (candidate?.data) {
+      candidate = candidate.data;
+      continue;
+    }
+    if (candidate?.output && typeof candidate.output === 'string') {
+      candidate = candidate.output;
+      continue;
+    }
+    break;
+  }
+  if (!candidate || typeof candidate !== 'object') throw new Error('n8n returned an unexpected response.');
+  let quiz = candidate.quiz || candidate.questions || [];
+  if (typeof quiz === 'string') {
+    try { quiz = JSON.parse(quiz); } catch { quiz = []; }
+  }
+  const body = candidate.body || candidate.text || candidate.content;
+  if (!body) throw new Error('n8n response is missing article body.');
+  return {
+    title: candidate.title || 'Generated article',
+    level: elements.articleLevelSelect.value,
+    topic: elements.articleTopicSelect.value,
+    body: String(body),
+    quiz: Array.isArray(quiz) ? quiz : [],
+  };
+}
+
+async function generateWithN8n() {
+  const webhook = elements.n8nWebhookInput.value.trim();
+  if (!webhook) {
+    showNotice('Paste an n8n webhook URL first.', 'warning');
+    elements.n8nWebhookInput.focus();
+    return;
+  }
+  localStorage.setItem(N8N_WEBHOOK_KEY, webhook);
+  const originalLabel = elements.generateN8nButton.textContent;
+  elements.generateN8nButton.disabled = true;
+  elements.generateN8nButton.textContent = 'Generating…';
+  updateStatus({ key: 'generating', label: 'Generating article', detail: 'Waiting for n8n' });
+  try {
+    const response = await fetch(webhook, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        action: 'generate-article',
+        language: 'en',
+        level: elements.articleLevelSelect.value,
+        topic: elements.articleTopicSelect.value,
+        quizCount: 3,
+      }),
+    });
+    if (!response.ok) throw new Error(`n8n returned HTTP ${response.status}.`);
+    applyArticle(parseN8nPayload(await response.json()));
+    updateStatus({ key: 'ready', label: 'Article ready', detail: 'Generated by n8n' });
+    showNotice('Article generated. Review it, then press Load article or Play.', 'success');
+  } catch (error) {
+    updateStatus({ key: 'error', label: 'Article generation failed', detail: error?.message || 'Check the webhook.' });
+    showNotice(`n8n generation failed: ${error?.message || 'Check the webhook and CORS settings.'}`, 'error');
+  } finally {
+    elements.generateN8nButton.disabled = false;
+    elements.generateN8nButton.textContent = originalLabel;
+  }
+}
+
 function delay(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
@@ -240,6 +440,8 @@ async function playSession() {
   state.isPlaying = true;
   state.isPaused = false;
   const token = ++state.playToken;
+  // Must happen inside the Play click before model loading/generation awaits.
+  ttsManager.prepareForPlayback?.();
   updatePlayerControls();
   try {
     while (state.isPlaying && token === state.playToken) {
@@ -331,8 +533,11 @@ function setMode(mode) {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-selected', String(active));
   });
-  elements.contentInput.value = getSample(mode);
-  parseContent();
+  if (mode === 'article') loadArticleSample();
+  else {
+    elements.contentInput.value = getSample(mode);
+    parseContent();
+  }
 }
 
 elements.playButton.addEventListener('click', () => (state.isPlaying && !state.isPaused ? pausePlayback() : playSession()));
@@ -340,7 +545,14 @@ elements.stopButton.addEventListener('click', () => stopPlayback());
 elements.previousButton.addEventListener('click', () => stepItem(-1));
 elements.nextButton.addEventListener('click', () => stepItem(1));
 elements.loadContentButton.addEventListener('click', () => { stopPlayback(false); parseContent(); });
-elements.sampleButton.addEventListener('click', () => { elements.contentInput.value = getSample(state.mode); parseContent(); });
+elements.sampleButton.addEventListener('click', () => {
+  if (state.mode === 'article') loadArticleSample();
+  else { elements.contentInput.value = getSample(state.mode); parseContent(); }
+});
+elements.importArticleButton.addEventListener('click', () => elements.articleFileInput.click());
+elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
+elements.generateN8nButton.addEventListener('click', () => generateWithN8n());
+elements.showAnswersButton.addEventListener('click', () => { state.showAnswers = !state.showAnswers; renderQuiz(); });
 elements.engineSelect.addEventListener('change', () => {
   stopPlayback(false);
   ttsManager.setEngine(elements.engineSelect.value);
@@ -361,6 +573,7 @@ elements.practiceButton.addEventListener('click', () => {
 document.querySelectorAll('[data-mode]').forEach((button) => button.addEventListener('click', () => setMode(button.dataset.mode)));
 window.speechSynthesis?.addEventListener?.('voiceschanged', populateNativeVoices);
 
+elements.n8nWebhookInput.value = localStorage.getItem(N8N_WEBHOOK_KEY) || '';
 elements.contentInput.value = getSample('word');
 updateEngineFields();
 parseContent();

@@ -46,6 +46,10 @@ export class TtsManager {
     }
   }
 
+  prepareForPlayback() {
+    this.engines[this.currentEngine].prepareForPlayback?.();
+  }
+
   pause() {
     this.engines[this.currentEngine].pause();
   }

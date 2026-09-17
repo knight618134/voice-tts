@@ -6,6 +6,9 @@
 
 - Word mode：單字、發音、中文意思與例句
 - Dialog mode：A/B 對話播放
+- Article mode：A1、A2、B1、B2 × Nature、Culture、Geography 文章
+- Article mode 可匯入 `.txt`、附加選擇題與顯示答案
+- 可選擇透過 n8n webhook 產生文章與題目；不接 n8n 也能使用內建文章
 - Play / pause / resume / stop、上一項、下一項
 - 每項重複次數、語速與項目間延遲
 - 閱讀進度與目前項目 highlight
@@ -45,6 +48,49 @@ Dialog mode 每行一個回合：
 A: Are you ready?
 B: Yes, let's begin.
 ```
+
+Article mode 直接貼上英文段落即可，程式會依句子切分並逐句朗讀。選擇 `Use sample` 可以載入不同程度與主題的內建文章；`Import .txt` 可載入自己的純文字文章。
+
+選擇題可以放在 Article mode 的 Quiz JSON 欄位，例如：
+
+```json
+[
+  {
+    "question": "What is the main idea?",
+    "options": ["A", "B", "C", "D"],
+    "answer": 0,
+    "explanation": "The first paragraph explains the main idea."
+  }
+]
+```
+
+## n8n 是可選的
+
+不需要 n8n 才能使用文章功能。建議先用內建文章或 `.txt` 匯入；如果希望用自己的 AI workflow 依程度與主題產生文章，再填入 n8n webhook URL。前端會 POST：
+
+```json
+{
+  "action": "generate-article",
+  "language": "en",
+  "level": "b1",
+  "topic": "geography",
+  "quizCount": 3
+}
+```
+
+n8n webhook 應回傳下列格式，`quiz` 可省略：
+
+```json
+{
+  "title": "A generated title",
+  "body": "The first paragraph...",
+  "quiz": [
+    { "question": "...", "options": ["A", "B", "C", "D"], "answer": 1, "explanation": "..." }
+  ]
+}
+```
+
+瀏覽器直接呼叫 n8n 時，webhook 需要允許本站 origin 的 CORS；不要把 OpenAI 或其他服務的私密 API key 放在網頁欄位。n8n 只負責產生內容，朗讀仍在瀏覽器端完成。
 
 ## 兩種 TTS 引擎
 

@@ -26,7 +26,7 @@ Kokoro cache key 是 `[text, voice, speed]` 的序列化字串，最多保留 12
 
 ## iPhone Safari
 
-Safari 要求音訊從使用者手勢開始。介面不會在頁面初始化時載入 Kokoro，也不會自動播放。Kokoro 的模型初始化與音訊播放都由 Play 流程開始；如果裝置在非同步模型載入後拒絕 `audio.play()`，`TtsManager` 會切回 Browser Voice。
+Safari 要求音訊從使用者手勢開始。介面不會在頁面初始化時載入 Kokoro，也不會自動播放。按下 Play 時，`KokoroTtsEngine.prepareForPlayback()` 會先用同一個持續存在的 `<audio playsinline>` 播放極短的 muted WAV，先完成 iOS 的 audio unlock，再等待模型下載與音訊生成。真正的 WAV 生成後會換到同一個 audio element 播放。如果裝置仍拒絕 `audio.play()`，`TtsManager` 會切回 Browser Voice。
 
 WASM + q8 是本專案的預設，因為 iPhone 相容性優先且不依賴 WebGPU。WebGPU 沒有被當作必要條件。
 

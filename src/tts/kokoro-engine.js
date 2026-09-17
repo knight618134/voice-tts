@@ -40,6 +40,7 @@ export class KokoroTtsEngine {
     this.tts = null;
     this.loadPromise = null;
     this.audio = null;
+    this.audioElement = null;
     this.activeUrl = null;
     this.cache = new Map();
     this.cancelled = false;
@@ -83,6 +84,44 @@ export class KokoroTtsEngine {
     return this.tts?.list_voices?.() ?? [];
   }
 
+  getAudioElement() {
+    if (this.audioElement || typeof document === 'undefined') return this.audioElement;
+    const audio = document.createElement('audio');
+    audio.preload = 'auto';
+    audio.setAttribute('playsinline', '');
+    audio.setAttribute('webkit-playsinline', '');
+    audio.style.display = 'none';
+    document.body?.appendChild(audio);
+    this.audioElement = audio;
+    return audio;
+  }
+
+  prepareForPlayback() {
+    // iOS Safari can reject audio.play() if the first play happens after an
+    // async model download. Start a tiny muted WAV during the Play click so
+    // the same persistent media element is unlocked before awaiting Kokoro.
+    const audio = this.getAudioElement();
+    if (!audio) return;
+    const unlockUrl = URL.createObjectURL(new Blob([encodeWav(new Float32Array(240), 24000)], { type: 'audio/wav' }));
+    audio.muted = true;
+    audio.src = unlockUrl;
+    const cleanup = () => {
+      if (audio.src === unlockUrl) {
+        audio.pause();
+        audio.currentTime = 0;
+        audio.removeAttribute('src');
+        audio.load();
+        audio.muted = false;
+      }
+      URL.revokeObjectURL(unlockUrl);
+    };
+    try {
+      Promise.resolve(audio.play()).then(cleanup, cleanup);
+    } catch {
+      cleanup();
+    }
+  }
+
   cacheKey(text, voice, speed) {
     return JSON.stringify([text, voice, Number(speed).toFixed(2)]);
   }
@@ -121,8 +160,11 @@ export class KokoroTtsEngine {
     this.stop();
     this.cancelled = false;
     const url = await this.getAudioUrl(text, voiceName, rate);
-    const audio = new Audio(url);
+    const audio = this.getAudioElement() || new Audio();
     audio.preload = 'auto';
+    audio.setAttribute('playsinline', '');
+    audio.setAttribute('webkit-playsinline', '');
+    audio.src = url;
     this.audio = audio;
     this.activeUrl = url;
     this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice' });
@@ -138,7 +180,7 @@ export class KokoroTtsEngine {
         this.activeUrl = null;
         reject(new Error('The generated audio could not be played.'));
       };
-      audio.play().catch((error) => {
+      Promise.resolve(audio.play()).catch((error) => {
         this.audio = null;
         this.activeUrl = null;
         reject(error);
