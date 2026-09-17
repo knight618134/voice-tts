@@ -70,11 +70,15 @@ Kokoro 模組是 dynamic import，使用者沒有選擇 Kokoro 時不會載入�
 3. Safari 的音訊必須由使用者手勢啟動，因此請直接點擊 Play；不要期待頁面載入後自動播放。
 4. 如果 WASM、模型下載或音訊播放失敗，應用程式會自動改用 Browser Voice，且不會讓閱讀頁面停止。
 
-## GitHub Pages 部署
+## Vercel 部署
 
-本專案使用相對 base path，適合部署到 project pages。可使用 GitHub Actions 建置 `dist` 後部署，或在本機執行 `npm run build` 後將 `dist` 發佈到 Pages。
+在 Vercel Dashboard 選擇 **Add New → Project → Import Git Repository**，匯入 `knight618134/voice-tts`。Vercel 會自動辨識 Vite；若需要手動設定，請使用：
 
-專案已附 `.github/workflows/deploy-pages.yml`：push 到 `main` 後會執行 `npm ci`、`npm run build`、上傳 `dist` artifact，再使用 GitHub Pages deployment。第一次使用時，請在 repository Settings → Pages → Build and deployment 將 Source 設為 GitHub Actions。若站點需要自訂路徑，可設定 `VITE_BASE_PATH=./` 或對應的 `/repository-name/`。
+- Install command：`npm ci`
+- Build command：`npm run build`
+- Output directory：`dist`
+
+推送到 `main` 後，Vercel 會自動建立新的 deployment。這個專案不需要後端、環境變數或 API key。Kokoro 模型仍會在使用者第一次選擇並播放時，從模型來源於瀏覽器端下載。
 
 ## 常見問題
 
