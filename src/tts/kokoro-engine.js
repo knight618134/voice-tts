@@ -1,7 +1,20 @@
 const MODEL_ID = 'onnx-community/Kokoro-82M-v1.0-ONNX';
 const CACHE_LIMIT = 12;
 
-function audioToBlob(rawAudio) {
+export class KokoroAudioNotEnabledError extends Error {
+  constructor(message = 'Kokoro audio is not enabled. Tap Enable Kokoro Audio first.') {
+    super(message);
+    this.name = 'NotAllowedError';
+    this.code = 'KOKORO_AUDIO_NOT_ENABLED';
+  }
+}
+
+export function isKokoroAudioBlocked(error) {
+  return error?.code === 'KOKORO_AUDIO_NOT_ENABLED'
+    || error?.name === 'NotAllowedError';
+}
+
+async function audioToBlob(rawAudio) {
   if (typeof rawAudio?.toBlob === 'function') return rawAudio.toBlob();
   const samples = rawAudio?.audio ?? rawAudio?.data;
   const sampleRate = rawAudio?.sampling_rate ?? rawAudio?.sample_rate ?? 24000;
@@ -34,23 +47,40 @@ function encodeWav(samples, sampleRate) {
   return buffer;
 }
 
+function createAudioError(message, originalError, code) {
+  const error = new Error(message);
+  error.name = originalError?.name || 'KokoroAudioPlaybackError';
+  error.code = code;
+  error.cause = originalError;
+  return error;
+}
+
 export class KokoroTtsEngine {
   constructor({ onStatus = () => {} } = {}) {
     this.onStatus = onStatus;
     this.tts = null;
     this.loadPromise = null;
-    this.audio = null;
+
+    // One AudioContext is kept for the lifetime of the page. iOS requires
+    // resume() to be called from a real user gesture before async TTS work.
+    this.audioContext = null;
+    this.audioUnlocked = false;
     this.audioElement = null;
+    this.audio = null;
+
+    this.sourceNode = null;
+    this.pendingPlayback = null;
+    this.activeEntry = null;
     this.activeUrl = null;
-    this.cache = new Map();
+    this.playbackStartedAt = 0;
+    this.operationId = 0;
     this.cancelled = false;
+    this.cache = new Map();
   }
 
   async init() {
     if (this.tts) return this;
-    if (!this.loadPromise) {
-      this.loadPromise = this.loadModel();
-    }
+    if (!this.loadPromise) this.loadPromise = this.loadModel();
     try {
       await this.loadPromise;
       return this;
@@ -73,7 +103,7 @@ export class KokoroTtsEngine {
         this.onStatus({ key: 'loading', label: 'Loading model', detail, progress: percent });
       },
     });
-    this.onStatus({ key: 'ready', label: 'Kokoro ready', detail: 'WASM + q8' });
+    this.onStatus({ key: 'ready', label: 'Kokoro model ready', detail: 'WASM + q8' });
   }
 
   isReady() {
@@ -84,42 +114,108 @@ export class KokoroTtsEngine {
     return this.tts?.list_voices?.() ?? [];
   }
 
+  getAudioContext() {
+    if (this.audioContext || typeof window === 'undefined') return this.audioContext;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return null;
+    this.audioContext = new AudioContextClass();
+    return this.audioContext;
+  }
+
+  isAudioReady() {
+    const context = this.audioContext;
+    if (context) return this.audioUnlocked && context.state === 'running';
+    return this.audioUnlocked;
+  }
+
   getAudioElement() {
     if (this.audioElement || typeof document === 'undefined') return this.audioElement;
     const audio = document.createElement('audio');
     audio.preload = 'auto';
     audio.setAttribute('playsinline', '');
     audio.setAttribute('webkit-playsinline', '');
+    audio.setAttribute('aria-hidden', 'true');
     audio.style.display = 'none';
     document.body?.appendChild(audio);
     this.audioElement = audio;
     return audio;
   }
 
-  prepareForPlayback() {
-    // iOS Safari can reject audio.play() if the first play happens after an
-    // async model download. Start a tiny muted WAV during the Play click so
-    // the same persistent media element is unlocked before awaiting Kokoro.
+  async unlockHtmlAudio() {
     const audio = this.getAudioElement();
-    if (!audio) return;
+    if (!audio) throw new Error('This browser cannot create an audio element.');
     const unlockUrl = URL.createObjectURL(new Blob([encodeWav(new Float32Array(240), 24000)], { type: 'audio/wav' }));
     audio.muted = true;
     audio.src = unlockUrl;
-    const cleanup = () => {
-      if (audio.src === unlockUrl) {
-        audio.pause();
-        audio.currentTime = 0;
-        audio.removeAttribute('src');
-        audio.load();
-        audio.muted = false;
-      }
-      URL.revokeObjectURL(unlockUrl);
-    };
+    audio.load();
     try {
-      Promise.resolve(audio.play()).then(cleanup, cleanup);
-    } catch {
-      cleanup();
+      // This is only a legacy fallback when AudioContext is unavailable. It
+      // is awaited, so a rejected iOS play() is never silently ignored.
+      await audio.play();
+      audio.pause();
+      audio.currentTime = 0;
+    } finally {
+      audio.removeAttribute('src');
+      audio.load();
+      audio.muted = false;
+      URL.revokeObjectURL(unlockUrl);
     }
+  }
+
+  async enableAudio() {
+    this.onStatus({ key: 'enabling', label: 'Enabling Kokoro audio', detail: 'Waiting for the iOS audio session' });
+    try {
+      const context = this.getAudioContext();
+      if (context) {
+        // This method is called directly by the Enable button click. Do not
+        // move resume() behind model loading or speech generation.
+        let resumeTimer;
+        try {
+          await Promise.race([
+            context.resume(),
+            new Promise((_, reject) => {
+              resumeTimer = window.setTimeout(() => reject(new KokoroAudioNotEnabledError('iOS did not respond to the audio unlock. Tap Enable Kokoro Audio again.')), 2000);
+            }),
+          ]);
+        } finally {
+          window.clearTimeout(resumeTimer);
+        }
+        if (context.state !== 'running') throw new KokoroAudioNotEnabledError('iOS did not start the audio session. Tap Enable Kokoro Audio again.');
+
+        // Start a zero-volume buffer through the same context. This completes
+        // the Web Audio unlock without relying on an unawaited HTMLAudio play.
+        const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
+        const source = context.createBufferSource();
+        source.buffer = silentBuffer;
+        source.connect(context.destination);
+        source.start(0);
+        source.onended = () => source.disconnect();
+      } else {
+        await this.unlockHtmlAudio();
+      }
+      this.audioUnlocked = true;
+      this.onStatus({ key: 'ready', label: 'Kokoro audio enabled', detail: 'Ready to load the model when you press Play.' });
+      return this;
+    } catch (error) {
+      this.audioUnlocked = false;
+      const normalized = error instanceof KokoroAudioNotEnabledError
+        ? error
+        : createAudioError(error?.message || 'iOS blocked audio activation. Tap Enable Kokoro Audio again.', error, 'KOKORO_AUDIO_NOT_ENABLED');
+      normalized.name = 'NotAllowedError';
+      normalized.code = 'KOKORO_AUDIO_NOT_ENABLED';
+      this.onStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: normalized.message });
+      throw normalized;
+    }
+  }
+
+  // Kept as a preflight method for the manager. Actual unlocking is explicit
+  // and awaited by enableAudio(), which is bound to the user click.
+  prepareForPlayback() {
+    return this.isAudioReady();
+  }
+
+  assertAudioReady() {
+    if (!this.isAudioReady()) throw new KokoroAudioNotEnabledError();
   }
 
   cacheKey(text, voice, speed) {
@@ -132,78 +228,202 @@ export class KokoroTtsEngine {
   }
 
   addToCache(key, blob) {
-    const url = URL.createObjectURL(blob);
-    this.cache.set(key, { url, blob });
+    const entry = { url: URL.createObjectURL(blob), blob, audioBuffer: null };
+    this.cache.set(key, entry);
     while (this.cache.size > CACHE_LIMIT) {
       const oldestKey = this.cache.keys().next().value;
       const oldest = this.cache.get(oldestKey);
       if (oldest?.url) URL.revokeObjectURL(oldest.url);
       this.cache.delete(oldestKey);
     }
-    return url;
+    return entry;
   }
 
-  async getAudioUrl(text, voice, speed) {
+  async getAudioEntry(text, voice, speed) {
     const key = this.cacheKey(text, voice, speed);
     const cached = this.cache.get(key);
     if (cached) {
       this.touchCache(key, cached);
-      return cached.url;
+      return cached;
     }
     this.onStatus({ key: 'generating', label: 'Generating audio', detail: 'Creating local speech' });
     const rawAudio = await this.tts.generate(text, { voice, speed: Number(speed) || 1 });
     return this.addToCache(key, await audioToBlob(rawAudio));
   }
 
-  async speak(text, { voiceName = 'af_heart', rate = 1 } = {}) {
-    await this.init();
-    this.stop();
-    this.cancelled = false;
-    const url = await this.getAudioUrl(text, voiceName, rate);
+  async decodeAudio(entry) {
+    const context = this.getAudioContext();
+    if (!context) return null;
+    if (!entry.audioBuffer) {
+      try {
+        const data = await entry.blob.arrayBuffer();
+        entry.audioBuffer = await context.decodeAudioData(data.slice(0));
+      } catch (error) {
+        throw createAudioError('The generated WAV could not be decoded.', error, 'KOKORO_AUDIO_DECODE_ERROR');
+      }
+    }
+    return entry.audioBuffer;
+  }
+
+  startBufferSource() {
+    const playback = this.pendingPlayback;
+    const context = this.audioContext;
+    if (!playback || !context) return;
+    if (context.state !== 'running') throw new KokoroAudioNotEnabledError();
+
+    const source = context.createBufferSource();
+    source.buffer = playback.buffer;
+    source.connect(context.destination);
+    this.sourceNode = source;
+    this.playbackStartedAt = context.currentTime;
+    source.onended = () => {
+      if (this.sourceNode !== source) return;
+      this.sourceNode = null;
+      source.disconnect();
+      const finished = this.pendingPlayback;
+      this.pendingPlayback = null;
+      this.activeEntry = null;
+      this.activeUrl = null;
+      if (finished && !this.cancelled) finished.resolve();
+    };
+    const offset = Math.min(playback.offset, Math.max(0, playback.buffer.duration - 0.001));
+    source.start(0, offset);
+    this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice · Web Audio' });
+  }
+
+  async playWithWebAudio(entry) {
+    const buffer = await this.decodeAudio(entry);
+    if (!buffer) return this.playWithHtmlAudio(entry);
+    this.activeEntry = entry;
+    this.activeUrl = entry.url;
+    return new Promise((resolve, reject) => {
+      this.pendingPlayback = { mode: 'web-audio', resolve, reject, buffer, offset: 0 };
+      try {
+        this.startBufferSource();
+      } catch (error) {
+        this.pendingPlayback = null;
+        reject(error);
+      }
+    });
+  }
+
+  playWithHtmlAudio(entry) {
     const audio = this.getAudioElement() || new Audio();
     audio.preload = 'auto';
     audio.setAttribute('playsinline', '');
     audio.setAttribute('webkit-playsinline', '');
-    audio.src = url;
+    audio.src = entry.url;
     audio.load();
     this.audio = audio;
-    this.activeUrl = url;
-    this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice' });
-
+    this.activeEntry = entry;
+    this.activeUrl = entry.url;
     return new Promise((resolve, reject) => {
-      audio.onended = () => {
+      let settled = false;
+      const finish = (callback, value) => {
+        if (settled) return;
+        settled = true;
         this.audio = null;
+        this.activeEntry = null;
         this.activeUrl = null;
-        if (!this.cancelled) resolve();
+        if (this.pendingPlayback?.audio === audio) this.pendingPlayback = null;
+        callback(value);
       };
-      audio.onerror = () => {
-        this.audio = null;
-        this.activeUrl = null;
-        reject(new Error('The generated audio could not be played.'));
-      };
-      Promise.resolve(audio.play()).catch((error) => {
-        this.audio = null;
-        this.activeUrl = null;
-        reject(error);
-      });
+      audio.onended = () => finish(resolve);
+      audio.onerror = () => finish(reject, createAudioError('The generated audio could not be played.', audio.error, 'KOKORO_AUDIO_PLAYBACK_ERROR'));
+      try {
+        Promise.resolve(audio.play()).then(() => {
+          this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice · HTML audio fallback' });
+        }).catch((error) => finish(reject, isKokoroAudioBlocked(error)
+          ? error
+          : createAudioError(`Audio play failed: ${error?.message || error?.name || 'unknown error'}`, error, 'KOKORO_AUDIO_PLAYBACK_ERROR')));
+      } catch (error) {
+        finish(reject, createAudioError(`Audio play failed: ${error.message}`, error, 'KOKORO_AUDIO_PLAYBACK_ERROR'));
+      }
+      this.pendingPlayback = { mode: 'html', resolve: (value) => finish(resolve, value), reject: (error) => finish(reject, error), audio };
     });
+  }
+
+  async speak(text, { voiceName = 'af_heart', rate = 1 } = {}) {
+    this.stop();
+    const operationId = ++this.operationId;
+    this.cancelled = false;
+    this.assertAudioReady();
+    await this.init();
+    const entry = await this.getAudioEntry(text, voiceName, rate);
+    if (this.cancelled || operationId !== this.operationId) return;
+
+    if (this.audioContext) {
+      try {
+        return await this.playWithWebAudio(entry);
+      } catch (error) {
+        if (isKokoroAudioBlocked(error)) throw error;
+        // Decode or Web Audio errors get one HTMLAudioElement attempt before
+        // the manager falls back to Browser Voice.
+        this.onStatus({ key: 'error', label: 'Web Audio failed', detail: error.message });
+      }
+    }
+    this.assertAudioReady();
+    return this.playWithHtmlAudio(entry);
   }
 
   pause() {
-    this.audio?.pause();
-    this.onStatus({ key: 'paused', label: 'Paused' });
+    if (this.sourceNode && this.pendingPlayback?.mode === 'web-audio') {
+      const context = this.audioContext;
+      const elapsed = Math.max(0, context.currentTime - this.playbackStartedAt);
+      this.pendingPlayback.offset = Math.min(this.pendingPlayback.buffer.duration, this.pendingPlayback.offset + elapsed);
+      this.sourceNode.onended = null;
+      this.sourceNode.stop();
+      this.sourceNode.disconnect();
+      this.sourceNode = null;
+      this.onStatus({ key: 'paused', label: 'Paused', detail: 'Kokoro Web Audio' });
+      return;
+    }
+    if (this.audio) {
+      this.audio.pause();
+      this.onStatus({ key: 'paused', label: 'Paused', detail: 'Kokoro HTML audio' });
+    }
   }
 
   resume() {
-    if (!this.audio) return;
-    this.audio.play().catch(() => {
-      this.onStatus({ key: 'error', label: 'Audio could not resume', detail: 'Try Play again.' });
-    });
-    this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro local voice' });
+    if (this.pendingPlayback?.mode === 'web-audio' && !this.sourceNode) {
+      const continuePlayback = async () => {
+        if (!this.audioUnlocked || !this.audioContext) throw new KokoroAudioNotEnabledError();
+        if (this.audioContext.state !== 'running') await this.audioContext.resume();
+        if (this.audioContext.state !== 'running') throw new KokoroAudioNotEnabledError();
+        this.startBufferSource();
+      };
+      continuePlayback().catch((error) => {
+        const blocked = isKokoroAudioBlocked(error);
+        this.onStatus({ key: blocked ? 'blocked' : 'error', label: blocked ? 'Playback blocked by iOS' : 'Audio could not resume', detail: error.message });
+        const pending = this.pendingPlayback;
+        this.pendingPlayback = null;
+        pending?.reject(error);
+      });
+      return;
+    }
+    if (this.audio) {
+      try {
+        Promise.resolve(this.audio.play()).then(() => this.onStatus({ key: 'playing', label: 'Playing', detail: 'Kokoro HTML audio' })).catch((error) => {
+          const playbackError = isKokoroAudioBlocked(error) ? error : createAudioError(`Audio resume failed: ${error.message}`, error, 'KOKORO_AUDIO_PLAYBACK_ERROR');
+          const blocked = isKokoroAudioBlocked(playbackError);
+          this.onStatus({ key: blocked ? 'blocked' : 'error', label: blocked ? 'Playback blocked by iOS' : 'Audio could not resume', detail: playbackError.message });
+          this.pendingPlayback?.reject(playbackError);
+        });
+      } catch (error) {
+        this.pendingPlayback?.reject(error);
+      }
+    }
   }
 
   stop() {
     this.cancelled = true;
+    this.operationId += 1;
+    if (this.sourceNode) {
+      this.sourceNode.onended = null;
+      try { this.sourceNode.stop(); } catch { /* already ended */ }
+      this.sourceNode.disconnect();
+      this.sourceNode = null;
+    }
     if (this.audio) {
       this.audio.pause();
       this.audio.currentTime = 0;
@@ -211,8 +431,11 @@ export class KokoroTtsEngine {
       this.audio.onerror = null;
       this.audio = null;
     }
-    // Cached URLs stay alive for reuse. clearCache() revokes every cached URL.
+    const pending = this.pendingPlayback;
+    this.pendingPlayback = null;
+    this.activeEntry = null;
     this.activeUrl = null;
+    pending?.resolve?.();
     this.onStatus({ key: 'stopped', label: 'Stopped' });
   }
 

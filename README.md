@@ -15,6 +15,7 @@
 - Weak word 清單與 weak practice
 - Browser Voice：沿用裝置的 SpeechSynthesis 語音
 - Kokoro Local Voice：Kokoro.js + WASM + q8，模型只在第一次播放時載入
+- iPhone 上提供明確的 `Enable Kokoro Audio` 音訊啟用步驟
 - Kokoro 失敗時自動切回 Browser Voice
 - 所有資料只保存在瀏覽器的 localStorage，不需要後端
 
@@ -107,14 +108,22 @@ n8n webhook 應回傳下列格式，`quiz` 可省略：
 - device：`wasm`
 - voice：`af_heart`、`af_bella`、`am_fenrir`、`bf_emma`、`bm_george`
 
-Kokoro 模組是 dynamic import，使用者沒有選擇 Kokoro 時不會載入。選擇後也會等到按下 Play 才下載模型；第一次會顯示 Loading model 與進度，之後生成的短音訊會進入有上限的 cache。cache 淘汰時會 revoke object URL，避免手機記憶體持續增加。
+Kokoro 模組是 dynamic import，使用者沒有選擇 Kokoro 時不會載入。選擇後，請先按一次 `Enable Kokoro Audio`；這個按鈕會在使用者手勢期間建立並 `resume()` 共用的 `AudioContext`，再播放一個真正等待完成的零音量 buffer。音訊啟用不會下載模型。
+
+按下 `Play` 後才會 lazy-load 模型、顯示下載進度並產生目前項目的 WAV。可播放時優先將 Blob 交給 Web Audio API：`arrayBuffer()` → `decodeAudioData()` → `AudioBufferSourceNode`。如果 Web Audio 解碼失敗，會嘗試帶有 `playsinline` 的 HTMLAudioElement；仍失敗才交給 TtsManager 切回 Browser Voice。生成的音訊以 `text + voice + speed` 做 cache，淘汰時會 revoke object URL。
 
 ## iPhone Safari 使用方式
 
-1. 先選擇 Browser Voice，直接按 Play 即可快速開始。
-2. 若選擇 Kokoro，保持網路連線，第一次播放等待模型下載完成。
-3. Safari 的音訊必須由使用者手勢啟動，因此請直接點擊 Play；不要期待頁面載入後自動播放。
-4. 如果 WASM、模型下載或音訊播放失敗，應用程式會自動改用 Browser Voice，且不會讓閱讀頁面停止。
+1. 開啟 `Kokoro Local Voice`，先按 `Enable Kokoro Audio`。
+2. 確認狀態顯示 `Kokoro audio enabled` 後，再按 `Play`。
+3. 第一次播放保持網路連線，等待 `Loading model` 與 `Generating audio` 完成。
+4. 不要期待頁面載入後自動播放；iPhone Safari 和 iOS Edge 都要求音訊啟用來自使用者點擊。
+5. 若看到 `Playback blocked by iOS`，請再次直接點擊 `Enable Kokoro Audio`，不要先切換分頁。
+6. 若模型、WASM、解碼或播放失敗，會顯示實際錯誤並切換 Browser Voice；Word、Dialog、Article 播放流程仍可繼續使用。
+
+### WASM 與 WebGPU
+
+本專案固定使用 `device: wasm` 和 `dtype: q8`，所以 WebGPU 不是必要條件。WASM 在 iPhone Safari／iOS Edge 的相容性較保守，但第一次模型載入與語音生成可能較慢；Browser Voice 是快速 fallback。
 
 ## Vercel 部署
 

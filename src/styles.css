@@ -62,14 +62,16 @@ h2 { margin-bottom: 0; font-size: 1.05rem; letter-spacing: -.02em; }
 .reader-item > p { margin: 0; color: #414657; line-height: 1.65; }
 .player-card { align-items: center; margin-top: 18px; padding: 17px 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 10px 28px rgba(45, 39, 85, .05); }
 .player-current { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
+.player-current > div { min-width: 0; }
 .player-current strong, .player-current p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .player-current strong { display: block; font-size: .9rem; }
 .player-current p { margin: 4px 0 0; color: var(--muted); font-size: .76rem; }
 .model-progress { width: min(220px, 100%); height: 4px; margin-top: 8px; overflow: hidden; border-radius: 999px; background: #e7e5f7; }
 .model-progress span { display: block; width: 0; height: 100%; border-radius: inherit; background: var(--purple); transition: width .2s ease; }
 .status-dot { flex: 0 0 auto; width: 9px; height: 9px; margin-top: 5px; border-radius: 50%; background: #a9adbd; }
-.status-dot[data-status="playing"], .status-dot[data-status="generating"], .status-dot[data-status="loading"] { background: var(--purple); box-shadow: 0 0 0 5px var(--lavender); }
-.status-dot[data-status="error"] { background: var(--red); }
+.status-dot[data-status="playing"], .status-dot[data-status="generating"], .status-dot[data-status="loading"], .status-dot[data-status="enabling"] { background: var(--purple); box-shadow: 0 0 0 5px var(--lavender); }
+.status-dot[data-status="error"], .status-dot[data-status="blocked"] { background: var(--red); }
+.status-dot[data-status="fallback"] { background: var(--orange); }
 .player-actions { display: flex; align-items: center; gap: 8px; }
 .icon-button, .secondary-button, .primary-button, .play-button { min-height: 44px; border-radius: 10px; font-weight: 800; }
 .icon-button { width: 44px; border: 1px solid var(--line); color: var(--ink); background: #fff; }

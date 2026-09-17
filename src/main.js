@@ -33,6 +33,8 @@ const elements = {
   voiceASelect: $('#voiceASelect'),
   voiceBSelect: $('#voiceBSelect'),
   kokoroVoiceSelect: $('#kokoroVoiceSelect'),
+  enableKokoroAudioButton: $('#enableKokoroAudioButton'),
+  kokoroAudioHint: $('#kokoroAudioHint'),
   rateInput: $('#rateInput'),
   rateValue: $('#rateValue'),
   delayInput: $('#delayInput'),
@@ -89,8 +91,10 @@ const ttsManager = new TtsManager({
   onFallback: (message) => {
     elements.engineSelect.value = 'native';
     updateEngineFields();
+    updateStatus({ key: 'fallback', label: 'Kokoro failed, switched to Browser Voice', detail: message });
     showNotice(`Kokoro 載入失敗，已切回 Browser Voice：${message}`, 'warning');
   },
+  onAudioBlocked: () => showNotice('iOS 阻擋了播放，請先點擊 Enable Kokoro Audio。', 'warning'),
 });
 
 function parseWordLines(value) {
@@ -285,6 +289,14 @@ function updateEngineFields() {
   const isKokoro = elements.engineSelect.value === 'kokoro';
   elements.browserVoiceFields.classList.toggle('is-hidden', isKokoro);
   elements.kokoroVoiceFields.classList.toggle('is-hidden', !isKokoro);
+  if (isKokoro) {
+    const enabled = ttsManager.isAudioReady();
+    elements.enableKokoroAudioButton.disabled = enabled;
+    elements.enableKokoroAudioButton.textContent = enabled ? 'Kokoro Audio Enabled' : 'Enable Kokoro Audio';
+    elements.kokoroAudioHint.textContent = enabled
+      ? 'Audio is enabled. Press Play to lazy-load the WASM + q8 model.'
+      : 'Tap once to unlock iPhone audio. The model still loads only when you press Play.';
+  }
 }
 
 function updateStatus(status = {}) {
@@ -419,6 +431,33 @@ async function generateWithN8n() {
   }
 }
 
+function isKokoroBlockedError(error) {
+  return error?.code === 'KOKORO_AUDIO_NOT_ENABLED' || error?.name === 'NotAllowedError';
+}
+
+async function enableKokoroAudio() {
+  const originalLabel = elements.enableKokoroAudioButton.textContent;
+  elements.enableKokoroAudioButton.disabled = true;
+  elements.enableKokoroAudioButton.textContent = 'Enabling audio…';
+  try {
+    await ttsManager.enableAudio();
+    updateStatus({ key: 'ready', label: 'Kokoro audio enabled', detail: 'Ready to load the model when you press Play.' });
+    elements.kokoroAudioHint.textContent = 'Audio is enabled. Press Play to lazy-load the WASM + q8 model.';
+    showNotice('Kokoro 音訊已啟用，現在可以按 Play 載入模型。', 'success');
+  } catch (error) {
+    if (isKokoroBlockedError(error)) {
+      updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error.message });
+      showNotice('iOS 沒有允許音訊啟用，請直接再點一次 Enable Kokoro Audio。', 'warning');
+    } else {
+      updateStatus({ key: 'error', label: 'Kokoro audio could not be enabled', detail: error.message });
+      showNotice(`Kokoro 音訊啟用失敗：${error.message}`, 'error');
+    }
+  } finally {
+    elements.enableKokoroAudioButton.disabled = ttsManager.isAudioReady();
+    if (!ttsManager.isAudioReady()) elements.enableKokoroAudioButton.textContent = originalLabel;
+  }
+}
+
 function delay(ms) {
   return new Promise((resolve) => window.setTimeout(resolve, ms));
 }
@@ -436,12 +475,15 @@ async function playSession() {
     return;
   }
   if (state.isPlaying) return;
+  if (elements.engineSelect.value === 'kokoro' && !ttsManager.isAudioReady()) {
+    updateStatus({ key: 'not-enabled', label: 'Kokoro audio not enabled', detail: 'Tap Enable Kokoro Audio first.' });
+    showNotice('請先點擊 Enable Kokoro Audio，再按 Play。', 'warning');
+    return;
+  }
 
   state.isPlaying = true;
   state.isPaused = false;
   const token = ++state.playToken;
-  // Must happen inside the Play click before model loading/generation awaits.
-  ttsManager.prepareForPlayback?.();
   updatePlayerControls();
   try {
     while (state.isPlaying && token === state.playToken) {
@@ -470,8 +512,13 @@ async function playSession() {
   } catch (error) {
     if (state.isPlaying) {
       state.isPlaying = false;
-      updateStatus({ key: 'error', label: 'Speech error', detail: error?.message || 'Try Browser Voice.' });
-      showNotice(error?.message || 'Speech failed. Browser Voice is available as a fallback.', 'error');
+      if (isKokoroBlockedError(error)) {
+        updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Kokoro Audio.' });
+        showNotice('播放被 iOS 阻擋，請點擊 Enable Kokoro Audio 後再播放。', 'warning');
+      } else {
+        updateStatus({ key: 'error', label: 'Speech error', detail: error?.message || 'Try Browser Voice.' });
+        showNotice(error?.message || 'Speech failed. Browser Voice is available as a fallback.', 'error');
+      }
     }
   } finally {
     if (token === state.playToken) {
@@ -484,6 +531,11 @@ async function playSession() {
 
 function pausePlayback() {
   if (!state.isPlaying) return;
+  const statusKey = ttsManager.getStatus().status?.key;
+  if (['loading', 'generating', 'enabling'].includes(statusKey)) {
+    showNotice('Audio is still loading. Pause becomes available when playback starts.', 'info');
+    return;
+  }
   state.isPaused = true;
   ttsManager.pause();
   updatePlayerControls();
@@ -552,12 +604,13 @@ elements.sampleButton.addEventListener('click', () => {
 elements.importArticleButton.addEventListener('click', () => elements.articleFileInput.click());
 elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
 elements.generateN8nButton.addEventListener('click', () => generateWithN8n());
+elements.enableKokoroAudioButton.addEventListener('click', () => enableKokoroAudio());
 elements.showAnswersButton.addEventListener('click', () => { state.showAnswers = !state.showAnswers; renderQuiz(); });
 elements.engineSelect.addEventListener('change', () => {
   stopPlayback(false);
   ttsManager.setEngine(elements.engineSelect.value);
   updateEngineFields();
-  if (elements.engineSelect.value === 'kokoro') showNotice('Kokoro will load locally when you press Play. iPhone Safari may fall back if audio activation expires.', 'info');
+  if (elements.engineSelect.value === 'kokoro') showNotice('請先點擊 Enable Kokoro Audio，再按 Play 載入本地模型。', 'info');
 });
 elements.rateInput.addEventListener('input', () => { elements.rateValue.textContent = `${Number(elements.rateInput.value).toFixed(1)}×`; });
 elements.delayInput.addEventListener('input', () => { elements.delayValue.textContent = `${Number(elements.delayInput.value).toFixed(1)}s`; });
