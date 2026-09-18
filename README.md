@@ -6,6 +6,7 @@
 
 - Article mode：A1、A2、B1、B2 × Nature、Culture、Geography 文章
 - Article mode 可匯入 `.txt`、附加選擇題與顯示答案
+- Article 預設為全文連續朗讀，也可切回逐句 highlight 模式
 - Word mode：單字、發音、中文意思與例句
 - Dialog mode：A/B 對話播放
 - 可選擇透過 n8n webhook 產生文章與題目；不接 n8n 也能使用內建文章
@@ -50,7 +51,7 @@ A: Are you ready?
 B: Yes, let's begin.
 ```
 
-Article mode 直接貼上英文段落即可，程式會依句子切分並逐句朗讀。選擇 `Use sample` 可以載入不同程度與主題的內建文章；`Import .txt` 可載入自己的純文字文章。
+Article mode 直接貼上英文段落即可，程式會依句子切分。`Full article · continuous` 會先生成全部句子的音訊，再合併成一個 WAV 連續播放，避免播放期間每句重新推論造成長停頓；`Sentence by sentence · highlight` 則保留逐句進度與 delay。選擇 `Use sample` 可以載入不同程度與主題的內建文章；`Import .txt` 可載入自己的純文字文章。
 
 選擇題可以放在 Article mode 的 Quiz JSON 欄位，例如：
 

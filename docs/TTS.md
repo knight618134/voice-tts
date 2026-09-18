@@ -43,6 +43,8 @@ Kokoro 有獨立的 `Enable Kokoro Audio` 按鈕，避免把音訊啟用藏在�
 4. 完成後等待 delay，更新 current index、highlight 與 progress。
 5. 最後一項結束後顯示 Session complete。
 
+Article 預設使用 `Full article · continuous`。Kokoro 仍以句子為安全的推論單位，避免長文字被 tokenizer 截斷，但會在播放前生成所有句子、合併 PCM waveform，再編碼成單一 PCM16 WAV。因此首次播放會集中等待一次，開始播放後不會在句子之間等待下一次推論。合併後的全文音訊同樣使用 `[text, voice, speed]` cache。需要逐句 highlight 與自訂 delay 時，可切換 `Sentence by sentence · highlight`。
+
 Play、Pause/Resume、Stop 是分開的按鈕。pause/resume 只交給目前 engine；Web Audio pause 會記錄 `AudioContext.currentTime` 對應的 offset，並停止目前的一次性 source，resume 時建立新的 source 從 offset 繼續。HTMLAudioElement 則使用原生 `pause()`／`play()`。stop 會取消 token、停止 source、audio 或 SpeechSynthesis，但不關閉共用 AudioContext。播放期間（包含 paused）speech settings 會鎖定，Stop 或自然結束後才解鎖。
 
 ## Kokoro 錯誤與引擎選擇

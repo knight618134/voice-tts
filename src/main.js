@@ -52,6 +52,7 @@ const elements = {
   articleTitleInput: $('#articleTitleInput'),
   articleLevelSelect: $('#articleLevelSelect'),
   articleTopicSelect: $('#articleTopicSelect'),
+  articlePlaybackSelect: $('#articlePlaybackSelect'),
   articleFileInput: $('#articleFileInput'),
   importArticleButton: $('#importArticleButton'),
   generateN8nButton: $('#generateN8nButton'),
@@ -91,6 +92,7 @@ const state = {
   quizSelections: {},
   showAnswers: false,
   statusKey: 'ready',
+  fullArticlePlayback: false,
 };
 
 const ttsManager = new TtsManager({
@@ -200,7 +202,8 @@ function renderReader() {
   }
   items.forEach((item, index) => {
     const card = document.createElement('article');
-    card.className = `reader-item ${index === state.currentIndex ? 'is-current' : ''} ${item.type === 'dialog' ? `speaker-${item.speaker.toLowerCase()}` : ''} ${item.type === 'article' ? 'article-item' : ''}`;
+    const isCurrent = state.fullArticlePlayback && item.type === 'article' ? true : index === state.currentIndex;
+    card.className = `reader-item ${isCurrent ? 'is-current' : ''} ${item.type === 'dialog' ? `speaker-${item.speaker.toLowerCase()}` : ''} ${item.type === 'article' ? 'article-item' : ''}`;
     card.dataset.index = String(index);
     card.tabIndex = 0;
     card.addEventListener('click', () => selectItem(index));
@@ -225,6 +228,12 @@ function renderReader() {
 
 function renderProgress() {
   const items = visibleItems();
+  if (state.fullArticlePlayback && state.mode === 'article') {
+    elements.progressLabel.textContent = 'Full article';
+    elements.progressBar.style.width = '0%';
+    elements.currentLabel.textContent = `Full article · ${items.length} sentences`;
+    return;
+  }
   const total = items.length;
   const current = total ? Math.min(state.currentIndex + 1, total) : 0;
   elements.progressLabel.textContent = `${current} / ${total}`;
@@ -309,9 +318,10 @@ function updateStatus(status = {}) {
   const detail = status.detail ? ` · ${status.detail}` : '';
   elements.statusText.textContent = `${status.label || 'Ready'}${detail}`;
   elements.statusDot.dataset.status = state.statusKey;
-  const isLoading = status.key === 'loading';
-  elements.modelProgress.classList.toggle('is-hidden', !isLoading);
-  if (Number.isFinite(status.progress)) elements.modelProgressBar.style.width = `${status.progress}%`;
+  const hasProgress = Number.isFinite(status.progress);
+  const showProgress = status.key === 'loading' || (status.key === 'generating' && hasProgress);
+  elements.modelProgress.classList.toggle('is-hidden', !showProgress);
+  elements.modelProgressBar.style.width = hasProgress ? `${status.progress}%` : '0%';
   updatePlayerControls();
 }
 
@@ -324,6 +334,7 @@ function speechSettingControls() {
     elements.rateInput,
     elements.delayInput,
     elements.repeatInput,
+    elements.articlePlaybackSelect,
   ];
 }
 
@@ -522,9 +533,35 @@ async function playSession() {
 
   state.isPlaying = true;
   state.isPaused = false;
+  const continuousArticle = state.mode === 'article' && elements.articlePlaybackSelect.value === 'continuous';
+  state.fullArticlePlayback = continuousArticle;
+  if (continuousArticle) state.currentIndex = 0;
   const token = ++state.playToken;
   updatePlayerControls();
   try {
+    if (continuousArticle) {
+      const segments = items.map((item) => item.text);
+      const fullText = segments.join(' ');
+      renderReader();
+      renderProgress();
+      for (let repeat = 0; repeat < Number(elements.repeatInput.value); repeat += 1) {
+        if (!state.isPlaying || token !== state.playToken) return;
+        await ttsManager.speak(fullText, {
+          voiceName: getVoiceFor(items[0]),
+          rate: Number(elements.rateInput.value),
+          segments,
+        });
+      }
+      if (!state.isPlaying || token !== state.playToken) return;
+      state.currentIndex = items.length - 1;
+      state.isPlaying = false;
+      state.fullArticlePlayback = false;
+      renderReader();
+      renderProgress();
+      updateStatus({ key: 'ready', label: 'Full article complete', detail: 'Continuous playback finished.' });
+      return;
+    }
+
     while (state.isPlaying && token === state.playToken) {
       const currentItems = visibleItems();
       const item = currentItems[state.currentIndex];
@@ -552,6 +589,9 @@ async function playSession() {
     if (state.isPlaying) {
       state.isPlaying = false;
       state.isPaused = false;
+      state.fullArticlePlayback = false;
+      renderReader();
+      renderProgress();
       if (isKokoroBlockedError(error)) {
         updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Kokoro Audio.' });
         showNotice('播放被 iOS 阻擋。請在視窗中重新啟用 Kokoro，或自行選擇 Browser Voice。', 'warning');
@@ -568,6 +608,7 @@ async function playSession() {
     if (token === state.playToken) {
       state.isPlaying = false;
       state.isPaused = false;
+      state.fullArticlePlayback = false;
       updatePlayerControls();
     }
   }
@@ -593,11 +634,17 @@ function resumePlayback() {
 }
 
 function stopPlayback(showStatus = true) {
+  const wasFullArticle = state.fullArticlePlayback;
   state.playToken += 1;
   state.isPlaying = false;
   state.isPaused = false;
+  state.fullArticlePlayback = false;
   ttsManager.stop();
   if (showStatus) updateStatus({ key: 'stopped', label: 'Stopped' });
+  if (wasFullArticle) {
+    renderReader();
+    renderProgress();
+  }
   updatePlayerControls();
 }
 

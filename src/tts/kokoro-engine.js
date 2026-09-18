@@ -29,6 +29,25 @@ async function audioToBlob(rawAudio) {
   throw new Error('Kokoro returned an unsupported audio object.');
 }
 
+function joinRawAudio(parts) {
+  if (!parts.length) throw new Error('Kokoro returned no article audio.');
+  const sampleRate = parts[0]?.sampling_rate ?? parts[0]?.sample_rate ?? 24000;
+  const samples = parts.map((part) => {
+    const values = part?.audio ?? part?.data;
+    const partRate = part?.sampling_rate ?? part?.sample_rate ?? sampleRate;
+    if (!values || typeof values.length !== 'number') throw new Error('Kokoro returned an unsupported article audio segment.');
+    if (partRate !== sampleRate) throw new Error('Kokoro returned mismatched article sample rates.');
+    return values instanceof Float32Array ? values : Float32Array.from(values);
+  });
+  const joined = new Float32Array(samples.reduce((total, values) => total + values.length, 0));
+  let offset = 0;
+  for (const values of samples) {
+    joined.set(values, offset);
+    offset += values.length;
+  }
+  return { audio: joined, sampling_rate: sampleRate };
+}
+
 function encodeWav(samples, sampleRate) {
   const source = samples instanceof Float32Array ? samples : Float32Array.from(samples);
   const buffer = new ArrayBuffer(44 + source.length * 2);
@@ -250,15 +269,34 @@ export class KokoroTtsEngine {
     return entry;
   }
 
-  async getAudioEntry(text, voice, speed) {
+  async getAudioEntry(text, voice, speed, segments = [], operationId = this.operationId) {
     const key = this.cacheKey(text, voice, speed);
     const cached = this.cache.get(key);
     if (cached) {
       this.touchCache(key, cached);
       return cached;
     }
-    this.onStatus({ key: 'generating', label: 'Generating audio', detail: 'Creating local speech' });
-    const rawAudio = await this.tts.generate(text, { voice, speed: Number(speed) || 1 });
+    const articleSegments = segments.filter((segment) => String(segment).trim());
+    let rawAudio;
+    if (articleSegments.length > 1) {
+      const generated = [];
+      for (let index = 0; index < articleSegments.length; index += 1) {
+        if (this.cancelled || operationId !== this.operationId) return null;
+        this.onStatus({
+          key: 'generating',
+          label: 'Generating full article',
+          detail: `Sentence ${index + 1} of ${articleSegments.length}`,
+          progress: Math.round((index / articleSegments.length) * 100),
+        });
+        generated.push(await this.tts.generate(articleSegments[index], { voice, speed: Number(speed) || 1 }));
+      }
+      if (this.cancelled || operationId !== this.operationId) return null;
+      this.onStatus({ key: 'generating', label: 'Preparing full article', detail: 'Joining continuous audio', progress: 100 });
+      rawAudio = joinRawAudio(generated);
+    } else {
+      this.onStatus({ key: 'generating', label: 'Generating audio', detail: 'Creating local speech' });
+      rawAudio = await this.tts.generate(text, { voice, speed: Number(speed) || 1 });
+    }
     return this.addToCache(key, await audioToBlob(rawAudio));
   }
 
@@ -354,15 +392,16 @@ export class KokoroTtsEngine {
     });
   }
 
-  async speak(text, { voiceName = 'af_heart', rate = 1 } = {}) {
+  async speak(text, { voiceName = 'af_heart', rate = 1, segments = [] } = {}) {
     this.stop();
     const operationId = ++this.operationId;
     this.cancelled = false;
     this.assertAudioReady();
     await this.init();
     if (this.cancelled || operationId !== this.operationId) return;
-    const entry = await this.getAudioEntry(text, voiceName, rate);
+    const entry = await this.getAudioEntry(text, voiceName, rate, segments, operationId);
     if (this.cancelled || operationId !== this.operationId) return;
+    if (!entry) return;
 
     if (this.audioContext) {
       try {

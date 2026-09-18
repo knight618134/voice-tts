@@ -106,6 +106,12 @@
                   </select>
                 </div>
               </div>
+              <label class="field-label" for="articlePlaybackSelect">Article playback</label>
+              <select id="articlePlaybackSelect">
+                <option value="continuous" selected>Full article · continuous</option>
+                <option value="sentences">Sentence by sentence · highlight</option>
+              </select>
+              <p class="field-hint">Full article generates all sentence audio first, then plays it continuously without inference gaps.</p>
               <div class="article-actions">
                 <input id="articleFileInput" type="file" accept=".txt,text/plain" hidden />
                 <button class="secondary-button" id="importArticleButton" type="button">Import .txt</button>

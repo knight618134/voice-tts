@@ -38,6 +38,9 @@
 
 ## Playback flows
 
+- [ ] Article 預設為 `Full article · continuous`，只在開始前集中生成，播放後沒有逐句推論長停頓
+- [ ] Full article 生成進度會顯示目前句數，生成期間仍可 Stop
+- [ ] 切換 `Sentence by sentence · highlight` 後逐句進度與 delay 正常
 - [ ] Word mode：current item、highlight、progress 正確
 - [ ] Dialog mode：A/B voice 對應正確
 - [ ] repeat 1 / 2 / 3 次正確
