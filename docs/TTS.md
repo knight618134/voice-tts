@@ -6,7 +6,9 @@
 
 - `NativeTtsEngine`：包裝 `SpeechSynthesisUtterance`，負責系統 voice、pause、resume、stop。
 - `KokoroTtsEngine`：dynamic import `kokoro-js`，用 `KokoroTTS.from_pretrained()` lazy load WASM + q8 model；啟用後優先使用共用 `AudioContext` 解碼與播放，HTMLAudioElement 是第二層播放 fallback。
-- `TtsManager`：切換 engine、管理 AudioContext 啟用、統一錯誤處理；Kokoro 一般錯誤時初始化 Native engine 並重試目前句子，iOS `NotAllowedError` 則要求使用者重新啟用音訊。
+- `TtsManager`：切換 engine、管理 AudioContext 啟用並統一錯誤狀態。它不會自行從 Kokoro 切換至 Native；引擎切換只能來自使用者操作。
+
+初始引擎是 Kokoro，初始內容模式是 Article。Kokoro 尚未啟用時 Play 維持 disabled，播放器和 Speech settings 都提供明確的 Enable 按鈕。
 
 ## AudioContext 解鎖流程
 
@@ -29,7 +31,7 @@ Kokoro 有獨立的 `Enable Kokoro Audio` 按鈕，避免把音訊啟用藏在�
 4. 建立 `AudioBufferSourceNode`、連到 context destination，從目前 offset `start()`。
 5. 播放結束時由 `onended` resolve `speak()` Promise，播放佇列才移到下一項。
 
-`RawAudio` 不直接使用 `toBlob()`，因為該方法可能產生 Safari 解碼不穩定的 32-bit float WAV。引擎會先將 waveform 正規化成 PCM16 WAV，再交給 Web Audio。若 Web Audio 解碼或 source 建立失敗，會再嘗試共用的 HTMLAudioElement。該元素會設定 `playsinline`、`webkit-playsinline`，並捕捉 `audio.play()` rejection 與 `audio.onerror`；兩層都失敗後才由 TtsManager fallback 到 Browser Voice。
+`RawAudio` 不直接使用 `toBlob()`，因為該方法可能產生 Safari 解碼不穩定的 32-bit float WAV。引擎會先將 waveform 正規化成 PCM16 WAV，再交給 Web Audio。若 Web Audio 解碼或 source 建立失敗，會再嘗試共用的 HTMLAudioElement。該元素會設定 `playsinline`、`webkit-playsinline`，並捕捉 `audio.play()` rejection 與 `audio.onerror`；兩層都失敗後，播放 Promise 會 reject 並由 UI 顯示選擇視窗。
 
 ## 播放佇列
 
@@ -41,7 +43,16 @@ Kokoro 有獨立的 `Enable Kokoro Audio` 按鈕，避免把音訊啟用藏在�
 4. 完成後等待 delay，更新 current index、highlight 與 progress。
 5. 最後一項結束後顯示 Session complete。
 
-pause/resume 只交給目前 engine；Web Audio pause 會記錄 `AudioContext.currentTime` 對應的 offset，並停止目前的一次性 source，resume 時建立新的 source 從 offset 繼續。HTMLAudioElement 則使用原生 `pause()`／`play()`。stop 會取消 token、停止 source、audio 或 SpeechSynthesis，但不關閉共用 AudioContext。沒有自動播放。
+Play、Pause/Resume、Stop 是分開的按鈕。pause/resume 只交給目前 engine；Web Audio pause 會記錄 `AudioContext.currentTime` 對應的 offset，並停止目前的一次性 source，resume 時建立新的 source 從 offset 繼續。HTMLAudioElement 則使用原生 `pause()`／`play()`。stop 會取消 token、停止 source、audio 或 SpeechSynthesis，但不關閉共用 AudioContext。播放期間（包含 paused）speech settings 會鎖定，Stop 或自然結束後才解鎖。
+
+## Kokoro 錯誤與引擎選擇
+
+模型下載、推論、WAV decode 或兩層播放器都失敗時，`TtsManager.speak()` 原樣拋出錯誤，不會改寫 `currentEngine`，也不會暗中朗讀 Native voice。UI 會停止目前 session 並顯示 modal：
+
+- `Keep Kokoro and retry`：保持目前 item、voice 與 speed，重新執行 Kokoro。
+- `Switch to Browser Voice`：只有在這次使用者點擊後才切換，並從目前 item 繼續。
+
+`NotAllowedError` 仍獨立顯示為 iOS playback blocked；modal 的 Kokoro 選項會先重新執行音訊啟用，再重試。
 
 ## Audio cache
 
@@ -58,5 +69,5 @@ WASM + q8 是本專案的預設，因為 iPhone 相容性優先且不依賴 WebG
 1. 建立一個具有 `init()`、`speak()`、`pause()`、`resume()`、`stop()`、`isReady()`、`getVoices()` 的 class。
 2. 讓 `speak()` 以 Promise 在播放結束時 resolve，錯誤時 reject。
 3. 在 `TtsManager.engines` 註冊實例。
-4. 將 UI selector 的 engine value 與 fallback 行為接上。
+4. 將 UI selector 的 engine value 與明確的錯誤選擇流程接上，禁止未經使用者同意的自動 fallback。
 5. 寫入 loading、playing、paused、stopped、error 狀態，並驗證舊的 word/dialog queue 不需要知道實作細節。

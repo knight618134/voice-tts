@@ -2,16 +2,15 @@ import { NativeTtsEngine } from './native-engine.js';
 import { isKokoroAudioBlocked, KokoroTtsEngine } from './kokoro-engine.js';
 
 export class TtsManager {
-  constructor({ onStatus = () => {}, onFallback = () => {}, onAudioBlocked = () => {} } = {}) {
+  constructor({ onStatus = () => {}, onAudioBlocked = () => {} } = {}) {
     this.onStatus = onStatus;
-    this.onFallback = onFallback;
     this.onAudioBlocked = onAudioBlocked;
     this.lastStatus = { key: 'ready', label: 'Ready' };
     const reportStatus = (status) => {
       this.lastStatus = status;
       this.onStatus(status);
     };
-    this.currentEngine = 'native';
+    this.currentEngine = 'kokoro';
     this.engines = {
       native: new NativeTtsEngine({ onStatus: reportStatus }),
       kokoro: new KokoroTtsEngine({ onStatus: reportStatus }),
@@ -27,10 +26,11 @@ export class TtsManager {
     if (!this.engines[engine]) throw new Error(`Unknown TTS engine: ${engine}`);
     this.stop();
     this.currentEngine = engine;
+    const kokoroEnabled = engine === 'kokoro' && this.engines.kokoro.isAudioReady();
     this.reportStatus({
-      key: engine === 'native' ? 'ready' : 'not-enabled',
-      label: engine === 'native' ? 'Browser voice ready' : 'Kokoro audio not enabled',
-      detail: engine === 'native' ? '' : 'Tap Enable Kokoro Audio before Play.',
+      key: engine === 'native' || kokoroEnabled ? 'ready' : 'not-enabled',
+      label: engine === 'native' ? 'Browser voice ready' : kokoroEnabled ? 'Kokoro audio enabled' : 'Kokoro audio not enabled',
+      detail: engine === 'native' ? '' : kokoroEnabled ? 'Ready to load the model when you press Play.' : 'Tap Enable Kokoro Audio before Play.',
     });
   }
 
@@ -50,15 +50,10 @@ export class TtsManager {
         throw error;
       }
       const message = error?.message || 'Kokoro is unavailable.';
-      this.onFallback(message);
-      this.currentEngine = 'native';
-      try {
-        await this.engines.native.init();
-        return await this.engines.native.speak(text, options);
-      } catch (fallbackError) {
-        this.reportStatus({ key: 'error', label: 'Speech error', detail: fallbackError?.message || message });
-        throw fallbackError;
-      }
+      this.reportStatus({ key: 'error', label: 'Kokoro could not play', detail: message });
+      // Switching engines must always be an explicit user choice. The UI
+      // offers Retry Kokoro and Switch to Browser Voice after this rejection.
+      throw error;
     }
   }
 

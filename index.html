@@ -14,7 +14,7 @@
           <p class="eyebrow">LOCAL LANGUAGE PRACTICE</p>
           <h1>Vocabulary Reader</h1>
         </div>
-        <div class="topbar-note">Browser voice first · Kokoro on demand</div>
+        <div class="topbar-note">Kokoro first · Browser voice optional</div>
       </header>
 
       <main class="app-grid">
@@ -31,9 +31,9 @@
           </div>
 
           <div class="mode-tabs" role="tablist" aria-label="Reading mode">
-            <button class="tab-button is-active" type="button" data-mode="word" role="tab" aria-selected="true">Word mode</button>
-            <button class="tab-button" type="button" data-mode="dialog" role="tab" aria-selected="false">Dialog mode</button>
-            <button class="tab-button" type="button" data-mode="article" role="tab" aria-selected="false">Article mode</button>
+            <button class="tab-button is-active" type="button" data-mode="article" role="tab" aria-selected="true">Article</button>
+            <button class="tab-button" type="button" data-mode="word" role="tab" aria-selected="false">Words</button>
+            <button class="tab-button" type="button" data-mode="dialog" role="tab" aria-selected="false">Dialog</button>
           </div>
 
           <div id="reader" class="reader" aria-live="polite"></div>
@@ -58,11 +58,17 @@
                 <div class="model-progress is-hidden" id="modelProgress" aria-label="Kokoro model loading progress"><span id="modelProgressBar"></span></div>
               </div>
             </div>
+            <button class="primary-button player-enable-button" id="quickEnableKokoroButton" type="button">Enable Kokoro Audio</button>
             <div class="player-actions">
-              <button class="icon-button" id="previousButton" type="button" aria-label="Previous item">←</button>
-              <button class="play-button" id="playButton" type="button"><span id="playIcon">▶</span><span id="playText">Play</span></button>
-              <button class="icon-button" id="nextButton" type="button" aria-label="Next item">→</button>
-              <button class="secondary-button" id="stopButton" type="button">Stop</button>
+              <div class="player-primary-actions">
+                <button class="icon-button" id="previousButton" type="button" aria-label="Previous item">←</button>
+                <button class="play-button" id="playButton" type="button" disabled><span id="playIcon">▶</span><span id="playText">Play</span></button>
+                <button class="icon-button" id="nextButton" type="button" aria-label="Next item">→</button>
+              </div>
+              <div class="player-secondary-actions">
+                <button class="secondary-button" id="pauseButton" type="button" disabled>Pause</button>
+                <button class="secondary-button" id="stopButton" type="button" disabled>Stop</button>
+              </div>
             </div>
           </div>
         </section>
@@ -126,18 +132,18 @@
 
             <label class="field-label" for="engineSelect">TTS engine</label>
             <select id="engineSelect">
+              <option value="kokoro" selected>Kokoro Local Voice</option>
               <option value="native">Browser Voice</option>
-              <option value="kokoro">Kokoro Local Voice</option>
             </select>
 
-            <div id="browserVoiceFields">
+            <div id="browserVoiceFields" class="is-hidden">
               <label class="field-label" for="voiceASelect">Voice A <span class="field-note">dialog speaker A</span></label>
               <select id="voiceASelect"></select>
               <label class="field-label" for="voiceBSelect">Voice B <span class="field-note">dialog speaker B</span></label>
               <select id="voiceBSelect"></select>
             </div>
 
-            <div id="kokoroVoiceFields" class="is-hidden">
+            <div id="kokoroVoiceFields">
               <label class="field-label" for="kokoroVoiceSelect">Kokoro voice</label>
               <select id="kokoroVoiceSelect">
                 <option value="af_heart">af_heart · American female</option>
@@ -149,6 +155,8 @@
               <button class="secondary-button full-width" id="enableKokoroAudioButton" type="button">Enable Kokoro Audio</button>
               <p class="field-hint" id="kokoroAudioHint">Tap once to unlock iPhone audio. The model still loads only when you press Play.</p>
             </div>
+
+            <p class="settings-lock-hint is-hidden" id="settingsLockHint" role="status">Speech settings are locked during playback. Press Stop to make changes.</p>
 
             <div class="range-field">
               <div class="range-heading"><label class="field-label" for="rateInput">Speed</label><output id="rateValue">1.0×</output></div>
@@ -182,8 +190,19 @@
         </aside>
       </main>
 
-      <footer class="footer">Your reading data stays in this browser. Kokoro audio is generated locally after you choose it.</footer>
+      <footer class="footer">Your reading data stays in this browser. Kokoro audio is generated locally after you enable it.</footer>
     </div>
+
+    <dialog class="error-dialog" id="kokoroErrorDialog" aria-labelledby="kokoroErrorTitle">
+      <div class="dialog-icon" aria-hidden="true">!</div>
+      <h2 id="kokoroErrorTitle">Kokoro could not play</h2>
+      <p id="kokoroErrorMessage">The local voice could not be loaded.</p>
+      <p class="dialog-hint">You can keep Kokoro selected and retry, or explicitly switch to Browser Voice.</p>
+      <div class="dialog-actions">
+        <button class="primary-button" id="retryKokoroButton" type="button">Retry Kokoro</button>
+        <button class="secondary-button" id="switchBrowserButton" type="button">Switch to Browser Voice</button>
+      </div>
+    </dialog>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

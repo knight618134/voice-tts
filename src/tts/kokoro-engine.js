@@ -104,13 +104,17 @@ export class KokoroTtsEngine {
       dtype: 'q8',
       device: 'wasm',
       progress_callback: (progress) => {
+        // A model download cannot always be aborted once Transformers.js has
+        // started it. After Stop, allow the cacheable download to finish but
+        // do not overwrite the player's Stopped state with stale progress.
+        if (this.cancelled) return;
         const raw = Number(progress?.progress);
         const percent = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : undefined;
         const detail = progress?.file ? `Downloading ${progress.file}` : 'Preparing local model';
         this.onStatus({ key: 'loading', label: 'Loading model', detail, progress: percent });
       },
     });
-    this.onStatus({ key: 'ready', label: 'Kokoro model ready', detail: 'WASM + q8' });
+    if (!this.cancelled) this.onStatus({ key: 'ready', label: 'Kokoro model ready', detail: 'WASM + q8' });
   }
 
   isReady() {
@@ -356,6 +360,7 @@ export class KokoroTtsEngine {
     this.cancelled = false;
     this.assertAudioReady();
     await this.init();
+    if (this.cancelled || operationId !== this.operationId) return;
     const entry = await this.getAudioEntry(text, voiceName, rate);
     if (this.cancelled || operationId !== this.operationId) return;
 
@@ -364,8 +369,9 @@ export class KokoroTtsEngine {
         return await this.playWithWebAudio(entry);
       } catch (error) {
         if (isKokoroAudioBlocked(error)) throw error;
-        // Decode or Web Audio errors get one HTMLAudioElement attempt before
-        // the manager falls back to Browser Voice.
+        // Decode or Web Audio errors get one HTMLAudioElement attempt. If
+        // that also fails, the UI asks the user whether to retry Kokoro or
+        // explicitly switch to Browser Voice.
         this.onStatus({ key: 'error', label: 'Web Audio failed', detail: error.message });
       }
     }

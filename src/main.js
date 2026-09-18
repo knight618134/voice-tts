@@ -22,6 +22,7 @@ const elements = {
   playButton: $('#playButton'),
   playIcon: $('#playIcon'),
   playText: $('#playText'),
+  pauseButton: $('#pauseButton'),
   stopButton: $('#stopButton'),
   previousButton: $('#previousButton'),
   nextButton: $('#nextButton'),
@@ -34,12 +35,14 @@ const elements = {
   voiceBSelect: $('#voiceBSelect'),
   kokoroVoiceSelect: $('#kokoroVoiceSelect'),
   enableKokoroAudioButton: $('#enableKokoroAudioButton'),
+  quickEnableKokoroButton: $('#quickEnableKokoroButton'),
   kokoroAudioHint: $('#kokoroAudioHint'),
   rateInput: $('#rateInput'),
   rateValue: $('#rateValue'),
   delayInput: $('#delayInput'),
   delayValue: $('#delayValue'),
   repeatInput: $('#repeatInput'),
+  settingsLockHint: $('#settingsLockHint'),
   weakList: $('#weakList'),
   weakCount: $('#weakCount'),
   clearWeakButton: $('#clearWeakButton'),
@@ -58,6 +61,10 @@ const elements = {
   quizList: $('#quizList'),
   showAnswersButton: $('#showAnswersButton'),
   notice: $('#notice'),
+  kokoroErrorDialog: $('#kokoroErrorDialog'),
+  kokoroErrorMessage: $('#kokoroErrorMessage'),
+  retryKokoroButton: $('#retryKokoroButton'),
+  switchBrowserButton: $('#switchBrowserButton'),
 };
 
 function loadWeakWords() {
@@ -71,7 +78,7 @@ function loadWeakWords() {
 }
 
 const state = {
-  mode: 'word',
+  mode: 'article',
   items: [],
   currentIndex: 0,
   isPlaying: false,
@@ -88,12 +95,6 @@ const state = {
 
 const ttsManager = new TtsManager({
   onStatus: updateStatus,
-  onFallback: (message) => {
-    elements.engineSelect.value = 'native';
-    updateEngineFields();
-    updateStatus({ key: 'fallback', label: 'Kokoro failed, switched to Browser Voice', detail: message });
-    showNotice(`Kokoro 載入失敗，已切回 Browser Voice：${message}`, 'warning');
-  },
   onAudioBlocked: () => showNotice('iOS 阻擋了播放，請先點擊 Enable Kokoro Audio。', 'warning'),
 });
 
@@ -187,6 +188,7 @@ function renderAll() {
   renderWeakWords();
   renderQuiz();
   updateModeFields();
+  updatePlayerControls();
 }
 
 function renderReader() {
@@ -291,12 +293,15 @@ function updateEngineFields() {
   elements.kokoroVoiceFields.classList.toggle('is-hidden', !isKokoro);
   if (isKokoro) {
     const enabled = ttsManager.isAudioReady();
-    elements.enableKokoroAudioButton.disabled = enabled;
     elements.enableKokoroAudioButton.textContent = enabled ? 'Kokoro Audio Enabled' : 'Enable Kokoro Audio';
     elements.kokoroAudioHint.textContent = enabled
       ? 'Audio is enabled. Press Play to lazy-load the WASM + q8 model.'
       : 'Tap once to unlock iPhone audio. The model still loads only when you press Play.';
+    elements.quickEnableKokoroButton.classList.toggle('is-hidden', enabled);
+  } else {
+    elements.quickEnableKokoroButton.classList.add('is-hidden');
   }
+  updatePlayerControls();
 }
 
 function updateStatus(status = {}) {
@@ -307,6 +312,34 @@ function updateStatus(status = {}) {
   const isLoading = status.key === 'loading';
   elements.modelProgress.classList.toggle('is-hidden', !isLoading);
   if (Number.isFinite(status.progress)) elements.modelProgressBar.style.width = `${status.progress}%`;
+  updatePlayerControls();
+}
+
+function speechSettingControls() {
+  return [
+    elements.engineSelect,
+    elements.voiceASelect,
+    elements.voiceBSelect,
+    elements.kokoroVoiceSelect,
+    elements.rateInput,
+    elements.delayInput,
+    elements.repeatInput,
+  ];
+}
+
+function closeKokoroErrorDialog() {
+  if (!elements.kokoroErrorDialog.open) return;
+  if (typeof elements.kokoroErrorDialog.close === 'function') elements.kokoroErrorDialog.close();
+  else elements.kokoroErrorDialog.removeAttribute('open');
+}
+
+function showKokoroErrorDialog(error) {
+  const message = error?.message || 'Kokoro could not load or play this audio.';
+  elements.kokoroErrorMessage.textContent = message;
+  elements.retryKokoroButton.textContent = isKokoroBlockedError(error) ? 'Enable Kokoro again' : 'Keep Kokoro and retry';
+  if (elements.kokoroErrorDialog.open) return;
+  if (typeof elements.kokoroErrorDialog.showModal === 'function') elements.kokoroErrorDialog.showModal();
+  else elements.kokoroErrorDialog.setAttribute('open', '');
 }
 
 function showNotice(message, type = 'info') {
@@ -439,6 +472,8 @@ async function enableKokoroAudio() {
   const originalLabel = elements.enableKokoroAudioButton.textContent;
   elements.enableKokoroAudioButton.disabled = true;
   elements.enableKokoroAudioButton.textContent = 'Enabling audio…';
+  elements.quickEnableKokoroButton.disabled = true;
+  elements.quickEnableKokoroButton.textContent = 'Enabling Kokoro audio…';
   try {
     await ttsManager.enableAudio();
     updateStatus({ key: 'ready', label: 'Kokoro audio enabled', detail: 'Ready to load the model when you press Play.' });
@@ -453,25 +488,29 @@ async function enableKokoroAudio() {
       showNotice(`Kokoro 音訊啟用失敗：${error.message}`, 'error');
     }
   } finally {
-    elements.enableKokoroAudioButton.disabled = ttsManager.isAudioReady();
     if (!ttsManager.isAudioReady()) elements.enableKokoroAudioButton.textContent = originalLabel;
+    elements.quickEnableKokoroButton.textContent = 'Enable Kokoro Audio';
+    updateEngineFields();
   }
 }
 
-function delay(ms) {
-  return new Promise((resolve) => window.setTimeout(resolve, ms));
+async function sessionDelay(ms, token) {
+  let remaining = ms;
+  while (remaining > 0 && state.isPlaying && token === state.playToken) {
+    if (state.isPaused) {
+      await new Promise((resolve) => window.setTimeout(resolve, 80));
+      continue;
+    }
+    const interval = Math.min(remaining, 80);
+    await new Promise((resolve) => window.setTimeout(resolve, interval));
+    remaining -= interval;
+  }
 }
 
 async function playSession() {
   const items = visibleItems();
   if (!items.length) {
     showNotice('There is nothing to play yet.', 'warning');
-    return;
-  }
-  if (state.isPaused) {
-    state.isPaused = false;
-    ttsManager.resume();
-    updatePlayerControls();
     return;
   }
   if (state.isPlaying) return;
@@ -507,17 +546,22 @@ async function playSession() {
       state.currentIndex = nextIndex;
       renderReader();
       renderProgress();
-      await delay(Number(elements.delayInput.value) * 1000);
+      await sessionDelay(Number(elements.delayInput.value) * 1000, token);
     }
   } catch (error) {
     if (state.isPlaying) {
       state.isPlaying = false;
+      state.isPaused = false;
       if (isKokoroBlockedError(error)) {
         updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Kokoro Audio.' });
-        showNotice('播放被 iOS 阻擋，請點擊 Enable Kokoro Audio 後再播放。', 'warning');
+        showNotice('播放被 iOS 阻擋。請在視窗中重新啟用 Kokoro，或自行選擇 Browser Voice。', 'warning');
+        showKokoroErrorDialog(error);
+      } else if (elements.engineSelect.value === 'kokoro') {
+        updateStatus({ key: 'error', label: 'Kokoro could not play', detail: error?.message || 'Retry or choose Browser Voice.' });
+        showKokoroErrorDialog(error);
       } else {
-        updateStatus({ key: 'error', label: 'Speech error', detail: error?.message || 'Try Browser Voice.' });
-        showNotice(error?.message || 'Speech failed. Browser Voice is available as a fallback.', 'error');
+        updateStatus({ key: 'error', label: 'Browser voice error', detail: error?.message || 'Speech failed.' });
+        showNotice(error?.message || 'Browser Voice could not play.', 'error');
       }
     }
   } finally {
@@ -530,7 +574,7 @@ async function playSession() {
 }
 
 function pausePlayback() {
-  if (!state.isPlaying) return;
+  if (!state.isPlaying || state.isPaused) return;
   const statusKey = ttsManager.getStatus().status?.key;
   if (['loading', 'generating', 'enabling'].includes(statusKey)) {
     showNotice('Audio is still loading. Pause becomes available when playback starts.', 'info');
@@ -538,6 +582,13 @@ function pausePlayback() {
   }
   state.isPaused = true;
   ttsManager.pause();
+  updatePlayerControls();
+}
+
+function resumePlayback() {
+  if (!state.isPlaying || !state.isPaused) return;
+  state.isPaused = false;
+  ttsManager.resume();
   updatePlayerControls();
 }
 
@@ -559,10 +610,24 @@ function stepItem(direction) {
 }
 
 function updatePlayerControls() {
-  const isPaused = state.isPaused;
-  elements.playIcon.textContent = isPaused ? '▶' : state.isPlaying ? 'Ⅱ' : '▶';
-  elements.playText.textContent = isPaused ? 'Resume' : state.isPlaying ? 'Pause' : 'Play';
-  elements.playButton.setAttribute('aria-label', isPaused ? 'Resume playback' : state.isPlaying ? 'Pause playback' : 'Play current item');
+  const isKokoro = elements.engineSelect.value === 'kokoro';
+  const audioReady = !isKokoro || ttsManager.isAudioReady();
+  const hasItems = visibleItems().length > 0;
+  const busyBeforePlayback = ['loading', 'generating', 'enabling'].includes(state.statusKey);
+  const settingsLocked = state.isPlaying;
+
+  elements.playIcon.textContent = '▶';
+  elements.playText.textContent = 'Play';
+  elements.playButton.setAttribute('aria-label', audioReady ? 'Play current item' : 'Enable Kokoro Audio before playback');
+  elements.playButton.disabled = settingsLocked || !audioReady || !hasItems;
+  elements.pauseButton.textContent = state.isPaused ? 'Resume' : 'Pause';
+  elements.pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume playback' : 'Pause playback');
+  elements.pauseButton.disabled = !state.isPlaying || (!state.isPaused && busyBeforePlayback);
+  elements.stopButton.disabled = !state.isPlaying;
+  elements.settingsLockHint.classList.toggle('is-hidden', !settingsLocked);
+  speechSettingControls().forEach((control) => { control.disabled = settingsLocked; });
+  elements.enableKokoroAudioButton.disabled = settingsLocked || !isKokoro || ttsManager.isAudioReady() || state.statusKey === 'enabling';
+  elements.quickEnableKokoroButton.disabled = settingsLocked || !isKokoro || ttsManager.isAudioReady() || state.statusKey === 'enabling';
 }
 
 function populateNativeVoices() {
@@ -592,7 +657,8 @@ function setMode(mode) {
   }
 }
 
-elements.playButton.addEventListener('click', () => (state.isPlaying && !state.isPaused ? pausePlayback() : playSession()));
+elements.playButton.addEventListener('click', () => playSession());
+elements.pauseButton.addEventListener('click', () => (state.isPaused ? resumePlayback() : pausePlayback()));
 elements.stopButton.addEventListener('click', () => stopPlayback());
 elements.previousButton.addEventListener('click', () => stepItem(-1));
 elements.nextButton.addEventListener('click', () => stepItem(1));
@@ -605,12 +671,30 @@ elements.importArticleButton.addEventListener('click', () => elements.articleFil
 elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
 elements.generateN8nButton.addEventListener('click', () => generateWithN8n());
 elements.enableKokoroAudioButton.addEventListener('click', () => enableKokoroAudio());
+elements.quickEnableKokoroButton.addEventListener('click', () => enableKokoroAudio());
 elements.showAnswersButton.addEventListener('click', () => { state.showAnswers = !state.showAnswers; renderQuiz(); });
 elements.engineSelect.addEventListener('change', () => {
   stopPlayback(false);
   ttsManager.setEngine(elements.engineSelect.value);
   updateEngineFields();
   if (elements.engineSelect.value === 'kokoro') showNotice('請先點擊 Enable Kokoro Audio，再按 Play 載入本地模型。', 'info');
+});
+elements.kokoroErrorDialog.addEventListener('cancel', (event) => event.preventDefault());
+elements.retryKokoroButton.addEventListener('click', async () => {
+  closeKokoroErrorDialog();
+  elements.engineSelect.value = 'kokoro';
+  ttsManager.setEngine('kokoro');
+  updateEngineFields();
+  if (!ttsManager.isAudioReady()) await enableKokoroAudio();
+  if (ttsManager.isAudioReady()) playSession();
+});
+elements.switchBrowserButton.addEventListener('click', () => {
+  closeKokoroErrorDialog();
+  elements.engineSelect.value = 'native';
+  ttsManager.setEngine('native');
+  updateEngineFields();
+  showNotice('已依你的選擇切換至 Browser Voice，並從目前項目繼續。', 'info');
+  playSession();
 });
 elements.rateInput.addEventListener('input', () => { elements.rateValue.textContent = `${Number(elements.rateInput.value).toFixed(1)}×`; });
 elements.delayInput.addEventListener('input', () => { elements.delayValue.textContent = `${Number(elements.delayInput.value).toFixed(1)}s`; });
@@ -627,10 +711,7 @@ document.querySelectorAll('[data-mode]').forEach((button) => button.addEventList
 window.speechSynthesis?.addEventListener?.('voiceschanged', populateNativeVoices);
 
 elements.n8nWebhookInput.value = localStorage.getItem(N8N_WEBHOOK_KEY) || '';
-elements.contentInput.value = getSample('word');
+ttsManager.setEngine('kokoro');
 updateEngineFields();
-parseContent();
-ttsManager.init('native').then(populateNativeVoices).catch((error) => {
-  updateStatus({ key: 'error', label: 'Browser voice unavailable', detail: error.message });
-  showNotice('This browser has no SpeechSynthesis. Try a supported mobile or desktop browser.', 'error');
-});
+loadArticleSample();
+populateNativeVoices();
