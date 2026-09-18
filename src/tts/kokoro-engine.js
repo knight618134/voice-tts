@@ -15,11 +15,18 @@ export function isKokoroAudioBlocked(error) {
 }
 
 async function audioToBlob(rawAudio) {
-  if (typeof rawAudio?.toBlob === 'function') return rawAudio.toBlob();
+  // kokoro-js/Transformers.js RawAudio.toBlob() currently emits a 32-bit
+  // floating-point WAV. Chromium usually decodes it, but Safari and iOS
+  // Edge are less consistent. Normalize the waveform to PCM16 ourselves so
+  // both Web Audio and HTMLAudioElement receive the same broadly supported
+  // format.
   const samples = rawAudio?.audio ?? rawAudio?.data;
   const sampleRate = rawAudio?.sampling_rate ?? rawAudio?.sample_rate ?? 24000;
-  if (!samples) throw new Error('Kokoro returned an unsupported audio object.');
-  return new Blob([encodeWav(samples, sampleRate)], { type: 'audio/wav' });
+  if (samples && typeof samples.length === 'number') {
+    return new Blob([encodeWav(samples, sampleRate)], { type: 'audio/wav' });
+  }
+  if (typeof rawAudio?.toBlob === 'function') return await rawAudio.toBlob();
+  throw new Error('Kokoro returned an unsupported audio object.');
 }
 
 function encodeWav(samples, sampleRate) {

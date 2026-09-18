@@ -29,7 +29,7 @@ Kokoro 有獨立的 `Enable Kokoro Audio` 按鈕，避免把音訊啟用藏在�
 4. 建立 `AudioBufferSourceNode`、連到 context destination，從目前 offset `start()`。
 5. 播放結束時由 `onended` resolve `speak()` Promise，播放佇列才移到下一項。
 
-如果 Web Audio 解碼或 source 建立失敗，會再嘗試共用的 HTMLAudioElement。該元素會設定 `playsinline`、`webkit-playsinline`，並捕捉 `audio.play()` rejection 與 `audio.onerror`；兩層都失敗後才由 TtsManager fallback 到 Browser Voice。
+`RawAudio` 不直接使用 `toBlob()`，因為該方法可能產生 Safari 解碼不穩定的 32-bit float WAV。引擎會先將 waveform 正規化成 PCM16 WAV，再交給 Web Audio。若 Web Audio 解碼或 source 建立失敗，會再嘗試共用的 HTMLAudioElement。該元素會設定 `playsinline`、`webkit-playsinline`，並捕捉 `audio.play()` rejection 與 `audio.onerror`；兩層都失敗後才由 TtsManager fallback 到 Browser Voice。
 
 ## 播放佇列
 
