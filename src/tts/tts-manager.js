@@ -1,5 +1,5 @@
 import { NativeTtsEngine } from './native-engine.js';
-import { isKokoroAudioBlocked, KokoroTtsEngine } from './kokoro-engine.js';
+import { isPiperAudioBlocked, PiperTtsEngine } from './piper-engine.js';
 
 export class TtsManager {
   constructor({ onStatus = () => {}, onAudioBlocked = () => {} } = {}) {
@@ -10,10 +10,10 @@ export class TtsManager {
       this.lastStatus = status;
       this.onStatus(status);
     };
-    this.currentEngine = 'kokoro';
+    this.currentEngine = 'piper';
     this.engines = {
       native: new NativeTtsEngine({ onStatus: reportStatus }),
-      kokoro: new KokoroTtsEngine({ onStatus: reportStatus }),
+      piper: new PiperTtsEngine({ onStatus: reportStatus }),
     };
     this.reportStatus = reportStatus;
   }
@@ -26,11 +26,11 @@ export class TtsManager {
     if (!this.engines[engine]) throw new Error(`Unknown TTS engine: ${engine}`);
     this.stop();
     this.currentEngine = engine;
-    const kokoroEnabled = engine === 'kokoro' && this.engines.kokoro.isAudioReady();
+    const piperEnabled = engine === 'piper' && this.engines.piper.isAudioReady();
     this.reportStatus({
-      key: engine === 'native' || kokoroEnabled ? 'ready' : 'not-enabled',
-      label: engine === 'native' ? 'Browser voice ready' : kokoroEnabled ? 'Kokoro audio enabled' : 'Kokoro audio not enabled',
-      detail: engine === 'native' ? '' : kokoroEnabled ? 'Ready to load the model when you press Play.' : 'Tap Enable Kokoro Audio before Play.',
+      key: engine === 'native' || piperEnabled ? 'ready' : 'not-enabled',
+      label: engine === 'native' ? 'Browser voice ready' : piperEnabled ? 'Piper audio enabled' : 'Piper audio not enabled',
+      detail: engine === 'native' ? '' : piperEnabled ? 'Ready to load the voice when you press Play.' : 'Tap Enable Piper Audio before Play.',
     });
   }
 
@@ -43,26 +43,26 @@ export class TtsManager {
     try {
       return await selected.speak(text, options);
     } catch (error) {
-      if (this.currentEngine !== 'kokoro') throw error;
-      if (isKokoroAudioBlocked(error)) {
-        this.reportStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Kokoro Audio.' });
+      if (this.currentEngine !== 'piper') throw error;
+      if (isPiperAudioBlocked(error)) {
+        this.reportStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Piper Audio.' });
         this.onAudioBlocked(error);
         throw error;
       }
-      const message = error?.message || 'Kokoro is unavailable.';
-      this.reportStatus({ key: 'error', label: 'Kokoro could not play', detail: message });
+      const message = error?.message || 'Piper is unavailable.';
+      this.reportStatus({ key: 'error', label: 'Piper could not play', detail: message });
       // Switching engines must always be an explicit user choice. The UI
-      // offers Retry Kokoro and Switch to Browser Voice after this rejection.
+      // offers Retry Piper and Switch to Browser Voice after this rejection.
       throw error;
     }
   }
 
   async enableAudio() {
-    if (this.currentEngine !== 'kokoro') return this.engines.kokoro;
+    if (this.currentEngine !== 'piper') return this.engines.piper;
     try {
-      return await this.engines.kokoro.enableAudio();
+      return await this.engines.piper.enableAudio();
     } catch (error) {
-      if (isKokoroAudioBlocked(error)) {
+      if (isPiperAudioBlocked(error)) {
         this.reportStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error.message });
         this.onAudioBlocked(error);
       }
@@ -75,7 +75,7 @@ export class TtsManager {
   }
 
   isAudioReady() {
-    return this.currentEngine !== 'kokoro' || this.engines.kokoro.isAudioReady();
+    return this.currentEngine !== 'piper' || this.engines.piper.isAudioReady();
   }
 
   pause() {

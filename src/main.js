@@ -30,13 +30,13 @@ const elements = {
   sampleButton: $('#sampleButton'),
   engineSelect: $('#engineSelect'),
   browserVoiceFields: $('#browserVoiceFields'),
-  kokoroVoiceFields: $('#kokoroVoiceFields'),
+  piperVoiceFields: $('#piperVoiceFields'),
   voiceASelect: $('#voiceASelect'),
   voiceBSelect: $('#voiceBSelect'),
-  kokoroVoiceSelect: $('#kokoroVoiceSelect'),
-  enableKokoroAudioButton: $('#enableKokoroAudioButton'),
-  quickEnableKokoroButton: $('#quickEnableKokoroButton'),
-  kokoroAudioHint: $('#kokoroAudioHint'),
+  piperVoiceSelect: $('#piperVoiceSelect'),
+  enablePiperAudioButton: $('#enablePiperAudioButton'),
+  quickEnablePiperButton: $('#quickEnablePiperButton'),
+  piperAudioHint: $('#piperAudioHint'),
   rateInput: $('#rateInput'),
   rateValue: $('#rateValue'),
   delayInput: $('#delayInput'),
@@ -62,9 +62,9 @@ const elements = {
   quizList: $('#quizList'),
   showAnswersButton: $('#showAnswersButton'),
   notice: $('#notice'),
-  kokoroErrorDialog: $('#kokoroErrorDialog'),
-  kokoroErrorMessage: $('#kokoroErrorMessage'),
-  retryKokoroButton: $('#retryKokoroButton'),
+  piperErrorDialog: $('#piperErrorDialog'),
+  piperErrorMessage: $('#piperErrorMessage'),
+  retryPiperButton: $('#retryPiperButton'),
   switchBrowserButton: $('#switchBrowserButton'),
 };
 
@@ -97,7 +97,7 @@ const state = {
 
 const ttsManager = new TtsManager({
   onStatus: updateStatus,
-  onAudioBlocked: () => showNotice('iOS 阻擋了播放，請先點擊 Enable Kokoro Audio。', 'warning'),
+  onAudioBlocked: () => showNotice('iOS 阻擋了播放，請先點擊 Enable Piper Audio。', 'warning'),
 });
 
 function parseWordLines(value) {
@@ -297,18 +297,18 @@ function updateModeFields() {
 }
 
 function updateEngineFields() {
-  const isKokoro = elements.engineSelect.value === 'kokoro';
-  elements.browserVoiceFields.classList.toggle('is-hidden', isKokoro);
-  elements.kokoroVoiceFields.classList.toggle('is-hidden', !isKokoro);
-  if (isKokoro) {
+  const isPiper = elements.engineSelect.value === 'piper';
+  elements.browserVoiceFields.classList.toggle('is-hidden', isPiper);
+  elements.piperVoiceFields.classList.toggle('is-hidden', !isPiper);
+  if (isPiper) {
     const enabled = ttsManager.isAudioReady();
-    elements.enableKokoroAudioButton.textContent = enabled ? 'Kokoro Audio Enabled' : 'Enable Kokoro Audio';
-    elements.kokoroAudioHint.textContent = enabled
-      ? 'Audio is enabled. Press Play to lazy-load the WASM + q8 model.'
+    elements.enablePiperAudioButton.textContent = enabled ? 'Piper Audio Enabled' : 'Enable Piper Audio';
+    elements.piperAudioHint.textContent = enabled
+      ? 'Audio is enabled. Press Play to lazy-load the WASM voice.'
       : 'Tap once to unlock iPhone audio. The model still loads only when you press Play.';
-    elements.quickEnableKokoroButton.classList.toggle('is-hidden', enabled);
+    elements.quickEnablePiperButton.classList.toggle('is-hidden', enabled);
   } else {
-    elements.quickEnableKokoroButton.classList.add('is-hidden');
+    elements.quickEnablePiperButton.classList.add('is-hidden');
   }
   updatePlayerControls();
 }
@@ -330,7 +330,7 @@ function speechSettingControls() {
     elements.engineSelect,
     elements.voiceASelect,
     elements.voiceBSelect,
-    elements.kokoroVoiceSelect,
+    elements.piperVoiceSelect,
     elements.rateInput,
     elements.delayInput,
     elements.repeatInput,
@@ -338,19 +338,19 @@ function speechSettingControls() {
   ];
 }
 
-function closeKokoroErrorDialog() {
-  if (!elements.kokoroErrorDialog.open) return;
-  if (typeof elements.kokoroErrorDialog.close === 'function') elements.kokoroErrorDialog.close();
-  else elements.kokoroErrorDialog.removeAttribute('open');
+function closePiperErrorDialog() {
+  if (!elements.piperErrorDialog.open) return;
+  if (typeof elements.piperErrorDialog.close === 'function') elements.piperErrorDialog.close();
+  else elements.piperErrorDialog.removeAttribute('open');
 }
 
-function showKokoroErrorDialog(error) {
-  const message = error?.message || 'Kokoro could not load or play this audio.';
-  elements.kokoroErrorMessage.textContent = message;
-  elements.retryKokoroButton.textContent = isKokoroBlockedError(error) ? 'Enable Kokoro again' : 'Keep Kokoro and retry';
-  if (elements.kokoroErrorDialog.open) return;
-  if (typeof elements.kokoroErrorDialog.showModal === 'function') elements.kokoroErrorDialog.showModal();
-  else elements.kokoroErrorDialog.setAttribute('open', '');
+function showPiperErrorDialog(error) {
+  const message = error?.message || 'Piper could not load or play this audio.';
+  elements.piperErrorMessage.textContent = message;
+  elements.retryPiperButton.textContent = isPiperBlockedError(error) ? 'Enable Piper again' : 'Keep Piper and retry';
+  if (elements.piperErrorDialog.open) return;
+  if (typeof elements.piperErrorDialog.showModal === 'function') elements.piperErrorDialog.showModal();
+  else elements.piperErrorDialog.setAttribute('open', '');
 }
 
 function showNotice(message, type = 'info') {
@@ -362,7 +362,7 @@ function showNotice(message, type = 'info') {
 }
 
 function getVoiceFor(item) {
-  if (elements.engineSelect.value === 'kokoro') return elements.kokoroVoiceSelect.value;
+  if (elements.engineSelect.value === 'piper') return elements.piperVoiceSelect.value;
   return state.mode === 'dialog' && item?.speaker === 'B' ? elements.voiceBSelect.value : elements.voiceASelect.value;
 }
 
@@ -475,32 +475,32 @@ async function generateWithN8n() {
   }
 }
 
-function isKokoroBlockedError(error) {
-  return error?.code === 'KOKORO_AUDIO_NOT_ENABLED' || error?.name === 'NotAllowedError';
+function isPiperBlockedError(error) {
+  return error?.code === 'PIPER_AUDIO_NOT_ENABLED' || error?.name === 'NotAllowedError';
 }
 
-async function enableKokoroAudio() {
-  const originalLabel = elements.enableKokoroAudioButton.textContent;
-  elements.enableKokoroAudioButton.disabled = true;
-  elements.enableKokoroAudioButton.textContent = 'Enabling audio…';
-  elements.quickEnableKokoroButton.disabled = true;
-  elements.quickEnableKokoroButton.textContent = 'Enabling Kokoro audio…';
+async function enablePiperAudio() {
+  const originalLabel = elements.enablePiperAudioButton.textContent;
+  elements.enablePiperAudioButton.disabled = true;
+  elements.enablePiperAudioButton.textContent = 'Enabling audio…';
+  elements.quickEnablePiperButton.disabled = true;
+  elements.quickEnablePiperButton.textContent = 'Enabling Piper audio…';
   try {
     await ttsManager.enableAudio();
-    updateStatus({ key: 'ready', label: 'Kokoro audio enabled', detail: 'Ready to load the model when you press Play.' });
-    elements.kokoroAudioHint.textContent = 'Audio is enabled. Press Play to lazy-load the WASM + q8 model.';
-    showNotice('Kokoro 音訊已啟用，現在可以按 Play 載入模型。', 'success');
+    updateStatus({ key: 'ready', label: 'Piper audio enabled', detail: 'Ready to load the voice when you press Play.' });
+    elements.piperAudioHint.textContent = 'Audio is enabled. Press Play to lazy-load the WASM voice.';
+    showNotice('Piper 音訊已啟用，現在可以按 Play 載入本地語音。', 'success');
   } catch (error) {
-    if (isKokoroBlockedError(error)) {
+    if (isPiperBlockedError(error)) {
       updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error.message });
-      showNotice('iOS 沒有允許音訊啟用，請直接再點一次 Enable Kokoro Audio。', 'warning');
+      showNotice('iOS 沒有允許音訊啟用，請直接再點一次 Enable Piper Audio。', 'warning');
     } else {
-      updateStatus({ key: 'error', label: 'Kokoro audio could not be enabled', detail: error.message });
-      showNotice(`Kokoro 音訊啟用失敗：${error.message}`, 'error');
+      updateStatus({ key: 'error', label: 'Piper audio could not be enabled', detail: error.message });
+      showNotice(`Piper 音訊啟用失敗：${error.message}`, 'error');
     }
   } finally {
-    if (!ttsManager.isAudioReady()) elements.enableKokoroAudioButton.textContent = originalLabel;
-    elements.quickEnableKokoroButton.textContent = 'Enable Kokoro Audio';
+    if (!ttsManager.isAudioReady()) elements.enablePiperAudioButton.textContent = originalLabel;
+    elements.quickEnablePiperButton.textContent = 'Enable Piper Audio';
     updateEngineFields();
   }
 }
@@ -525,9 +525,9 @@ async function playSession() {
     return;
   }
   if (state.isPlaying) return;
-  if (elements.engineSelect.value === 'kokoro' && !ttsManager.isAudioReady()) {
-    updateStatus({ key: 'not-enabled', label: 'Kokoro audio not enabled', detail: 'Tap Enable Kokoro Audio first.' });
-    showNotice('請先點擊 Enable Kokoro Audio，再按 Play。', 'warning');
+  if (elements.engineSelect.value === 'piper' && !ttsManager.isAudioReady()) {
+    updateStatus({ key: 'not-enabled', label: 'Piper audio not enabled', detail: 'Tap Enable Piper Audio first.' });
+    showNotice('請先點擊 Enable Piper Audio，再按 Play。', 'warning');
     return;
   }
 
@@ -592,13 +592,13 @@ async function playSession() {
       state.fullArticlePlayback = false;
       renderReader();
       renderProgress();
-      if (isKokoroBlockedError(error)) {
-        updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Kokoro Audio.' });
-        showNotice('播放被 iOS 阻擋。請在視窗中重新啟用 Kokoro，或自行選擇 Browser Voice。', 'warning');
-        showKokoroErrorDialog(error);
-      } else if (elements.engineSelect.value === 'kokoro') {
-        updateStatus({ key: 'error', label: 'Kokoro could not play', detail: error?.message || 'Retry or choose Browser Voice.' });
-        showKokoroErrorDialog(error);
+      if (isPiperBlockedError(error)) {
+        updateStatus({ key: 'blocked', label: 'Playback blocked by iOS', detail: error?.message || 'Tap Enable Piper Audio.' });
+        showNotice('播放被 iOS 阻擋。請在視窗中重新啟用 Piper，或自行選擇 Browser Voice。', 'warning');
+        showPiperErrorDialog(error);
+      } else if (elements.engineSelect.value === 'piper') {
+        updateStatus({ key: 'error', label: 'Piper could not play', detail: error?.message || 'Retry or choose Browser Voice.' });
+        showPiperErrorDialog(error);
       } else {
         updateStatus({ key: 'error', label: 'Browser voice error', detail: error?.message || 'Speech failed.' });
         showNotice(error?.message || 'Browser Voice could not play.', 'error');
@@ -657,15 +657,15 @@ function stepItem(direction) {
 }
 
 function updatePlayerControls() {
-  const isKokoro = elements.engineSelect.value === 'kokoro';
-  const audioReady = !isKokoro || ttsManager.isAudioReady();
+  const isPiper = elements.engineSelect.value === 'piper';
+  const audioReady = !isPiper || ttsManager.isAudioReady();
   const hasItems = visibleItems().length > 0;
   const busyBeforePlayback = ['loading', 'generating', 'enabling'].includes(state.statusKey);
   const settingsLocked = state.isPlaying;
 
   elements.playIcon.textContent = '▶';
   elements.playText.textContent = 'Play';
-  elements.playButton.setAttribute('aria-label', audioReady ? 'Play current item' : 'Enable Kokoro Audio before playback');
+  elements.playButton.setAttribute('aria-label', audioReady ? 'Play current item' : 'Enable Piper Audio before playback');
   elements.playButton.disabled = settingsLocked || !audioReady || !hasItems;
   elements.pauseButton.textContent = state.isPaused ? 'Resume' : 'Pause';
   elements.pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume playback' : 'Pause playback');
@@ -673,8 +673,8 @@ function updatePlayerControls() {
   elements.stopButton.disabled = !state.isPlaying;
   elements.settingsLockHint.classList.toggle('is-hidden', !settingsLocked);
   speechSettingControls().forEach((control) => { control.disabled = settingsLocked; });
-  elements.enableKokoroAudioButton.disabled = settingsLocked || !isKokoro || ttsManager.isAudioReady() || state.statusKey === 'enabling';
-  elements.quickEnableKokoroButton.disabled = settingsLocked || !isKokoro || ttsManager.isAudioReady() || state.statusKey === 'enabling';
+  elements.enablePiperAudioButton.disabled = settingsLocked || !isPiper || ttsManager.isAudioReady() || state.statusKey === 'enabling';
+  elements.quickEnablePiperButton.disabled = settingsLocked || !isPiper || ttsManager.isAudioReady() || state.statusKey === 'enabling';
 }
 
 function populateNativeVoices() {
@@ -717,26 +717,26 @@ elements.sampleButton.addEventListener('click', () => {
 elements.importArticleButton.addEventListener('click', () => elements.articleFileInput.click());
 elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
 elements.generateN8nButton.addEventListener('click', () => generateWithN8n());
-elements.enableKokoroAudioButton.addEventListener('click', () => enableKokoroAudio());
-elements.quickEnableKokoroButton.addEventListener('click', () => enableKokoroAudio());
+elements.enablePiperAudioButton.addEventListener('click', () => enablePiperAudio());
+elements.quickEnablePiperButton.addEventListener('click', () => enablePiperAudio());
 elements.showAnswersButton.addEventListener('click', () => { state.showAnswers = !state.showAnswers; renderQuiz(); });
 elements.engineSelect.addEventListener('change', () => {
   stopPlayback(false);
   ttsManager.setEngine(elements.engineSelect.value);
   updateEngineFields();
-  if (elements.engineSelect.value === 'kokoro') showNotice('請先點擊 Enable Kokoro Audio，再按 Play 載入本地模型。', 'info');
+  if (elements.engineSelect.value === 'piper') showNotice('請先點擊 Enable Piper Audio，再按 Play 載入本地語音。', 'info');
 });
-elements.kokoroErrorDialog.addEventListener('cancel', (event) => event.preventDefault());
-elements.retryKokoroButton.addEventListener('click', async () => {
-  closeKokoroErrorDialog();
-  elements.engineSelect.value = 'kokoro';
-  ttsManager.setEngine('kokoro');
+elements.piperErrorDialog.addEventListener('cancel', (event) => event.preventDefault());
+elements.retryPiperButton.addEventListener('click', async () => {
+  closePiperErrorDialog();
+  elements.engineSelect.value = 'piper';
+  ttsManager.setEngine('piper');
   updateEngineFields();
-  if (!ttsManager.isAudioReady()) await enableKokoroAudio();
+  if (!ttsManager.isAudioReady()) await enablePiperAudio();
   if (ttsManager.isAudioReady()) playSession();
 });
 elements.switchBrowserButton.addEventListener('click', () => {
-  closeKokoroErrorDialog();
+  closePiperErrorDialog();
   elements.engineSelect.value = 'native';
   ttsManager.setEngine('native');
   updateEngineFields();
@@ -758,7 +758,7 @@ document.querySelectorAll('[data-mode]').forEach((button) => button.addEventList
 window.speechSynthesis?.addEventListener?.('voiceschanged', populateNativeVoices);
 
 elements.n8nWebhookInput.value = localStorage.getItem(N8N_WEBHOOK_KEY) || '';
-ttsManager.setEngine('kokoro');
+ttsManager.setEngine('piper');
 updateEngineFields();
 loadArticleSample();
 populateNativeVoices();

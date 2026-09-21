@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f6f7fb" />
-    <meta name="description" content="A mobile-first vocabulary reader with browser and local Kokoro speech." />
+    <meta name="description" content="A mobile-first vocabulary reader with browser and local Piper speech." />
     <title>Vocabulary Reader</title>
   </head>
   <body>
@@ -14,7 +14,7 @@
           <p class="eyebrow">LOCAL LANGUAGE PRACTICE</p>
           <h1>Vocabulary Reader</h1>
         </div>
-        <div class="topbar-note">Kokoro first · Browser voice optional</div>
+        <div class="topbar-note">Piper first · Browser voice optional</div>
       </header>
 
       <main class="app-grid">
@@ -55,10 +55,10 @@
               <div>
                 <strong id="currentLabel">Ready to read</strong>
                 <p id="statusText">Choose an item or press play.</p>
-                <div class="model-progress is-hidden" id="modelProgress" aria-label="Kokoro model loading progress"><span id="modelProgressBar"></span></div>
+                <div class="model-progress is-hidden" id="modelProgress" aria-label="Piper voice loading progress"><span id="modelProgressBar"></span></div>
               </div>
             </div>
-            <button class="primary-button player-enable-button" id="quickEnableKokoroButton" type="button">Enable Kokoro Audio</button>
+            <button class="primary-button player-enable-button" id="quickEnablePiperButton" type="button">Enable Piper Audio</button>
             <div class="player-actions">
               <div class="player-primary-actions">
                 <button class="icon-button" id="previousButton" type="button" aria-label="Previous item">←</button>
@@ -138,7 +138,7 @@
 
             <label class="field-label" for="engineSelect">TTS engine</label>
             <select id="engineSelect">
-              <option value="kokoro" selected>Kokoro Local Voice</option>
+              <option value="piper" selected>Piper Local Voice</option>
               <option value="native">Browser Voice</option>
             </select>
 
@@ -149,17 +149,17 @@
               <select id="voiceBSelect"></select>
             </div>
 
-            <div id="kokoroVoiceFields">
-              <label class="field-label" for="kokoroVoiceSelect">Kokoro voice</label>
-              <select id="kokoroVoiceSelect">
-                <option value="af_heart">af_heart · American female</option>
-                <option value="af_bella">af_bella · American female</option>
-                <option value="am_fenrir">am_fenrir · American male</option>
-                <option value="bf_emma">bf_emma · British female</option>
-                <option value="bm_george">bm_george · British male</option>
+            <div id="piperVoiceFields">
+              <label class="field-label" for="piperVoiceSelect">Piper voice</label>
+              <select id="piperVoiceSelect">
+                <option value="en_US-lessac-medium">US English · Lessac medium</option>
+                <option value="en_US-hfc_female-medium">US English · HFC female</option>
+                <option value="en_US-hfc_male-medium">US English · HFC male</option>
+                <option value="en_GB-cori-medium">British English · Cori medium</option>
+                <option value="en_GB-alan-medium">British English · Alan medium</option>
               </select>
-              <button class="secondary-button full-width" id="enableKokoroAudioButton" type="button">Enable Kokoro Audio</button>
-              <p class="field-hint" id="kokoroAudioHint">Tap once to unlock iPhone audio. The model still loads only when you press Play.</p>
+              <button class="secondary-button full-width" id="enablePiperAudioButton" type="button">Enable Piper Audio</button>
+              <p class="field-hint" id="piperAudioHint">Tap once to unlock iPhone audio. The voice model still loads only when you press Play.</p>
             </div>
 
             <p class="settings-lock-hint is-hidden" id="settingsLockHint" role="status">Speech settings are locked during playback. Press Stop to make changes.</p>
@@ -196,16 +196,16 @@
         </aside>
       </main>
 
-      <footer class="footer">Your reading data stays in this browser. Kokoro audio is generated locally after you enable it.</footer>
+      <footer class="footer">Your reading data stays in this browser. Piper audio is generated locally after you enable it.</footer>
     </div>
 
-    <dialog class="error-dialog" id="kokoroErrorDialog" aria-labelledby="kokoroErrorTitle">
+    <dialog class="error-dialog" id="piperErrorDialog" aria-labelledby="piperErrorTitle">
       <div class="dialog-icon" aria-hidden="true">!</div>
-      <h2 id="kokoroErrorTitle">Kokoro could not play</h2>
-      <p id="kokoroErrorMessage">The local voice could not be loaded.</p>
-      <p class="dialog-hint">You can keep Kokoro selected and retry, or explicitly switch to Browser Voice.</p>
+      <h2 id="piperErrorTitle">Piper could not play</h2>
+      <p id="piperErrorMessage">The local voice could not be loaded.</p>
+      <p class="dialog-hint">You can keep Piper selected and retry, or explicitly switch to Browser Voice.</p>
       <div class="dialog-actions">
-        <button class="primary-button" id="retryKokoroButton" type="button">Retry Kokoro</button>
+        <button class="primary-button" id="retryPiperButton" type="button">Retry Piper</button>
         <button class="secondary-button" id="switchBrowserButton" type="button">Switch to Browser Voice</button>
       </div>
     </dialog>

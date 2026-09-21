@@ -2,74 +2,65 @@
 
 ## Layers
 
-`TtsManager` 是播放流程唯一依賴的介面。閱讀器不直接呼叫 `speechSynthesis`、`AudioContext` 或 Kokoro。
+`TtsManager` 是閱讀器唯一依賴的 TTS 介面。`src/main.js` 不直接呼叫 `speechSynthesis`、Piper runtime 或播放器。
 
-- `NativeTtsEngine`：包裝 `SpeechSynthesisUtterance`，負責系統 voice、pause、resume、stop。
-- `KokoroTtsEngine`：dynamic import `kokoro-js`，用 `KokoroTTS.from_pretrained()` lazy load WASM + q8 model；啟用後優先使用共用 `AudioContext` 解碼與播放，HTMLAudioElement 是第二層播放 fallback。
-- `TtsManager`：切換 engine、管理 AudioContext 啟用並統一錯誤狀態。它不會自行從 Kokoro 切換至 Native；引擎切換只能來自使用者操作。
+- `NativeTtsEngine`：包裝 `SpeechSynthesisUtterance`，負責 Browser Voice、pause、resume、stop。
+- `PiperTtsEngine`：dynamic import `@diffusionstudio/vits-web`，lazy load Piper/VITS WASM model，優先用 Web Audio 播放 WAV。
+- `TtsManager`：切換 engine、統一 status 與錯誤，不會未經使用者同意自動 fallback。
 
-初始引擎是 Kokoro，初始內容模式是 Article。Kokoro 尚未啟用時 Play 維持 disabled，播放器和 Speech settings 都提供明確的 Enable 按鈕。
+預設 engine 是 Piper，預設內容模式是 Article。Piper 尚未啟用時 Play 會 disabled；播放器與設定區都有明確的 `Enable Piper Audio`。
 
-## AudioContext 解鎖流程
+## AudioContext 解鎖
 
-Kokoro 有獨立的 `Enable Kokoro Audio` 按鈕，避免把音訊啟用藏在模型下載流程中：
+1. 使用者點擊 `Enable Piper Audio`。
+2. `PiperTtsEngine.enableAudio()` 建立並保存共用 `AudioContext`。
+3. 在 click handler 的使用者手勢期間 `await context.resume()`。
+4. 建立並啟動單 sample 靜音 `AudioBufferSourceNode`，確認 context state 是 `running`。
+5. 只有成功後才標記 `audioUnlocked`；Play 才允許開始模型下載和推論。
 
-1. 使用者點擊 Enable。
-2. `KokoroTtsEngine.enableAudio()` 建立並保存一個共用 `AudioContext`。
-3. 在同一個 click handler 觸發 `context.resume()`，並等待其 Promise 完成。
-4. 建立一個單 sample 的靜音 `AudioBufferSourceNode`，連到 context destination 後 start。
-5. 只有 context state 是 `running` 才標記 `audioUnlocked = true`。
-6. Play 才會開始 dynamic import、模型下載與 `tts.generate()`。
+模型載入與推論一定是後續非同步工作，因此不能假設 Play click 的 autoplay activation 會一直存在。先解鎖 AudioContext，可以把 iOS 的音訊權限問題與模型下載錯誤分開。
 
-如果 iOS 沒有允許啟用，狀態會顯示 `Playback blocked by iOS`，不會把這個情況誤判成模型載入失敗，也不會偷偷依賴一個未等待的 `HTMLAudioElement.play()`。
+## Piper loading and Web Audio playback
 
-## Web Audio 播放流程
+1. Play 呼叫 `TtsManager.speak()`。
+2. Piper runtime 以 dynamic import 載入。
+3. `predict({ text, voiceId }, progress)` 從 Hugging Face 取得模型，並將模型儲存在 OPFS。
+4. 產生 WAV Blob，讀取 `arrayBuffer()`，用共用 context `decodeAudioData()`。
+5. 建立 `AudioBufferSourceNode`，連到 destination，播放結束時 resolve `speak()` Promise。
+6. Web Audio 解碼失敗時，使用帶有 `playsinline` 與 `webkit-playsinline` 的 HTMLAudioElement 作第二層 fallback。
 
-1. 取得或建立 `[text, voice, speed]` cache entry。
-2. 將 WAV Blob 轉為 `arrayBuffer()`。
-3. 呼叫共用 context 的 `decodeAudioData()`，並把 decoded `AudioBuffer` 暫存在同一筆 cache entry。
-4. 建立 `AudioBufferSourceNode`、連到 context destination，從目前 offset `start()`。
-5. 播放結束時由 `onended` resolve `speak()` Promise，播放佇列才移到下一項。
+Article continuous mode 仍以句子作為推論單位，避免長文字超過模型限制，但會在播放前將 PCM16 WAV data 合併成單一 Blob。因此播放期間不會每句再等待一次模型推論。
 
-`RawAudio` 不直接使用 `toBlob()`，因為該方法可能產生 Safari 解碼不穩定的 32-bit float WAV。引擎會先將 waveform 正規化成 PCM16 WAV，再交給 Web Audio。若 Web Audio 解碼或 source 建立失敗，會再嘗試共用的 HTMLAudioElement。該元素會設定 `playsinline`、`webkit-playsinline`，並捕捉 `audio.play()` rejection 與 `audio.onerror`；兩層都失敗後，播放 Promise 會 reject 並由 UI 顯示選擇視窗。
+## Pause / Resume / Stop
 
-## 播放佇列
+- Web Audio pause 會依 `AudioContext.currentTime` 計算 offset，停止一次性 source。
+- Resume 會再次確認 AudioContext running，再從 offset 建立新的 source。
+- HTMLAudioElement 使用原生 `pause()` 和 `play()`，並捕捉 rejected Promise。
+- Stop 會取消播放 token、停止 source、將 HTML audio 歸零，但保留共用 AudioContext 與 cache。
+- 播放中（包括 paused）鎖定 speech settings；Stop 或自然完成才解除鎖定。
 
-`src/main.js` 保留目前 item index，使用 `playToken` 使舊的非同步播放迴圈失效：
+## Cache and memory
 
-1. 點擊 Play，建立一個播放 token。
-2. 讀取目前 item，依 speaker 選 voice，呼叫 `TtsManager.speak()`。
-3. 同一 item 依 repeat 設定重播。
-4. 完成後等待 delay，更新 current index、highlight 與 progress。
-5. 最後一項結束後顯示 Session complete。
+cache key 是 `[text, voice, speed]` 的序列化字串，最多保留 8 筆。每筆包含 WAV Blob、object URL 和可選的 decoded `AudioBuffer`。LRU 淘汰與 `clearCache()` 都會呼叫 `URL.revokeObjectURL()`，避免 object URL 無限增加。播放 stop 不會刪除可重用的 cache entry。
 
-Article 預設使用 `Full article · continuous`。Kokoro 仍以句子為安全的推論單位，避免長文字被 tokenizer 截斷，但會在播放前生成所有句子、合併 PCM waveform，再編碼成單一 PCM16 WAV。因此首次播放會集中等待一次，開始播放後不會在句子之間等待下一次推論。合併後的全文音訊同樣使用 `[text, voice, speed]` cache。需要逐句 highlight 與自訂 delay 時，可切換 `Sentence by sentence · highlight`。
+模型本身由 `vits-web` 儲存到 OPFS；這和短期音訊 cache 是兩個不同生命週期。私密瀏覽或使用者清除網站資料可能使模型重新下載。
 
-Play、Pause/Resume、Stop 是分開的按鈕。pause/resume 只交給目前 engine；Web Audio pause 會記錄 `AudioContext.currentTime` 對應的 offset，並停止目前的一次性 source，resume 時建立新的 source 從 offset 繼續。HTMLAudioElement 則使用原生 `pause()`／`play()`。stop 會取消 token、停止 source、audio 或 SpeechSynthesis，但不關閉共用 AudioContext。播放期間（包含 paused）speech settings 會鎖定，Stop 或自然結束後才解鎖。
+## iOS autoplay and errors
 
-## Kokoro 錯誤與引擎選擇
+iOS Safari 與 iOS Edge 需要使用者手勢啟用音訊。`NotAllowedError`／`PIPER_AUDIO_NOT_ENABLED` 會顯示 `Playback blocked by iOS`，不會被誤判為模型下載錯誤。模型、WASM、推論、decode 或 audio error 則顯示 Piper error dialog。
 
-模型下載、推論、WAV decode 或兩層播放器都失敗時，`TtsManager.speak()` 原樣拋出錯誤，不會改寫 `currentEngine`，也不會暗中朗讀 Native voice。UI 會停止目前 session 並顯示 modal：
+錯誤後維持 Piper，不會偷偷改用 Native。使用者可按 `Keep Piper and retry`，或明確按 `Switch to Browser Voice`。這樣能讓使用者知道聲音來源，也避免 Browser Voice 悄悄取代本地語音。
 
-- `Keep Kokoro and retry`：保持目前 item、voice 與 speed，重新執行 Kokoro。
-- `Switch to Browser Voice`：只有在這次使用者點擊後才切換，並從目前 item 繼續。
+## NativeTtsEngine
 
-`NotAllowedError` 仍獨立顯示為 iOS playback blocked；modal 的 Kokoro 選項會先重新執行音訊啟用，再重試。
+Native engine 使用裝置的 `speechSynthesis`，voice A/B selector 只在 Browser Voice 模式顯示。它不需要 AudioContext 或模型下載，適合 Piper 在某個裝置無法運行時由使用者手動選擇。
 
-## Audio cache
+## 新增其他 engine
 
-Kokoro cache key 是 `[text, voice, speed]` 的序列化字串，最多保留 12 筆。每筆包含 Blob、object URL 和可選的 decoded AudioBuffer；LRU 淘汰和 `clearCache()` 都會呼叫 `URL.revokeObjectURL()` 並移除 decoded entry。播放 stop 不會刪掉仍可能重用的 cache URL；這避免 stop 後重播又重新生成音訊。
+實作 `init()`、`speak()`、`pause()`、`resume()`、`stop()`、`isReady()`、`getVoices()`，並讓 `speak()` 在音訊真正結束時 resolve。接著在 `TtsManager.engines` 註冊實例、在 UI 加入選項，並保留清楚的 loading、playing、paused、stopped、blocked、error 狀態。
 
-## iPhone Safari
+## n8n 邊界
 
-Safari 要求音訊從使用者手勢開始。iOS Edge 在一般情況下也使用 iOS 的 WebKit 媒體行為，因此同樣適用。介面不會在頁面初始化時載入 Kokoro，也不會自動播放。必須先點擊 Enable，等待共用 `AudioContext.resume()` 完成，再按 Play 等待模型下載與音訊生成。如果 context 被系統暫停，Resume 會再次嘗試恢復；如果仍被拒絕，顯示 `Playback blocked by iOS`，不把它與模型錯誤混在一起。
+n8n 適合生成文章 JSON，不適合被當作前端 TTS runtime。建議由 Vercel 前端 POST 到 n8n production Webhook，n8n 驗證 `level/topic`、呼叫 LLM、用 Structured Output 或 Code node 驗證 JSON，再透過 Respond to Webhook 回傳。n8n 的 API key 放在 credentials；前端只知道 webhook URL。
 
-WASM + q8 是本專案的預設，因為 iPhone 相容性優先且不依賴 WebGPU。WebGPU 沒有被當作必要條件。
-
-## 新增其他 TTS engine
-
-1. 建立一個具有 `init()`、`speak()`、`pause()`、`resume()`、`stop()`、`isReady()`、`getVoices()` 的 class。
-2. 讓 `speak()` 以 Promise 在播放結束時 resolve，錯誤時 reject。
-3. 在 `TtsManager.engines` 註冊實例。
-4. 將 UI selector 的 engine value 與明確的錯誤選擇流程接上，禁止未經使用者同意的自動 fallback。
-5. 寫入 loading、playing、paused、stopped、error 狀態，並驗證舊的 word/dialog queue 不需要知道實作細節。
+若未來需要所有裝置都使用同一個聲音，可另部署 Kokoro-FastAPI/Piper API，讓 n8n 或前端呼叫伺服器端 TTS；這是另一個部署元件，不應把模型伺服器硬塞進目前 Vercel 靜態前端。
