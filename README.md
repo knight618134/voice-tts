@@ -13,12 +13,11 @@
 - Browser Voice：裝置的 `SpeechSynthesis`，只在使用者選擇後使用
 - Piper voice/model lazy load、音訊 cache、錯誤視窗與 iOS 音訊啟用流程
 - 不需要本專案後端；閱讀資料留在瀏覽器 localStorage
-- Korean mode：KR-R01、KR-R02 閱讀、繁中翻譯揭示、段落／全文朗讀、可點擊單字查詢
-- Korean notebook：30 筆去重單字、例句、來源／課次、複習狀態、搜尋、匯出 JSON／TSV
-- Korean study sections：依課次分開的單字複習、單字測驗、句子練習、連續文章閱讀；單字可分開播放單字／例句，並依 Repeat 設定連續播放
-- Korean full content pack：內建 `src/data/korean-content-full.json` 與 `src/data/korean-vocabulary-full.json`，提供 191 筆教材單字、25 片語、9 文法項目、5 篇閱讀、117 個發音例子與 5 個發音長句
-- Korean quiz：19 題，按下 Submit answers 後才計分；第一次與重做結果分開保存
-- Korean import：可預覽並匯入未來的 `KR-R03` 等 JSON；相同 ID 與相同內容不重複，衝突會拒絕
+- Korean curriculum：將 193 個去重單字重新編為 14 個 A1–A2 主題課程，涵蓋單字、例句、句子與文章練習
+- Korean vocabulary：主畫面可依課程、主題、詞性分類；固定高度清單支援滑鼠滾輪，並可分開播放單字與例句
+- Korean quiz：開始前選擇例句選義、例句填空或聽力辨識，再進入 10／20 題逐題作答流程
+- Korean audio：固定頂部播放器提供上一個、Play／Pause／Resume、下一個與 Stop；韓文裝置有 Yuna 時預設使用 Yuna
+- Korean full content pack：內建 193 個合併後單字、25 片語、9 文法項目、117 個發音例子與 5 個發音長句
 
 ## 本機執行
 
@@ -55,21 +54,21 @@ Article mode 直接貼上英文段落。`Full article · continuous` 會先將�
 
 ## Korean mode
 
-切換右上角的 `Language` 到 `한국어 · Korean` 後，可從內建課程選擇閱讀課次。原本的 `src/data/korean-lessons.json`／`korean-vocabulary.json` 仍保留，完整內容包則位於 [`src/data/korean-content-full.json`](src/data/korean-content-full.json) 和 [`src/data/korean-vocabulary-full.json`](src/data/korean-vocabulary-full.json)。啟動時會做資料正規化與 lemma 去重，保留舊版複習紀錄，同時加入 reading-03～05；使用穩定 `id`／source id，不依賴陣列位置。文章是生成的學習材料，`isTextbookVerbatim` 為 `false`，不包含教材 PDF 原文。
+切換右上角的 `Language` 到 `한국어 · Korean` 後，可從 14 個 A1–A2 主題課程選擇內容。完整內容包位於 [`src/data/korean-content-full.json`](src/data/korean-content-full.json) 和 [`src/data/korean-vocabulary-full.json`](src/data/korean-vocabulary-full.json)；啟動時會正規化、依 lemma 去重為 193 個單字，再按照人物、時間、地點、交通、飲食、購物、學習、功能詞、行動、描述、自然與收音等主題編課。每個單字只歸入一個主課程，因此 14 課合計正好涵蓋 193 詞。
 
-韓文播放固定使用瀏覽器 `SpeechSynthesis`，每次 utterance 設為 `lang = 'ko-KR'`；Piper/Kokoro 的英文設定不會被宣稱支援韓文。韓文模式中的 Browser Voice A/B 只列出瀏覽器已安裝的 `ko-*` voices。若裝置沒有載入韓文 voice，畫面會提示安裝 Korean 系統語音。iPhone Safari 請從明確的 `Listen` 或 `Play` 按鈕開始播放；程式會在 tap 事件內立即呼叫 SpeechSynthesis，避免等待 voice 載入而失去 user activation。
+韓文播放固定使用瀏覽器 `SpeechSynthesis`，每次 utterance 設為 `lang = 'ko-KR'`；Piper/Kokoro 的英文設定不會被宣稱支援韓文。韓文模式中的 Browser Voice A/B 只列出瀏覽器已安裝的 `ko-*` voices，並優先選擇 `Yuna`。若裝置沒有 Yuna，才使用該裝置第一個可用的韓文語音；若完全沒有韓文 voice，畫面會提示安裝 Korean 系統語音。iPhone Safari 請從明確的 `Listen` 或 `Play` 按鈕開始播放。
 
-韓文單字複習頁依目前課次顯示 linked vocabulary，可獨立播放單字本身或例句，也可播放整課單字；右側 `Repeats per item` 控制每個單字／句子／段落的重複次數。播放中的同一個按鈕可切換 `Pause`／`Resume`，全域播放器也可 `Stop`。每個單字的播放次數與最後練習時間保存於 `vocabulary-reader:korean-word-progress:v1`。
+韓文單字複習頁可依課程、主題與詞性篩選，單字清單限制在固定高度內並獨立滾動。每張卡可播放單字本身或完整例句，也可連續播放目前分類；`Repeats per item` 控制重複次數。固定於內容頂部的播放器以中央按鈕切換 `Play`／`Pause`／`Resume`，並保留上一個、下一個與 `Stop`。每個單字的播放次數與最後練習時間保存於 `vocabulary-reader:korean-word-progress:v1`。
 
-`句子` 模式會將課文拆成逐句卡片；`文章` 模式則保留整篇文章的連續閱讀結構，並提供整篇／段落朗讀。韓文文字中的已知單字會顯示詞形、助詞或變化提示，可用 `Hide forms & particles` 暫時隱藏。`單字測驗` 會從目前課次抽取最多 10 題，第一次作答與重做成績分開保存於 `vocabulary-reader:korean-word-quiz:v1`。
+`句子` 模式使用每課單字的完整例句；`文章` 模式把同一主題的例句編排成多段連續閱讀，並提供整篇／段落朗讀。舊的 `KOREAN COMPREHENSION` 區域已移除。`單字測驗` 會先顯示模式選擇頁，使用者可選例句選義、例句填空或聽力辨識，再作答 10 或 20 題；每題立即顯示正確答案與完整例句，成績保存於 `vocabulary-reader:korean-word-quiz:v1`。
 
 參考區另外提供 `Phrases`、`Grammar / particles`、`Pronunciation examples`，且教材單字可依教材章節、詞性、主題與 `learning_state` 篩選。純音節練習不會被加入一般單字卡。
 
 點擊文章中的底線單字會聚焦到 notebook。`Naver Dictionary` 只是另開參考頁，使用 URL 格式：`https://korean.dict.naver.com/koendict/#/search?query=<encodeURIComponent(lemma)>`。本專案不爬取 Naver、不重新散佈字典音檔，也不宣稱能自動同步 Naver 帳戶。
 
-### 匯入未來課次
+### 更新內容包
 
-完整內容包現在直接隨網站載入，不需要使用者手動 Load／Import／Export。程式會在啟動時正規化新格式，並將 phrases、grammar、pronunciation examples 分開保存。新增 reading-06、reading-07 時，只要沿用相同欄位與穩定 ID，不需要修改 UI code。
+完整內容包直接隨網站載入，不需要使用者手動 Load／Import／Export。程式會在啟動時正規化新格式，並將 phrases、grammar、pronunciation examples 分開保存。新增單字時需沿用穩定 ID；課程分組會在啟動時依主題重新建立。
 
 ## Piper Local Voice
 
@@ -96,7 +95,7 @@ Piper 仍可能受瀏覽器儲存空間、私密瀏覽、記憶體和 iOS WebKit
 
 iOS Edge 的媒體層仍受到 iOS WebKit autoplay 規則影響，因此第一次使用要在同一次使用者操作中點擊 `Enable Piper Audio`。播放時使用 Web Audio API；若解碼失敗，才嘗試設定 `playsinline` 的 HTMLAudioElement。
 
-目前介面會在播放前鎖定 engine、voice、speed、delay 和 repeat；Pause/Resume 與 Stop 是不同按鈕。Stop 或自然播放完成後才可修改 speech settings。
+目前介面會在播放前鎖定 engine、voice、speed、delay 和 repeat；中央播放鍵會在 Play／Pause／Resume 之間切換，Stop 保持獨立。停止或自然播放完成後才可修改 speech settings。
 
 本專案沒有實體 iPhone 測試環境，因此 README 不宣稱 iPhone Safari 或 iOS Edge 已通過實機驗證，請依 [`docs/MOBILE_TESTING.md`](docs/MOBILE_TESTING.md) 測試。
 

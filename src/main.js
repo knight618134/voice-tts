@@ -9,9 +9,9 @@ import { TtsManager } from './tts/tts-manager.js';
 const STORAGE_KEY = 'vocabulary-reader-weak-words';
 const N8N_WEBHOOK_KEY = 'vocabulary-reader-n8n-webhook';
 const KOREAN_REVIEW_KEY = 'vocabulary-reader:korean-review:v1';
-const KOREAN_QUIZ_KEY = 'vocabulary-reader:korean-quiz:v1';
 const KOREAN_WORD_PROGRESS_KEY = 'vocabulary-reader:korean-word-progress:v1';
 const KOREAN_WORD_QUIZ_KEY = 'vocabulary-reader:korean-word-quiz:v1';
+const KOREAN_VOICE_KEY = 'vocabulary-reader:korean-voice:v1';
 const $ = (selector) => document.querySelector(selector);
 
 const elements = {
@@ -29,7 +29,6 @@ const elements = {
   playButton: $('#playButton'),
   playIcon: $('#playIcon'),
   playText: $('#playText'),
-  pauseButton: $('#pauseButton'),
   stopButton: $('#stopButton'),
   previousButton: $('#previousButton'),
   nextButton: $('#nextButton'),
@@ -131,9 +130,6 @@ const state = {
   koreanContent: getKoreanContent(),
   koreanLessonId: 'KR-R01',
   koreanReview: loadJsonStorage(KOREAN_REVIEW_KEY, {}),
-  koreanQuizProgress: loadJsonStorage(KOREAN_QUIZ_KEY, {}),
-  koreanQuizSelections: {},
-  koreanQuizResult: null,
   koreanVocabSearch: '',
   koreanNotebookType: 'vocabulary',
   koreanVocabLesson: 'all',
@@ -146,6 +142,11 @@ const state = {
   koreanWordQuizProgress: loadJsonStorage(KOREAN_WORD_QUIZ_KEY, {}),
   koreanWordQuizSelections: {},
   koreanWordQuizResult: null,
+  koreanWordQuizMode: '',
+  koreanWordQuizStarted: false,
+  koreanWordQuizQuestions: [],
+  koreanWordQuizIndex: 0,
+  koreanWordQuizCount: 10,
   koreanInlineKey: '',
   previousEnglishEngine: 'piper',
 };
@@ -214,10 +215,6 @@ function saveKoreanReview() {
   localStorage.setItem(KOREAN_REVIEW_KEY, JSON.stringify(state.koreanReview));
 }
 
-function saveKoreanQuizProgress() {
-  localStorage.setItem(KOREAN_QUIZ_KEY, JSON.stringify(state.koreanQuizProgress));
-}
-
 function recordKoreanWordPractice(id) {
   if (!id) return;
   const previous = state.koreanWordProgress[id] || { plays: 0 };
@@ -274,10 +271,11 @@ async function speakKorean(text, { label = 'Korean speech', vocabId = '', voiceN
     updatePlayerControls();
   }
   ttsManager.stop();
-  updateStatus({ key: 'playing', label, detail: voices[0].name });
+  const selectedVoice = voiceName || elements.voiceASelect.value || voices[0].name;
+  updateStatus({ key: 'playing', label, detail: selectedVoice });
   try {
     await ttsManager.engines.native.speak(text, {
-      voiceName: voiceName || elements.voiceASelect.value || voices[0].name,
+      voiceName: selectedVoice,
       lang: 'ko-KR',
       rate: Number(elements.rateInput.value) || 1,
     });
@@ -325,6 +323,15 @@ function updateKoreanListenButtons() {
 }
 
 function koreanSentenceItems(lesson) {
+  if (lesson?.sentences?.length) {
+    return lesson.sentences.map((sentence, sentenceIndex) => ({
+      ko: sentence.text,
+      zh: sentence.translation || '',
+      paragraphIndex: Math.floor(sentenceIndex / 4),
+      sentenceIndex,
+      vocabularyIds: sentence.vocabularyIds || [],
+    }));
+  }
   return (lesson?.paragraphs || []).flatMap((paragraph, paragraphIndex) => {
     const sentences = paragraph.ko.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [paragraph.ko];
     return sentences.map((ko, sentenceIndex) => ({ ko: ko.trim(), paragraphIndex, sentenceIndex, zh: paragraph.zh }));
@@ -351,14 +358,72 @@ function koreanPracticeEntries() {
   return state.koreanContent.vocabulary.filter(koreanVocabularyFiltersMatch);
 }
 
+const KOREAN_TOPIC_LABELS = {
+  action: '動作', animals_nature: '動物與自然', description: '狀態與描述', food_drink: '飲食',
+  function_or_context: '基礎表達', general: '生活綜合', objects: '物品', people_family: '人物與家庭',
+  places_directions: '地點與方向', shopping: '購物', study_language: '學習與語言', time_season: '時間與季節', transport: '交通',
+};
+
+function koreanLearningFiltersMarkup() {
+  const lessons = state.koreanContent.lessons;
+  const topics = [...new Set(state.koreanContent.vocabulary.flatMap((entry) => entry.topics || []))].sort((left, right) => (KOREAN_TOPIC_LABELS[left] || left).localeCompare(KOREAN_TOPIC_LABELS[right] || right, 'zh-Hant'));
+  const partsOfSpeech = [...new Set(state.koreanContent.vocabulary.map((entry) => entry.partOfSpeechZh).filter(Boolean))].sort();
+  return `<div class="korean-study-filters" aria-label="單字分類">
+    <label><span>課程</span><select data-korean-main-filter="lesson"><option value="all">全部課程 · ${state.koreanContent.vocabulary.length} 詞</option>${lessons.map((lesson) => `<option value="${escapeHtml(lesson.id)}" ${state.koreanVocabLesson === lesson.id ? 'selected' : ''}>${escapeHtml(lesson.id)} · ${escapeHtml(lesson.titleZh)} · ${lesson.vocabularyIds.length} 詞</option>`).join('')}</select></label>
+    <label><span>主題</span><select data-korean-main-filter="topic"><option value="all">全部主題</option>${topics.map((topic) => `<option value="${escapeHtml(topic)}" ${state.koreanVocabTopic === topic ? 'selected' : ''}>${escapeHtml(KOREAN_TOPIC_LABELS[topic] || topic)}</option>`).join('')}</select></label>
+    <label><span>詞性</span><select data-korean-main-filter="pos"><option value="all">全部詞性</option>${partsOfSpeech.map((pos) => `<option value="${escapeHtml(pos)}" ${state.koreanVocabPos === pos ? 'selected' : ''}>${escapeHtml(pos)}</option>`).join('')}</select></label>
+    <button class="text-button" type="button" data-korean-clear-main-filters>清除篩選</button>
+  </div>`;
+}
+
+function syncKoreanFilterControls() {
+  elements.koreanVocabLessonFilter.value = state.koreanVocabLesson;
+  elements.koreanVocabTopicFilter.value = state.koreanVocabTopic;
+  elements.koreanVocabPosFilter.value = state.koreanVocabPos;
+  elements.koreanVocabSectionFilter.value = state.koreanVocabSection;
+  elements.koreanVocabStateFilter.value = state.koreanVocabState;
+}
+
+function bindKoreanLearningFilters(container, rerender) {
+  container.querySelectorAll('[data-korean-main-filter]').forEach((select) => select.addEventListener('change', () => {
+    if (select.dataset.koreanMainFilter === 'lesson') state.koreanVocabLesson = select.value;
+    if (select.dataset.koreanMainFilter === 'topic') state.koreanVocabTopic = select.value;
+    if (select.dataset.koreanMainFilter === 'pos') state.koreanVocabPos = select.value;
+    syncKoreanFilterControls();
+    state.koreanWordQuizStarted = false;
+    state.koreanWordQuizQuestions = [];
+    state.koreanWordQuizSelections = {};
+    state.koreanWordQuizResult = null;
+    rerender();
+    renderKoreanNotebook();
+    renderProgress();
+  }));
+  container.querySelector('[data-korean-clear-main-filters]')?.addEventListener('click', () => {
+    state.koreanVocabLesson = 'all';
+    state.koreanVocabTopic = 'all';
+    state.koreanVocabPos = 'all';
+    state.koreanVocabSection = 'all';
+    state.koreanVocabState = 'all';
+    syncKoreanFilterControls();
+    state.koreanWordQuizStarted = false;
+    state.koreanWordQuizQuestions = [];
+    state.koreanWordQuizSelections = {};
+    state.koreanWordQuizResult = null;
+    rerender();
+    renderKoreanNotebook();
+    renderProgress();
+  });
+}
+
 function renderKoreanVocabularyPractice() {
   const entries = koreanPracticeEntries();
-  elements.reader.innerHTML = `<div class="korean-practice-heading"><div><span class="article-index">KOREAN VOCABULARY LIBRARY</span><h3>單字複習</h3><p>${entries.length}/${state.koreanContent.vocabulary.length} words · 以原型與例句為主</p></div><button class="primary-button" type="button" data-korean-play-vocabulary>▶ Play words</button></div><p class="field-hint korean-practice-hint">先聽單字本身，再聽例句。右側分類篩選會同步套用到這裡。</p><div class="korean-practice-list">${entries.map((entry) => {
+  elements.reader.innerHTML = `<div class="korean-practice-heading"><div><span class="article-index">A1–A2 · 193 WORD CURRICULUM</span><h3>單字複習</h3><p>${entries.length}/${state.koreanContent.vocabulary.length} words · 依課程、主題與詞性分類</p></div><button class="primary-button" type="button" data-korean-play-vocabulary>▶ Play words</button></div>${koreanLearningFiltersMarkup()}<p class="field-hint korean-practice-hint">清單限制在固定高度內；游標停在清單上即可用滑鼠滾輪瀏覽。先聽單字，再聽完整例句。</p><div class="korean-practice-list" tabindex="0" aria-label="韓文單字清單">${entries.map((entry) => {
     const status = state.koreanReview[entry.id] || '未複習';
     const progress = state.koreanWordProgress[entry.id] || {};
     const surfaceNote = entry.formInText && entry.formInText !== entry.ko ? ` · 例句詞形：${escapeHtml(entry.formInText)}` : '';
-    return `<article class="korean-practice-card ${status === '已複習' ? 'is-reviewed' : ''}" data-practice-entry-id="${escapeHtml(entry.id)}"><div class="korean-vocab-heading"><div><h3 lang="ko">${escapeHtml(entry.ko)}</h3><p>${escapeHtml(entry.zhTW)}${surfaceNote}</p></div><span class="review-pill ${status === '已複習' ? 'is-reviewed' : ''}">${escapeHtml(status)}</span></div><p class="korean-example" lang="ko">${escapeHtml(entry.exampleKo)}</p><p class="korean-example-zh">${escapeHtml(entry.exampleZhTW || '')}</p><div class="korean-practice-meta">Played ${progress.plays || 0} times${progress.lastPlayed ? ` · Last ${new Date(progress.lastPlayed).toLocaleString()}` : ''}</div><div class="korean-vocab-actions"><button class="secondary-button korean-audio-button" type="button" data-korean-word-only="${escapeHtml(entry.id)}" data-korean-audio-toggle="word-${escapeHtml(entry.id)}" data-default-audio-label="▶ Word">▶ Word</button><button class="secondary-button korean-audio-button" type="button" data-korean-example-listen="${escapeHtml(entry.id)}" data-korean-audio-toggle="example-${escapeHtml(entry.id)}" data-default-audio-label="▶ Example">▶ Example</button><button class="secondary-button" type="button" data-korean-word-review="${escapeHtml(entry.id)}">${status === '已複習' ? 'Mark needs review' : 'Mark reviewed'}</button></div></article>`;
+    return `<article class="korean-practice-card ${status === '已複習' ? 'is-reviewed' : ''}" data-practice-entry-id="${escapeHtml(entry.id)}"><div class="korean-vocab-heading"><div><h3 lang="ko">${escapeHtml(entry.ko)}</h3><p>${escapeHtml(entry.zhTW)}${surfaceNote}</p><small>${escapeHtml(entry.curriculumLevel || '')} · ${escapeHtml(entry.curriculumTitle || '')} · ${escapeHtml(entry.partOfSpeechZh || '')}</small></div><span class="review-pill ${status === '已複習' ? 'is-reviewed' : ''}">${escapeHtml(status)}</span></div><p class="korean-example" lang="ko">${escapeHtml(entry.exampleKo)}</p><p class="korean-example-zh">${escapeHtml(entry.exampleZhTW || '')}</p><div class="korean-practice-meta">Played ${progress.plays || 0} times${progress.lastPlayed ? ` · Last ${new Date(progress.lastPlayed).toLocaleString()}` : ''}</div><div class="korean-vocab-actions"><button class="secondary-button korean-audio-button" type="button" data-korean-word-only="${escapeHtml(entry.id)}" data-korean-audio-toggle="word-${escapeHtml(entry.id)}" data-default-audio-label="▶ Word">▶ Word</button><button class="secondary-button korean-audio-button" type="button" data-korean-example-listen="${escapeHtml(entry.id)}" data-korean-audio-toggle="example-${escapeHtml(entry.id)}" data-default-audio-label="▶ Example">▶ Example</button><button class="secondary-button" type="button" data-korean-word-review="${escapeHtml(entry.id)}">${status === '已複習' ? 'Mark needs review' : 'Mark reviewed'}</button></div></article>`;
   }).join('')}</div>`;
+  bindKoreanLearningFilters(elements.reader, renderKoreanVocabularyPractice);
   elements.reader.querySelector('[data-korean-play-vocabulary]')?.addEventListener('click', () => playKoreanSession());
   elements.reader.querySelectorAll('[data-korean-word-only]').forEach((button) => button.addEventListener('click', () => {
     const entry = entries.find((candidate) => candidate.id === button.dataset.koreanWordOnly);
@@ -387,66 +452,137 @@ function renderKoreanSentences(lesson) {
 }
 
 function koreanQuizOptions(correct, pool, index) {
-  const wrong = [...new Set(pool.filter((option) => option && option !== correct))].slice(0, 3);
-  const options = [...wrong];
-  const correctIndex = Math.min(index % 4, options.length);
+  const candidates = [...new Set(pool.filter((option) => option && option !== correct))];
+  const wrong = Array.from({ length: Math.min(3, candidates.length) }, (_, optionIndex) => candidates[(index * 7 + optionIndex * 11) % candidates.length]);
+  const options = [...new Set(wrong)];
+  const correctIndex = index % (options.length + 1);
   options.splice(correctIndex, 0, correct);
   return { options, correctIndex };
 }
 
-function koreanVocabularyQuizItems() {
+function koreanVocabularyQuizItems(mode = state.koreanWordQuizMode, requestedCount = state.koreanWordQuizCount) {
   const entries = state.koreanContent.vocabulary.filter(koreanVocabularyFiltersMatch);
-  const progress = state.koreanWordQuizProgress['all-vocabulary'] || { firstAttempt: null, repeats: [] };
-  const offset = (progress.repeats?.length || 0) * 20;
-  const count = Math.min(20, entries.length);
-  const types = ['meaning', 'fill', 'reverse', 'audio'];
+  const progress = state.koreanWordQuizProgress[koreanQuizProgressKey()] || { firstAttempt: null, repeats: [] };
+  const attemptCount = (progress.firstAttempt ? 1 : 0) + (progress.repeats?.length || 0);
+  const count = Math.min(requestedCount, entries.length);
+  const offset = attemptCount * count;
   return Array.from({ length: count }, (_, index) => {
     const entry = entries[(offset + index) % entries.length];
-    const type = types[index % types.length];
     const form = entry.formInText || entry.ko;
     const sentence = entry.exampleKo || entry.ko;
-    if (type === 'fill') {
+    if (mode === 'fill') {
       const blankTarget = sentence.includes(form) ? form : entry.ko;
       const prompt = sentence.replace(blankTarget, '＿＿＿＿');
-      const answer = form;
-      return { entry, type, typeLabel: '例句填空', prompt, audioText: sentence, ...koreanQuizOptions(answer, entries.map((item) => item.formInText || item.ko), index) };
+      return { entry, type: 'fill', typeLabel: '例句填空', prompt, audioText: sentence, ...koreanQuizOptions(blankTarget, entries.map((item) => item.formInText || item.ko), index) };
     }
-    if (type === 'reverse') {
-      return { entry, type, typeLabel: '中文找韓文', prompt: entry.zhTW, audioText: entry.ko, ...koreanQuizOptions(entry.ko, entries.map((item) => item.ko), index) };
+    if (mode === 'audio') {
+      const blankTarget = sentence.includes(form) ? form : entry.ko;
+      return { entry, type: 'audio', typeLabel: '聽力辨識', prompt: sentence.replace(blankTarget, '＿＿＿＿'), audioText: entry.ko, ...koreanQuizOptions(entry.zhTW, entries.map((item) => item.zhTW), index) };
     }
-    return { entry, type, typeLabel: type === 'audio' ? '聽發音選意思' : '韓文選意思', prompt: type === 'audio' ? '請先聽發音，再選擇意思' : entry.ko, audioText: entry.ko, ...koreanQuizOptions(entry.zhTW, entries.map((item) => item.zhTW), index) };
+    return { entry, type: 'context', typeLabel: '例句選義', prompt: sentence, audioText: sentence, ...koreanQuizOptions(entry.zhTW, entries.map((item) => item.zhTW), index) };
   });
 }
 
-function renderKoreanVocabularyQuiz() {
-  const questions = koreanVocabularyQuizItems();
-  if (!questions.length) {
-    elements.reader.innerHTML = '<div class="empty-reader"><strong>No vocabulary matches the current filters</strong><p>Clear the reference filters to start the word test.</p></div>';
-    return;
-  }
-  const result = state.koreanWordQuizResult;
-  const progress = state.koreanWordQuizProgress['all-vocabulary'] || { firstAttempt: null, repeats: [] };
-  elements.reader.innerHTML = `<div class="korean-practice-heading"><div><span class="article-index">FULL VOCABULARY LIBRARY · ${state.koreanContent.vocabulary.length} WORDS</span><h3>單字測驗</h3><p>每回合抽 20 題，題型混合：韓文、中文、例句填空與聽發音；題目來自目前分類篩選結果。</p></div><button class="text-button" type="button" data-korean-reset-word-quiz>${result ? 'Try again' : 'Reset answers'}</button></div><div class="korean-word-quiz-list">${questions.map((question, index) => { const selected = result?.answers?.[index] ?? state.koreanWordQuizSelections[index]; const feedback = result ? (selected === question.correctIndex ? 'Correct' : `Answer: ${String.fromCharCode(65 + question.correctIndex)}`) : ''; return `<article class="quiz-question"><div class="korean-quiz-word-heading"><p><strong>${index + 1}.</strong> <span class="quiz-type-label">${escapeHtml(question.typeLabel)}</span><span lang="ko">${escapeHtml(question.type === 'reverse' ? '' : question.entry.ko)}</span><small>${escapeHtml(question.prompt)}</small></p><button class="text-button korean-audio-button" type="button" data-korean-word-quiz-listen="${index}" data-korean-audio-toggle="word-quiz-${index}" data-default-audio-label="▶ Listen">▶ Listen</button></div><div class="quiz-options">${question.options.map((option, optionIndex) => `<button class="quiz-option ${selected === optionIndex ? 'is-selected' : ''} ${result && optionIndex === question.correctIndex ? 'is-answer' : ''}" type="button" data-korean-word-question="${index}" data-korean-word-option="${optionIndex}" ${result ? 'disabled' : ''}>${String.fromCharCode(65 + optionIndex)}. ${escapeHtml(option)}</button>`).join('')}</div>${feedback ? `<p class="quiz-feedback ${selected === question.correctIndex ? 'is-correct' : 'is-wrong'}">${feedback}</p>` : ''}</article>`; }).join('')}</div><div class="korean-quiz-submit"><button class="primary-button" id="submitKoreanWordQuizButton" type="button" ${result || Object.keys(state.koreanWordQuizSelections).length !== questions.length ? 'disabled' : ''}>${result ? 'Submitted' : 'Submit answers'}</button>${result ? `<p class="quiz-feedback ${result.score === questions.length ? 'is-correct' : ''}>Score: ${result.score}/${questions.length}. First attempt: ${progress.firstAttempt?.score ?? '—'}/${questions.length}; repeats: ${progress.repeats?.length || 0}.</p>` : '<p class="field-hint">每題選好後提交；按 Try again 可以重做。</p>'}</div>`;
-  elements.reader.querySelector('[data-korean-reset-word-quiz]')?.addEventListener('click', () => { state.koreanWordQuizSelections = {}; state.koreanWordQuizResult = null; renderKoreanVocabularyQuiz(); renderProgress(); });
-  elements.reader.querySelectorAll('[data-korean-word-question]').forEach((button) => button.addEventListener('click', () => { state.koreanWordQuizSelections[button.dataset.koreanWordQuestion] = Number(button.dataset.koreanWordOption); renderKoreanVocabularyQuiz(); }));
-  elements.reader.querySelectorAll('[data-korean-word-quiz-listen]').forEach((button) => button.addEventListener('click', () => { const question = questions[Number(button.dataset.koreanWordQuizListen)]; if (question) toggleKoreanInlineAudio(button, question.audioText, { label: question.entry.ko, vocabId: question.entry.id }); }));
-  elements.reader.querySelector('#submitKoreanWordQuizButton')?.addEventListener('click', () => submitKoreanVocabularyQuiz(questions));
+function koreanQuizProgressKey() {
+  return [state.koreanVocabLesson, state.koreanVocabTopic, state.koreanVocabPos, state.koreanWordQuizMode].join(':');
 }
 
-function submitKoreanVocabularyQuiz(questions) {
+const KOREAN_QUIZ_MODES = {
+  context: { title: '例句選義', icon: '文', description: '看完整例句，選出目標單字的中文意思。' },
+  fill: { title: '例句填空', icon: '填', description: '從句子的上下文選出正確韓文詞形。' },
+  audio: { title: '聽力辨識', icon: '聽', description: '先聽 Yuna 發音，再從遮住單字的例句判斷意思。' },
+};
+
+function startKoreanVocabularyQuiz() {
+  if (!state.koreanWordQuizMode) return;
+  const questions = koreanVocabularyQuizItems();
+  if (!questions.length) {
+    showNotice('目前分類沒有可測驗的單字，請先清除部分篩選。', 'warning');
+    return;
+  }
+  state.koreanWordQuizStarted = true;
+  state.koreanWordQuizQuestions = questions;
+  state.koreanWordQuizIndex = 0;
+  state.koreanWordQuizSelections = {};
+  state.koreanWordQuizResult = null;
+  renderKoreanVocabularyQuiz();
+  renderProgress();
+}
+
+function resetKoreanVocabularyQuiz({ keepMode = true } = {}) {
+  state.koreanWordQuizStarted = false;
+  state.koreanWordQuizQuestions = [];
+  state.koreanWordQuizIndex = 0;
+  state.koreanWordQuizSelections = {};
+  state.koreanWordQuizResult = null;
+  if (!keepMode) state.koreanWordQuizMode = '';
+  renderKoreanVocabularyQuiz();
+  renderProgress();
+}
+
+function finishKoreanVocabularyQuiz() {
+  const questions = state.koreanWordQuizQuestions;
   if (!questions.length || questions.some((question, index) => state.koreanWordQuizSelections[index] === undefined)) return;
   const answers = { ...state.koreanWordQuizSelections };
   const score = questions.reduce((sum, question, index) => sum + (answers[index] === question.correctIndex ? 1 : 0), 0);
-  const previous = state.koreanWordQuizProgress['all-vocabulary'] || { firstAttempt: null, repeats: [] };
-  const attempt = { answers, score, submittedAt: new Date().toISOString() };
+  const key = koreanQuizProgressKey();
+  const previous = state.koreanWordQuizProgress[key] || { firstAttempt: null, repeats: [] };
+  const attempt = { answers, score, total: questions.length, mode: state.koreanWordQuizMode, submittedAt: new Date().toISOString() };
   if (previous.firstAttempt) previous.repeats = [...(previous.repeats || []), attempt];
   else previous.firstAttempt = attempt;
-  state.koreanWordQuizProgress['all-vocabulary'] = previous;
+  state.koreanWordQuizProgress[key] = previous;
   state.koreanWordQuizResult = attempt;
   saveKoreanWordQuizProgress();
   renderKoreanVocabularyQuiz();
   renderProgress();
   showNotice(`單字測驗完成：${score}/${questions.length}`, score === questions.length ? 'success' : 'info');
+}
+
+function renderKoreanVocabularyQuiz() {
+  const availableCount = koreanPracticeEntries().length;
+  if (!state.koreanWordQuizStarted) {
+    elements.reader.innerHTML = `<div class="korean-practice-heading"><div><span class="article-index">CHOOSE A TEST MODE</span><h3>單字測驗</h3><p>先選擇這回合要練的方式，再進入逐題作答。</p></div></div>${koreanLearningFiltersMarkup()}<div class="korean-quiz-setup"><div class="korean-quiz-mode-grid">${Object.entries(KOREAN_QUIZ_MODES).map(([mode, details]) => `<button class="korean-quiz-mode-card ${state.koreanWordQuizMode === mode ? 'is-selected' : ''}" type="button" data-korean-quiz-mode="${mode}" aria-pressed="${state.koreanWordQuizMode === mode}"><span>${details.icon}</span><strong>${details.title}</strong><small>${details.description}</small></button>`).join('')}</div><div class="korean-quiz-start-row"><label>題數<select data-korean-quiz-count><option value="10" ${state.koreanWordQuizCount === 10 ? 'selected' : ''}>10 題</option><option value="20" ${state.koreanWordQuizCount === 20 ? 'selected' : ''}>20 題</option></select></label><p>目前分類有 ${availableCount} 個單字</p><button class="primary-button" type="button" data-korean-start-word-quiz ${!state.koreanWordQuizMode || !availableCount ? 'disabled' : ''}>開始測驗</button></div></div>`;
+    bindKoreanLearningFilters(elements.reader, renderKoreanVocabularyQuiz);
+    elements.reader.querySelectorAll('[data-korean-quiz-mode]').forEach((button) => button.addEventListener('click', () => {
+      state.koreanWordQuizMode = button.dataset.koreanQuizMode;
+      renderKoreanVocabularyQuiz();
+    }));
+    elements.reader.querySelector('[data-korean-quiz-count]')?.addEventListener('change', (event) => { state.koreanWordQuizCount = Number(event.target.value); });
+    elements.reader.querySelector('[data-korean-start-word-quiz]')?.addEventListener('click', startKoreanVocabularyQuiz);
+    return;
+  }
+
+  const questions = state.koreanWordQuizQuestions;
+  const result = state.koreanWordQuizResult;
+  if (result) {
+    const mistakes = questions.map((question, index) => ({ question, index })).filter(({ question, index }) => result.answers[index] !== question.correctIndex);
+    elements.reader.innerHTML = `<div class="korean-quiz-result"><span class="article-index">${escapeHtml(KOREAN_QUIZ_MODES[state.koreanWordQuizMode].title)} · COMPLETE</span><h3>${result.score}/${questions.length}</h3><p>${result.score === questions.length ? '全部答對了！' : `答錯 ${questions.length - result.score} 題，可從例句重新確認。`}</p><div class="korean-quiz-result-actions"><button class="primary-button" type="button" data-korean-retry-word-quiz>再做一回</button><button class="secondary-button" type="button" data-korean-change-quiz-mode>更換模式</button></div>${mistakes.length ? `<div class="korean-quiz-review-list">${mistakes.map(({ question, index }) => `<article><strong>${index + 1}. ${escapeHtml(question.entry.ko)} · ${escapeHtml(question.entry.zhTW)}</strong><p lang="ko">${escapeHtml(question.entry.exampleKo)}</p><small>${escapeHtml(question.entry.exampleZhTW || '')}</small></article>`).join('')}</div>` : ''}</div>`;
+    elements.reader.querySelector('[data-korean-retry-word-quiz]')?.addEventListener('click', () => { resetKoreanVocabularyQuiz({ keepMode: true }); startKoreanVocabularyQuiz(); });
+    elements.reader.querySelector('[data-korean-change-quiz-mode]')?.addEventListener('click', () => resetKoreanVocabularyQuiz({ keepMode: false }));
+    return;
+  }
+
+  const index = state.koreanWordQuizIndex;
+  const question = questions[index];
+  const selected = state.koreanWordQuizSelections[index];
+  const answered = selected !== undefined;
+  const correct = answered && selected === question.correctIndex;
+  elements.reader.innerHTML = `<div class="korean-quiz-run"><div class="korean-quiz-run-top"><div><span class="article-index">${escapeHtml(question.typeLabel)}</span><h3>第 ${index + 1} 題，共 ${questions.length} 題</h3></div><button class="text-button" type="button" data-korean-exit-word-quiz>離開測驗</button></div><div class="korean-quiz-progress"><span style="width:${((index + 1) / questions.length) * 100}%"></span></div><article class="quiz-question korean-focused-question"><div class="korean-quiz-prompt"><p lang="ko">${escapeHtml(question.prompt)}</p><button class="secondary-button korean-audio-button" type="button" data-korean-word-quiz-listen data-korean-audio-toggle="word-quiz-${index}" data-default-audio-label="${question.type === 'audio' ? '▶ 聽單字' : '▶ 聽例句'}">${question.type === 'audio' ? '▶ 聽單字' : '▶ 聽例句'}</button></div><div class="quiz-options">${question.options.map((option, optionIndex) => `<button class="quiz-option ${selected === optionIndex ? 'is-selected' : ''} ${answered && optionIndex === question.correctIndex ? 'is-answer' : ''}" type="button" data-korean-word-option="${optionIndex}" ${answered ? 'disabled' : ''}>${String.fromCharCode(65 + optionIndex)}. ${escapeHtml(option)}</button>`).join('')}</div>${answered ? `<div class="korean-answer-explanation ${correct ? 'is-correct' : 'is-wrong'}"><strong>${correct ? '答對了' : `正確答案：${escapeHtml(question.options[question.correctIndex])}`}</strong><p lang="ko">${escapeHtml(question.entry.exampleKo)}</p><small>${escapeHtml(question.entry.exampleZhTW || question.entry.zhTW)}</small></div>` : ''}</article><div class="korean-quiz-navigation"><button class="primary-button" type="button" data-korean-next-word-question ${answered ? '' : 'disabled'}>${index === questions.length - 1 ? '完成測驗' : '下一題'}</button></div></div>`;
+  elements.reader.querySelectorAll('[data-korean-word-option]').forEach((button) => button.addEventListener('click', () => {
+    state.koreanWordQuizSelections[index] = Number(button.dataset.koreanWordOption);
+    renderKoreanVocabularyQuiz();
+  }));
+  elements.reader.querySelector('[data-korean-word-quiz-listen]')?.addEventListener('click', (event) => toggleKoreanInlineAudio(event.currentTarget, question.audioText, { label: question.entry.ko, vocabId: question.entry.id }));
+  elements.reader.querySelector('[data-korean-next-word-question]')?.addEventListener('click', () => {
+    if (!answered) return;
+    if (index === questions.length - 1) finishKoreanVocabularyQuiz();
+    else {
+      state.koreanWordQuizIndex += 1;
+      renderKoreanVocabularyQuiz();
+      renderProgress();
+    }
+  });
+  elements.reader.querySelector('[data-korean-exit-word-quiz]')?.addEventListener('click', () => resetKoreanVocabularyQuiz({ keepMode: true }));
 }
 
 function renderKoreanReader() {
@@ -491,50 +627,6 @@ function renderKoreanReader() {
   }));
   elements.reader.querySelectorAll('[data-korean-speak-paragraph]').forEach((button) => button.dataset.defaultAudioLabel = '▶ Listen');
   elements.reader.querySelector('[data-korean-speak-lesson]')?.addEventListener('click', (event) => toggleKoreanInlineAudio(event.currentTarget, lesson.textKo, { label: 'Korean article' }));
-}
-
-function renderKoreanQuiz() {
-  if (state.koreanSection === 'vocab-quiz') {
-    elements.quizPanel.classList.add('is-hidden');
-    return;
-  }
-  const lesson = currentKoreanLesson();
-  const questions = lesson?.questions || [];
-  elements.quizPanel.classList.toggle('is-hidden', !questions.length);
-  if (!questions.length) return;
-  elements.showAnswersButton.classList.add('is-hidden');
-  elements.quizPanel.querySelector('.eyebrow').textContent = 'KOREAN COMPREHENSION';
-  elements.quizPanel.querySelector('#quizTitle').textContent = `${lesson.id} · ${questions.length} questions`;
-  const progress = state.koreanQuizProgress[lesson.id] || { firstAttempt: null, repeats: [] };
-  const result = state.koreanQuizResult;
-  elements.quizList.innerHTML = questions.map((question, questionIndex) => {
-    const selected = state.koreanQuizSelections[questionIndex];
-    const resultAnswer = result?.answers?.[questionIndex];
-    const shownAnswer = result ? resultAnswer : selected;
-    const feedback = result ? (resultAnswer === question.correctIndex ? 'Correct' : `Answer: ${String.fromCharCode(65 + question.correctIndex)}`) : '';
-    return `<article class="quiz-question"><p><strong>${questionIndex + 1}.</strong> ${escapeHtml(question.promptZh)}</p><div class="quiz-options">${question.optionsZh.map((option, optionIndex) => `<button class="quiz-option ${shownAnswer === optionIndex ? 'is-selected' : ''} ${result && optionIndex === question.correctIndex ? 'is-answer' : ''}" type="button" data-korean-question="${questionIndex}" data-korean-option="${optionIndex}" ${result ? 'disabled' : ''}>${String.fromCharCode(65 + optionIndex)}. ${escapeHtml(option)}</button>`).join('')}</div>${feedback ? `<p class="quiz-feedback ${resultAnswer === question.correctIndex ? 'is-correct' : 'is-wrong'}">${feedback}</p>` : ''}</article>`;
-  }).join('') + `<div class="korean-quiz-submit"><button class="primary-button" id="submitKoreanQuizButton" type="button" ${result || Object.keys(state.koreanQuizSelections).length !== questions.length ? 'disabled' : ''}>${result ? 'Submitted' : 'Submit answers'}</button>${result ? `<p class="quiz-feedback ${result.score === questions.length ? 'is-correct' : ''}">Score: ${result.score}/${questions.length}. First attempt: ${progress.firstAttempt?.score ?? '—'}/${questions.length}; repeats: ${progress.repeats?.length || 0}.</p>` : '<p class="field-hint">Choose all answers, then submit to grade. Attempts are stored separately.</p>'}</div>`;
-  elements.quizList.querySelectorAll('[data-korean-question]').forEach((button) => button.addEventListener('click', () => {
-    state.koreanQuizSelections[button.dataset.koreanQuestion] = Number(button.dataset.koreanOption);
-    renderKoreanQuiz();
-  }));
-  elements.quizList.querySelector('#submitKoreanQuizButton')?.addEventListener('click', submitKoreanQuiz);
-}
-
-function submitKoreanQuiz() {
-  const lesson = currentKoreanLesson();
-  if (!lesson || lesson.questions.some((question, index) => state.koreanQuizSelections[index] === undefined)) return;
-  const answers = { ...state.koreanQuizSelections };
-  const score = lesson.questions.reduce((sum, question, index) => sum + (answers[index] === question.correctIndex ? 1 : 0), 0);
-  const previous = state.koreanQuizProgress[lesson.id] || { firstAttempt: null, repeats: [] };
-  const attempt = { answers, score, submittedAt: new Date().toISOString() };
-  if (previous.firstAttempt) previous.repeats = [...(previous.repeats || []), attempt];
-  else previous.firstAttempt = attempt;
-  state.koreanQuizProgress[lesson.id] = previous;
-  state.koreanQuizResult = attempt;
-  saveKoreanQuizProgress();
-  renderKoreanQuiz();
-  showNotice(`韓文測驗完成：${score}/${lesson.questions.length}。第一次與重做結果會分開保存。`, score === lesson.questions.length ? 'success' : 'info');
 }
 
 function focusKoreanVocabulary(id) {
@@ -641,7 +733,7 @@ function renderAll() {
   if (state.language === 'ko') {
     if (state.koreanSection === 'vocab-quiz') renderKoreanVocabularyQuiz();
     else renderKoreanReader();
-    renderKoreanQuiz();
+    elements.quizPanel.classList.add('is-hidden');
     renderKoreanNotebook();
   } else {
     renderReader();
@@ -651,6 +743,17 @@ function renderAll() {
   renderWeakWords();
   updateModeFields();
   updatePlayerControls();
+}
+
+function refreshKoreanFilteredViews() {
+  state.koreanWordQuizStarted = false;
+  state.koreanWordQuizQuestions = [];
+  state.koreanWordQuizSelections = {};
+  state.koreanWordQuizResult = null;
+  if (state.koreanSection === 'vocab-quiz') renderKoreanVocabularyQuiz();
+  else if (state.koreanSection === 'vocabulary') renderKoreanVocabularyPractice();
+  renderKoreanNotebook();
+  renderProgress();
 }
 
 function renderReader() {
@@ -692,11 +795,13 @@ function renderProgress() {
     const total = state.koreanSection === 'vocabulary'
       ? koreanPracticeEntries().length
       : state.koreanSection === 'vocab-quiz'
-        ? state.koreanContent.vocabulary.length
+        ? (state.koreanWordQuizStarted ? state.koreanWordQuizQuestions.length : koreanPracticeEntries().length)
       : state.koreanSection === 'sentences'
         ? koreanSentenceItems(lesson).length
         : lesson?.paragraphs?.length || 0;
-    const current = total ? Math.min(state.currentIndex + 1, total) : 0;
+    const current = state.koreanSection === 'vocab-quiz'
+      ? (state.koreanWordQuizStarted ? Math.min(state.koreanWordQuizIndex + 1, total) : 0)
+      : total ? Math.min(state.currentIndex + 1, total) : 0;
     elements.progressLabel.textContent = `${current} / ${total}`;
     elements.progressBar.style.width = `${total ? (current / total) * 100 : 0}%`;
     const label = state.koreanSection === 'vocabulary' || state.koreanSection === 'vocab-quiz' ? 'Word' : state.koreanSection === 'sentences' ? 'Sentence' : 'Paragraph';
@@ -792,8 +897,13 @@ function setKoreanSection(section) {
   stopPlayback(false);
   state.koreanSection = section;
   state.currentIndex = 0;
-  state.koreanWordQuizSelections = {};
-  state.koreanWordQuizResult = null;
+  if (section === 'vocab-quiz') {
+    state.koreanWordQuizStarted = false;
+    state.koreanWordQuizQuestions = [];
+    state.koreanWordQuizIndex = 0;
+    state.koreanWordQuizSelections = {};
+    state.koreanWordQuizResult = null;
+  }
   document.querySelectorAll('[data-korean-section]').forEach((button) => {
     const active = button.dataset.koreanSection === section;
     button.classList.toggle('is-active', active);
@@ -991,7 +1101,7 @@ function updateKoreanLessonOptions() {
   elements.koreanLessonSelect.innerHTML = lessons.map((lesson) => `<option value="${escapeHtml(lesson.id)}">${escapeHtml(lesson.id)} · ${escapeHtml(lesson.titleKo)} · ${escapeHtml(lesson.titleZh)}</option>`).join('');
   elements.koreanLessonSelect.value = state.koreanLessonId;
   const lesson = currentKoreanLesson();
-  elements.koreanLessonHint.textContent = lesson ? `${lesson.sourceType} · ${lesson.paragraphs.length} paragraphs · ${lesson.questions.length} questions · ${lesson.vocabularyIds?.length || 0} linked vocabulary items` : 'Import a Korean lesson JSON bundle to begin.';
+  elements.koreanLessonHint.textContent = lesson ? `${lesson.level} 主題課程 · ${lesson.vocabularyIds?.length || 0} 個單字 · ${lesson.sentences?.length || 0} 個例句 · ${lesson.paragraphs.length} 個文章段落` : '沒有可用的韓文課程。';
   elements.koreanVocabLessonFilter.innerHTML = `<option value="all">All lessons</option>${lessons.map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.id)} · ${escapeHtml(item.titleKo)}</option>`).join('')}`;
   elements.koreanVocabLessonFilter.value = state.koreanVocabLesson;
   const vocabulary = state.koreanContent.vocabulary;
@@ -1001,7 +1111,7 @@ function updateKoreanLessonOptions() {
   const learningStates = [...new Set(vocabulary.map((entry) => entry.learningState).filter(Boolean))].sort();
   elements.koreanVocabSectionFilter.innerHTML = `<option value="all">All textbook sections</option>${sections.map((item) => `<option value="${escapeHtml(item)}">Section ${escapeHtml(item)}</option>`).join('')}`;
   elements.koreanVocabPosFilter.innerHTML = `<option value="all">All parts of speech</option>${pos.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
-  elements.koreanVocabTopicFilter.innerHTML = `<option value="all">All topics</option>${topics.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
+  elements.koreanVocabTopicFilter.innerHTML = `<option value="all">All topics</option>${topics.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(KOREAN_TOPIC_LABELS[item] || item)}</option>`).join('')}`;
   elements.koreanVocabStateFilter.innerHTML = `<option value="all">All learning states</option>${learningStates.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
   elements.koreanVocabSectionFilter.value = state.koreanVocabSection;
   elements.koreanVocabPosFilter.value = state.koreanVocabPos;
@@ -1014,14 +1124,12 @@ function loadKoreanLesson() {
   if (!lesson) return;
   stopPlayback(false);
   state.currentIndex = 0;
-  state.koreanQuizSelections = {};
-  state.koreanQuizResult = null;
   state.koreanWordQuizSelections = {};
   state.koreanWordQuizResult = null;
   state.items = lesson.paragraphs.map((paragraph, index) => ({ id: `${lesson.id}-P${index + 1}`, type: 'korean', text: paragraph.ko, label: `Paragraph ${index + 1}` }));
   elements.sessionTitle.textContent = `${lesson.titleKo} · ${lesson.titleZh}`;
   renderAll();
-  showNotice(`${lesson.id} loaded · ${lesson.paragraphs.length} paragraphs · ${lesson.questions.length} questions`, 'success');
+  showNotice(`${lesson.id} 已載入 · ${lesson.vocabularyIds.length} 個單字 · ${lesson.sentences.length} 個例句`, 'success');
 }
 
 async function playKoreanSession() {
@@ -1033,6 +1141,10 @@ async function playKoreanSession() {
   const sentenceItems = state.koreanSection === 'sentences' ? koreanSentenceItems(lesson) : [];
   const items = state.koreanSection === 'vocabulary'
     ? wordEntries.map((entry) => ({ text: entry.ko, label: entry.ko, vocabId: entry.id }))
+    : state.koreanSection === 'vocab-quiz'
+      ? state.koreanWordQuizStarted && state.koreanWordQuizQuestions[state.koreanWordQuizIndex]
+        ? [{ text: state.koreanWordQuizQuestions[state.koreanWordQuizIndex].audioText, label: `Question ${state.koreanWordQuizIndex + 1}`, vocabId: state.koreanWordQuizQuestions[state.koreanWordQuizIndex].entry.id }]
+        : []
     : state.koreanSection === 'sentences'
       ? sentenceItems.map((sentence, index) => ({ text: sentence.ko, label: `Sentence ${index + 1}` }))
       : lesson.paragraphs.map((paragraph, index) => ({ text: paragraph.ko, label: `Paragraph ${index + 1}` }));
@@ -1280,17 +1392,18 @@ function updatePlayerControls() {
   const isKorean = state.language === 'ko';
   const isPiper = elements.engineSelect.value === 'piper';
   const audioReady = isKorean || !isPiper || ttsManager.isAudioReady();
-  const hasItems = isKorean ? Boolean(currentKoreanLesson()?.paragraphs?.length) : visibleItems().length > 0;
+  const hasItems = isKorean
+    ? state.koreanSection === 'vocab-quiz'
+      ? state.koreanWordQuizStarted && Boolean(state.koreanWordQuizQuestions[state.koreanWordQuizIndex])
+      : Boolean(currentKoreanLesson()?.paragraphs?.length)
+    : visibleItems().length > 0;
   const busyBeforePlayback = ['loading', 'generating', 'enabling'].includes(state.statusKey);
   const settingsLocked = state.isPlaying;
 
-  elements.playIcon.textContent = '▶';
-  elements.playText.textContent = 'Play';
-  elements.playButton.setAttribute('aria-label', audioReady ? 'Play current item' : 'Enable Piper Audio before playback');
-  elements.playButton.disabled = settingsLocked || !audioReady || !hasItems;
-  elements.pauseButton.textContent = state.isPaused ? 'Resume' : 'Pause';
-  elements.pauseButton.setAttribute('aria-label', state.isPaused ? 'Resume playback' : 'Pause playback');
-  elements.pauseButton.disabled = !state.isPlaying || (!state.isPaused && busyBeforePlayback);
+  elements.playIcon.textContent = state.isPlaying && !state.isPaused ? 'Ⅱ' : '▶';
+  elements.playText.textContent = state.isPlaying ? (state.isPaused ? 'Resume' : 'Pause') : 'Play';
+  elements.playButton.setAttribute('aria-label', state.isPlaying ? (state.isPaused ? 'Resume playback' : 'Pause playback') : audioReady ? 'Play current item' : 'Enable Piper Audio before playback');
+  elements.playButton.disabled = !audioReady || !hasItems || (state.isPlaying && !state.isPaused && busyBeforePlayback);
   elements.stopButton.disabled = !state.isPlaying;
   elements.settingsLockHint.classList.toggle('is-hidden', !settingsLocked);
   speechSettingControls().forEach((control) => { control.disabled = settingsLocked; });
@@ -1312,8 +1425,17 @@ function populateNativeVoices() {
   const markup = options.map((voice) => `<option value="${escapeHtml(voice.name)}">${escapeHtml(voice.label || `${voice.name} · ${voice.lang || ''}`)}</option>`).join('');
   elements.voiceASelect.innerHTML = markup;
   elements.voiceBSelect.innerHTML = markup;
-  if (options.some((voice) => voice.name === currentA)) elements.voiceASelect.value = currentA;
-  if (options.some((voice) => voice.name === currentB)) elements.voiceBSelect.value = currentB;
+  if (state.language === 'ko') {
+    const saved = localStorage.getItem(KOREAN_VOICE_KEY) || '';
+    const preferred = options.find((voice) => voice.name === saved)
+      || options.find((voice) => /yuna|유나/i.test(`${voice.name} ${voice.label || ''}`))
+      || options[0];
+    elements.voiceASelect.value = preferred?.name || '';
+    elements.voiceBSelect.value = preferred?.name || '';
+  } else {
+    if (options.some((voice) => voice.name === currentA)) elements.voiceASelect.value = currentA;
+    if (options.some((voice) => voice.name === currentB)) elements.voiceBSelect.value = currentB;
+  }
 }
 
 function setMode(mode) {
@@ -1331,8 +1453,11 @@ function setMode(mode) {
   }
 }
 
-elements.playButton.addEventListener('click', () => playSession());
-elements.pauseButton.addEventListener('click', () => (state.isPaused ? resumePlayback() : pausePlayback()));
+elements.playButton.addEventListener('click', () => {
+  if (!state.isPlaying) playSession();
+  else if (state.isPaused) resumePlayback();
+  else pausePlayback();
+});
 elements.stopButton.addEventListener('click', () => stopPlayback());
 elements.previousButton.addEventListener('click', () => stepItem(-1));
 elements.nextButton.addEventListener('click', () => stepItem(1));
@@ -1344,15 +1469,17 @@ elements.sampleButton.addEventListener('click', () => {
 elements.languageSelect.addEventListener('change', () => setLanguage(elements.languageSelect.value));
 elements.koreanLessonSelect.addEventListener('change', () => {
   state.koreanLessonId = elements.koreanLessonSelect.value;
+  state.koreanVocabLesson = state.koreanLessonId;
+  syncKoreanFilterControls();
   loadKoreanLesson();
 });
 elements.koreanVocabSearch.addEventListener('input', () => { state.koreanVocabSearch = elements.koreanVocabSearch.value; renderKoreanNotebook(); });
 elements.koreanNotebookType.addEventListener('change', () => { state.koreanNotebookType = elements.koreanNotebookType.value; state.koreanVocabSearch = ''; elements.koreanVocabSearch.value = ''; renderKoreanNotebook(); });
-elements.koreanVocabLessonFilter.addEventListener('change', () => { state.koreanVocabLesson = elements.koreanVocabLessonFilter.value; renderKoreanNotebook(); });
-elements.koreanVocabSectionFilter.addEventListener('change', () => { state.koreanVocabSection = elements.koreanVocabSectionFilter.value; renderKoreanNotebook(); });
-elements.koreanVocabPosFilter.addEventListener('change', () => { state.koreanVocabPos = elements.koreanVocabPosFilter.value; renderKoreanNotebook(); });
-elements.koreanVocabTopicFilter.addEventListener('change', () => { state.koreanVocabTopic = elements.koreanVocabTopicFilter.value; renderKoreanNotebook(); });
-elements.koreanVocabStateFilter.addEventListener('change', () => { state.koreanVocabState = elements.koreanVocabStateFilter.value; renderKoreanNotebook(); });
+elements.koreanVocabLessonFilter.addEventListener('change', () => { state.koreanVocabLesson = elements.koreanVocabLessonFilter.value; refreshKoreanFilteredViews(); });
+elements.koreanVocabSectionFilter.addEventListener('change', () => { state.koreanVocabSection = elements.koreanVocabSectionFilter.value; refreshKoreanFilteredViews(); });
+elements.koreanVocabPosFilter.addEventListener('change', () => { state.koreanVocabPos = elements.koreanVocabPosFilter.value; refreshKoreanFilteredViews(); });
+elements.koreanVocabTopicFilter.addEventListener('change', () => { state.koreanVocabTopic = elements.koreanVocabTopicFilter.value; refreshKoreanFilteredViews(); });
+elements.koreanVocabStateFilter.addEventListener('change', () => { state.koreanVocabState = elements.koreanVocabStateFilter.value; refreshKoreanFilteredViews(); });
 elements.importArticleButton.addEventListener('click', () => elements.articleFileInput.click());
 elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
 elements.generateN8nButton.addEventListener('click', () => generateWithN8n());
@@ -1368,6 +1495,9 @@ elements.engineSelect.addEventListener('change', () => {
   ttsManager.setEngine(elements.engineSelect.value);
   updateEngineFields();
   if (elements.engineSelect.value === 'piper') showNotice('請先點擊 Enable Piper Audio，再按 Play 載入本地語音。', 'info');
+});
+elements.voiceASelect.addEventListener('change', () => {
+  if (state.language === 'ko' && elements.voiceASelect.value) localStorage.setItem(KOREAN_VOICE_KEY, elements.voiceASelect.value);
 });
 elements.piperErrorDialog.addEventListener('cancel', (event) => event.preventDefault());
 elements.retryPiperButton.addEventListener('click', async () => {

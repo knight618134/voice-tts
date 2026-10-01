@@ -63,7 +63,7 @@ h2 { margin-bottom: 0; font-size: 1.05rem; letter-spacing: -.02em; }
 .speaker-b .speaker-label { color: #258d69; }
 .reader-item > p { margin: 0; color: #414657; line-height: 1.65; }
 .article-item > p { max-width: 100%; overflow-wrap: anywhere; }
-.player-card { align-items: center; margin-top: 18px; padding: 17px 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; box-shadow: 0 10px 28px rgba(45, 39, 85, .05); }
+.player-card { position: sticky; z-index: 20; top: 10px; align-items: center; margin: 0 0 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.96); box-shadow: 0 12px 32px rgba(45, 39, 85, .1); backdrop-filter: blur(14px); }
 .player-current { display: flex; align-items: flex-start; gap: 10px; min-width: 0; }
 .player-current > div { min-width: 0; }
 .player-current strong, .player-current p { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -156,7 +156,14 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-practice-heading h3 { margin: 7px 0 3px; font-size: 1.35rem; letter-spacing: -.03em; }
 .korean-practice-heading p { margin: 0; color: var(--muted); font-size: .86rem; }
 .korean-practice-hint { margin: 9px 3px; }
+.korean-study-filters { display: grid; grid-template-columns: 1.25fr 1fr 1fr auto; gap: 9px; align-items: end; margin-top: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+.korean-study-filters label { min-width: 0; color: var(--muted); font-size: .68rem; font-weight: 800; }
+.korean-study-filters label span { display: block; margin: 0 0 5px 2px; }
+.korean-study-filters select { min-height: 40px; }
+.korean-study-filters .text-button { min-height: 40px; padding: 0 9px; }
 .korean-practice-list, .korean-sentence-list { display: grid; gap: 10px; margin-top: 13px; }
+.korean-practice-list { max-height: min(68vh, 760px); padding: 2px 8px 2px 2px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.korean-practice-list:focus-visible { border-radius: 12px; outline: 3px solid rgba(103, 88, 216, .15); }
 .korean-practice-card, .korean-sentence-card { padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
 .korean-practice-card.is-reviewed { border-color: #bfe4d2; }
 .korean-sentence-card.is-current { border-color: #a79eee; box-shadow: 0 8px 24px rgba(103, 88, 216, .12); }
@@ -164,6 +171,7 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-vocab-card { padding: 13px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 .korean-vocab-heading { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
 .korean-vocab-heading h3 { margin: 0 0 3px; font-size: 1.08rem; }
+.korean-vocab-heading small { display: block; margin-top: 5px; color: var(--muted); font-size: .68rem; }
 .korean-vocab-heading p, .korean-example, .korean-example-zh { margin: 0; color: #555a6e; font-size: .77rem; line-height: 1.55; }
 .korean-example { margin-top: 11px; color: #202332; font-size: .9rem; }
 .korean-example-zh { margin-top: 3px; }
@@ -171,13 +179,40 @@ input[type="range"] { accent-color: var(--purple); }
 .review-pill.is-reviewed { color: var(--green); background: #ebf8f1; }
 .korean-vocab-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .korean-vocab-actions .secondary-button { min-height: 34px; padding: 0 9px; font-size: .68rem; text-decoration: none; }
-.korean-quiz-word-heading { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
-.korean-quiz-word-heading p { margin-bottom: 11px; color: #414657; font-size: .92rem; }
-.korean-quiz-word-heading span[lang="ko"] { margin-left: 4px; color: var(--ink); font-size: 1.1rem; }
-.korean-quiz-word-heading .quiz-type-label { display: block; margin: 4px 0 4px 23px; color: var(--purple); font-size: .66rem; font-weight: 800; letter-spacing: .04em; }
-.korean-quiz-word-heading small { display: block; margin: 4px 0 0 23px; color: var(--muted); font-size: .72rem; font-weight: 500; }
-.korean-quiz-submit { padding-top: 3px; }
-.korean-quiz-submit .primary-button { margin-top: 2px; }
+.korean-quiz-setup { margin-top: 14px; }
+.korean-quiz-mode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.korean-quiz-mode-card { display: grid; justify-items: start; gap: 7px; min-height: 160px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: #fff; text-align: left; }
+.korean-quiz-mode-card:hover, .korean-quiz-mode-card.is-selected { border-color: #aaa1ed; background: #faf9ff; box-shadow: 0 8px 24px rgba(103, 88, 216, .1); }
+.korean-quiz-mode-card > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; color: var(--purple-dark); background: var(--lavender); font-weight: 900; }
+.korean-quiz-mode-card strong { font-size: .95rem; }
+.korean-quiz-mode-card small { color: var(--muted); font-size: .73rem; line-height: 1.5; }
+.korean-quiz-start-row { display: flex; align-items: end; justify-content: flex-end; gap: 14px; margin-top: 13px; padding: 13px 0; }
+.korean-quiz-start-row label { color: var(--muted); font-size: .7rem; font-weight: 800; }
+.korean-quiz-start-row select { display: block; width: 110px; min-height: 40px; margin-top: 5px; }
+.korean-quiz-start-row p { margin: 0 auto 11px 0; color: var(--muted); font-size: .75rem; }
+.korean-quiz-run, .korean-quiz-result { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.9); }
+.korean-quiz-run-top { display: flex; align-items: start; justify-content: space-between; gap: 12px; }
+.korean-quiz-run-top h3 { margin: 6px 0 0; font-size: 1.15rem; }
+.korean-quiz-progress { height: 7px; margin: 16px 0; overflow: hidden; border-radius: 999px; background: #e8e6f7; }
+.korean-quiz-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--purple), #a69cec); }
+.korean-focused-question { padding: 20px; }
+.korean-quiz-prompt { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.korean-quiz-prompt p { margin: 0; font-size: 1.2rem; font-weight: 750; line-height: 1.65; }
+.korean-answer-explanation { margin-top: 14px; padding: 13px; border-radius: 11px; background: #fff4de; }
+.korean-answer-explanation.is-correct { background: #ebf8f1; }
+.korean-answer-explanation strong { color: var(--orange); font-size: .82rem; }
+.korean-answer-explanation.is-correct strong { color: var(--green); }
+.korean-answer-explanation p { margin: 7px 0 2px; font-size: 1rem; }
+.korean-answer-explanation small { color: var(--muted); }
+.korean-quiz-navigation { display: flex; justify-content: flex-end; margin-top: 14px; }
+.korean-quiz-result { text-align: center; }
+.korean-quiz-result h3 { margin: 8px 0; color: var(--purple-dark); font-size: 3rem; }
+.korean-quiz-result > p { color: var(--muted); }
+.korean-quiz-result-actions { display: flex; justify-content: center; gap: 9px; }
+.korean-quiz-review-list { display: grid; gap: 8px; margin-top: 18px; text-align: left; }
+.korean-quiz-review-list article { padding: 12px; border: 1px solid var(--line); border-radius: 11px; }
+.korean-quiz-review-list p { margin: 6px 0 2px; }
+.korean-quiz-review-list small { color: var(--muted); }
 .notice { display: none; padding: 12px 14px; border-radius: 10px; color: #53586b; background: #fff; font-size: .78rem; line-height: 1.5; }
 .notice.is-visible { display: block; }
 .notice[data-type="warning"] { color: #76521a; background: #fff4de; }
@@ -204,6 +239,8 @@ input[type="range"] { accent-color: var(--purple); }
   .app-shell { padding: 26px 18px calc(24px + env(safe-area-inset-bottom)); }
   .app-grid { grid-template-columns: 1fr; }
   .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .korean-study-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .korean-study-filters .text-button { justify-self: start; }
   .notice { grid-column: 1 / -1; }
 }
 
@@ -231,13 +268,18 @@ input[type="range"] { accent-color: var(--purple); }
   .korean-reference-filters { grid-template-columns: 1fr; }
   .speaker-a, .speaker-b { margin-left: 0; margin-right: 0; }
   .speaker-b { background: #fbfbff; }
-  .player-card { position: sticky; z-index: 5; top: max(8px, env(safe-area-inset-top)); align-items: stretch; flex-direction: column; gap: 12px; margin: 0 0 16px; box-shadow: 0 12px 32px rgba(45, 39, 85, .12); }
+  .player-card { top: max(8px, env(safe-area-inset-top)); align-items: stretch; flex-direction: column; gap: 12px; margin: 0 0 16px; box-shadow: 0 12px 32px rgba(45, 39, 85, .12); }
   .player-enable-button { width: 100%; min-width: 0; }
   .player-actions { align-items: stretch; flex-direction: column; }
   .player-primary-actions { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; }
   .player-primary-actions .play-button { justify-content: center; }
-  .player-secondary-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .player-secondary-actions { display: grid; grid-template-columns: 1fr; }
   .player-secondary-actions .secondary-button { width: 100%; }
+  .korean-study-filters, .korean-quiz-mode-grid { grid-template-columns: 1fr; }
+  .korean-quiz-mode-card { min-height: 0; }
+  .korean-quiz-start-row, .korean-quiz-prompt { align-items: stretch; flex-direction: column; }
+  .korean-quiz-start-row p { margin: 0; }
+  .korean-practice-list { max-height: 62vh; }
   .sidebar { grid-template-columns: 1fr; }
   .panel { padding: 17px; }
   .dialog-actions { grid-template-columns: 1fr; }
