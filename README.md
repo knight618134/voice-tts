@@ -69,11 +69,7 @@ Article mode 直接貼上英文段落。`Full article · continuous` 會先將�
 
 ### 匯入未來課次
 
-在 Korean content panel 點擊 `Import Korean JSON`，選取包含 `schemaVersion: 1` 且至少有 `lessons` 或 `vocabulary` 的檔案。每筆內容必須有穩定 `id`；lesson question 的 `correctIndex` 必須落在 options 範圍內，課次與單字引用會被檢查。匯入結果存於版本化 localStorage key `vocabulary-reader:korean-content:v1`，複製同一份 bundle 不會增加重複內容或清除複習／測驗進度。
-
-完整內容包的 `schema_version: 1.0.0` 新格式也可直接透過 `Import Korean JSON` 匯入；程式會轉成目前 reader 所需的顯示格式，並將 phrases、grammar、pronunciation examples 分開保存。新增 reading-06、reading-07 時，只要沿用相同欄位與穩定 ID，不需要修改 UI code。
-
-新增 KR-R03 時，沿用現有欄位與唯一 ID（例如 `KR-R03`、`KR-R03-Q01`、`KR-V031`），即可直接匯入，不需要修改 application code。使用 `Export JSON` 可取得目前內容 bundle；`Export TSV` 會輸出 notebook 欄位供試算表或 Anki 整理。
+完整內容包現在直接隨網站載入，不需要使用者手動 Load／Import／Export。程式會在啟動時正規化新格式，並將 phrases、grammar、pronunciation examples 分開保存。新增 reading-06、reading-07 時，只要沿用相同欄位與穩定 ID，不需要修改 UI code。
 
 ## Piper Local Voice
 
