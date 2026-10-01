@@ -15,7 +15,7 @@
 - 不需要本專案後端；閱讀資料留在瀏覽器 localStorage
 - Korean mode：KR-R01、KR-R02 閱讀、繁中翻譯揭示、段落／全文朗讀、可點擊單字查詢
 - Korean notebook：30 筆去重單字、例句、來源／課次、複習狀態、搜尋、匯出 JSON／TSV
-- Korean study sections：依課次分開的單字複習、句子練習、文章閱讀；單字可依 Repeat 設定連續播放
+- Korean study sections：依課次分開的單字複習、單字測驗、句子練習、連續文章閱讀；單字可分開播放單字／例句，並依 Repeat 設定連續播放
 - Korean quiz：19 題，按下 Submit answers 後才計分；第一次與重做結果分開保存
 - Korean import：可預覽並匯入未來的 `KR-R03` 等 JSON；相同 ID 與相同內容不重複，衝突會拒絕
 
@@ -58,7 +58,9 @@ Article mode 直接貼上英文段落。`Full article · continuous` 會先將�
 
 韓文播放固定使用瀏覽器 `SpeechSynthesis`，每次 utterance 設為 `lang = 'ko-KR'`；Piper/Kokoro 的英文設定不會被宣稱支援韓文。韓文模式中的 Browser Voice A/B 只列出瀏覽器已安裝的 `ko-*` voices。若裝置沒有載入韓文 voice，畫面會提示安裝 Korean 系統語音。iPhone Safari 請從明確的 `Listen` 或 `Play` 按鈕開始播放；程式會在 tap 事件內立即呼叫 SpeechSynthesis，避免等待 voice 載入而失去 user activation。
 
-韓文單字複習頁依目前課次顯示 linked vocabulary，可逐字播放或播放整課單字；右側 `Repeats per item` 控制每個單字／句子／段落的重複次數。每個單字的播放次數與最後練習時間保存於 `vocabulary-reader:korean-word-progress:v1`。
+韓文單字複習頁依目前課次顯示 linked vocabulary，可獨立播放單字本身或例句，也可播放整課單字；右側 `Repeats per item` 控制每個單字／句子／段落的重複次數。播放中的同一個按鈕可切換 `Pause`／`Resume`，全域播放器也可 `Stop`。每個單字的播放次數與最後練習時間保存於 `vocabulary-reader:korean-word-progress:v1`。
+
+`句子` 模式會將課文拆成逐句卡片；`文章` 模式則保留整篇文章的連續閱讀結構，並提供整篇／段落朗讀。韓文文字中的已知單字會顯示詞形、助詞或變化提示，可用 `Hide forms & particles` 暫時隱藏。`單字測驗` 會從目前課次抽取最多 10 題，第一次作答與重做成績分開保存於 `vocabulary-reader:korean-word-quiz:v1`。
 
 點擊文章中的底線單字會聚焦到 notebook。`Naver Dictionary` 只是另開參考頁，使用 URL 格式：`https://korean.dict.naver.com/koendict/#/search?query=<encodeURIComponent(lemma)>`。本專案不爬取 Naver、不重新散佈字典音檔，也不宣稱能自動同步 Naver 帳戶。
 
