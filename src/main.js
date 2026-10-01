@@ -244,7 +244,7 @@ function koreanVoices() {
   return native.getVoices().filter((voice) => /^ko(?:-|_)/i.test(voice.lang || ''));
 }
 
-async function speakKorean(text, { label = 'Korean speech', vocabId = '' } = {}) {
+async function speakKorean(text, { label = 'Korean speech', vocabId = '', voiceName = '' } = {}) {
   // Keep the first speechSynthesis call synchronous with the tap. Awaiting a
   // timer here can lose iOS Safari's user-activation permission.
   const voices = koreanVoices();
@@ -258,7 +258,7 @@ async function speakKorean(text, { label = 'Korean speech', vocabId = '' } = {})
   updateStatus({ key: 'playing', label, detail: voices[0].name });
   try {
     await ttsManager.engines.native.speak(text, {
-      voiceName: voices[0].name,
+      voiceName: voiceName || elements.voiceASelect.value || voices[0].name,
       lang: 'ko-KR',
       rate: Number(elements.rateInput.value) || 1,
     });

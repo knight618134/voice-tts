@@ -61,6 +61,7 @@ export class NativeTtsEngine {
       };
       this.activeUtterance = utterance;
       this.activeReject = reject;
+      this.synthesis.resume?.();
       this.synthesis.speak(utterance);
     });
   }
