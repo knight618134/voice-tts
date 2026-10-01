@@ -13,6 +13,10 @@
 - Browser Voice：裝置的 `SpeechSynthesis`，只在使用者選擇後使用
 - Piper voice/model lazy load、音訊 cache、錯誤視窗與 iOS 音訊啟用流程
 - 不需要本專案後端；閱讀資料留在瀏覽器 localStorage
+- Korean mode：KR-R01、KR-R02 閱讀、繁中翻譯揭示、段落／全文朗讀、可點擊單字查詢
+- Korean notebook：30 筆去重單字、例句、來源／課次、複習狀態、搜尋、匯出 JSON／TSV
+- Korean quiz：19 題，按下 Submit answers 後才計分；第一次與重做結果分開保存
+- Korean import：可預覽並匯入未來的 `KR-R03` 等 JSON；相同 ID 與相同內容不重複，衝突會拒絕
 
 ## 本機執行
 
@@ -46,6 +50,20 @@ B: Yes, let's begin.
 ```
 
 Article mode 直接貼上英文段落。`Full article · continuous` 會先將句子分別生成，再合併為一個 WAV 播放，因此播放時不會在每句之間重新推論；`Sentence by sentence · highlight` 則保留逐句 highlight 與 delay。
+
+## Korean mode
+
+切換右上角的 `Language` 到 `한국어 · Korean` 後，可從內建的 KR-R01／KR-R02 選擇閱讀課次。韓文內容位於 [`src/data/korean-lessons.json`](src/data/korean-lessons.json) 和 [`src/data/korean-vocabulary.json`](src/data/korean-vocabulary.json)，使用 `schemaVersion: 1`、穩定 ID 與課次／單字交叉引用。文章是生成的學習材料，`isTextbookVerbatim` 為 `false`，不包含教材 PDF 原文。
+
+韓文播放固定使用瀏覽器 `SpeechSynthesis`，每次 utterance 設為 `lang = 'ko-KR'`；Piper/Kokoro 的英文設定不會被宣稱支援韓文。若裝置沒有載入韓文 voice，畫面會提示安裝 Korean 系統語音。iPhone Safari 請從明確的 `Listen` 或 `Play` 按鈕開始播放。
+
+點擊文章中的底線單字會聚焦到 notebook。`Naver Dictionary` 只是另開參考頁，使用 URL 格式：`https://korean.dict.naver.com/koendict/#/search?query=<encodeURIComponent(lemma)>`。本專案不爬取 Naver、不重新散佈字典音檔，也不宣稱能自動同步 Naver 帳戶。
+
+### 匯入未來課次
+
+在 Korean content panel 點擊 `Import Korean JSON`，選取包含 `schemaVersion: 1` 且至少有 `lessons` 或 `vocabulary` 的檔案。每筆內容必須有穩定 `id`；lesson question 的 `correctIndex` 必須落在 options 範圍內，課次與單字引用會被檢查。匯入結果存於版本化 localStorage key `vocabulary-reader:korean-content:v1`，複製同一份 bundle 不會增加重複內容或清除複習／測驗進度。
+
+新增 KR-R03 時，沿用現有欄位與唯一 ID（例如 `KR-R03`、`KR-R03-Q01`、`KR-V031`），即可直接匯入，不需要修改 application code。使用 `Export JSON` 可取得目前內容 bundle；`Export TSV` 會輸出 notebook 欄位供試算表或 Anki 整理。
 
 ## Piper Local Voice
 

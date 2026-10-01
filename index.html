@@ -14,7 +14,14 @@
           <p class="eyebrow">LOCAL LANGUAGE PRACTICE</p>
           <h1>Vocabulary Reader</h1>
         </div>
-        <div class="topbar-note">Piper first · Browser voice optional</div>
+        <div class="topbar-note">
+          <label class="language-picker" for="languageSelect">Language
+            <select id="languageSelect">
+              <option value="en">English</option>
+              <option value="ko">한국어 · Korean</option>
+            </select>
+          </label>
+        </div>
       </header>
 
       <main class="app-grid">
@@ -84,6 +91,22 @@
             </div>
             <label class="field-label" for="contentInput">Paste lines</label>
             <textarea id="contentInput" rows="7" spellcheck="false"></textarea>
+            <div id="koreanFields" class="korean-fields is-hidden">
+              <label class="field-label" for="koreanLessonSelect">Korean lesson</label>
+              <select id="koreanLessonSelect"></select>
+              <p class="field-hint" id="koreanLessonHint">Generated study material · not textbook verbatim.</p>
+              <div class="article-actions">
+                <button class="primary-button" id="loadKoreanLessonButton" type="button">Load lesson</button>
+                <button class="secondary-button" id="importKoreanButton" type="button">Import Korean JSON</button>
+              </div>
+              <input id="koreanFileInput" type="file" accept=".json,application/json" hidden />
+              <div id="koreanImportPreview" class="import-preview is-hidden"></div>
+              <div class="article-actions">
+                <button class="secondary-button" id="confirmKoreanImportButton" type="button" disabled>Confirm import</button>
+                <button class="secondary-button" id="exportKoreanJsonButton" type="button">Export JSON</button>
+                <button class="secondary-button" id="exportKoreanTsvButton" type="button">Export TSV</button>
+              </div>
+            </div>
             <div id="articleFields" class="article-fields is-hidden">
               <label class="field-label" for="articleTitleInput">Article title</label>
               <input id="articleTitleInput" type="text" value="A Morning in the Garden" />
@@ -190,6 +213,18 @@
             </div>
             <div id="weakList" class="weak-list"><p class="empty-state">Tap “Weak” on a word to save it here.</p></div>
             <button class="secondary-button full-width" id="practiceButton" type="button">Practice weak words</button>
+          </section>
+
+          <section class="panel korean-notebook-panel is-hidden" id="koreanNotebookPanel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">KOREAN NOTEBOOK</p>
+                <h2>Vocabulary <span id="koreanVocabCount" class="count-badge">0</span></h2>
+              </div>
+            </div>
+            <input id="koreanVocabSearch" type="search" placeholder="Search Korean or 中文" />
+            <select id="koreanVocabLessonFilter" aria-label="Filter vocabulary by lesson"></select>
+            <div id="koreanNotebook" class="korean-notebook"></div>
           </section>
 
           <div class="notice" id="notice" role="status" aria-live="polite"></div>

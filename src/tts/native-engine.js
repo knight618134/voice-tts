@@ -35,7 +35,7 @@ export class NativeTtsEngine {
     return Boolean(this.synthesis);
   }
 
-  speak(text, { voiceName = '', rate = 1 } = {}) {
+  speak(text, { voiceName = '', rate = 1, lang = '' } = {}) {
     if (!this.synthesis) return Promise.reject(new Error('SpeechSynthesis is unavailable.'));
     this.stop();
     this.cancelled = false;
@@ -45,6 +45,7 @@ export class NativeTtsEngine {
       const utterance = new SpeechSynthesisUtterance(text);
       const voice = this.voices.find((candidate) => candidate.name === voiceName);
       if (voice) utterance.voice = voice;
+      if (lang) utterance.lang = lang;
       utterance.rate = Number(rate) || 1;
       utterance.onend = () => {
         this.activeUtterance = null;

@@ -1,0 +1,469 @@
+{
+  "schemaVersion": 1,
+  "language": "ko-KR",
+  "vocabulary": [
+    {
+      "id": "KR-V001",
+      "ko": "저",
+      "zhTW": "我（謙稱）",
+      "formInText": "저는",
+      "exampleKo": "저는 커피를 좋아해요.",
+      "exampleZhTW": "我喜歡咖啡。",
+      "sourceLabel": "教材第4節常用句／文法補充",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "代詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "跟 나는 的語氣不同"
+    },
+    {
+      "id": "KR-V002",
+      "ko": "친구",
+      "zhTW": "朋友",
+      "formInText": "친구하고",
+      "exampleKo": "친구하고 같이 쉬어요.",
+      "exampleZhTW": "和朋友一起休息。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "친구도＝朋友也；친구하고＝跟朋友"
+    },
+    {
+      "id": "KR-V003",
+      "ko": "기차",
+      "zhTW": "火車",
+      "formInText": "기차를",
+      "exampleKo": "저는 기차를 타요.",
+      "exampleZhTW": "我搭火車。",
+      "sourceLabel": "教材第4節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "기차를 타다＝搭火車"
+    },
+    {
+      "id": "KR-V004",
+      "ko": "타다",
+      "zhTW": "搭乘／騎",
+      "formInText": "타요",
+      "exampleKo": "저는 기차를 타요.",
+      "exampleZhTW": "我搭火車。",
+      "sourceLabel": "教材第4節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "搭乘的對象可用 을/를"
+    },
+    {
+      "id": "KR-V005",
+      "ko": "시내",
+      "zhTW": "市區",
+      "formInText": "시내에서",
+      "exampleKo": "시내에서 모자를 사요.",
+      "exampleZhTW": "在市區買帽子。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "시내에 가요／시내에서 사요"
+    },
+    {
+      "id": "KR-V006",
+      "ko": "가다",
+      "zhTW": "去",
+      "formInText": "가요",
+      "exampleKo": "저는 시내에 가요.",
+      "exampleZhTW": "我去市區。",
+      "sourceLabel": "教材第1節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "目的地＋에 가요"
+    },
+    {
+      "id": "KR-V007",
+      "ko": "모자",
+      "zhTW": "帽子",
+      "formInText": "모자를",
+      "exampleKo": "시내에서 모자를 사요.",
+      "exampleZhTW": "在市區買帽子。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "모자를 사요＝買帽子"
+    },
+    {
+      "id": "KR-V008",
+      "ko": "사다",
+      "zhTW": "買",
+      "formInText": "사요",
+      "exampleKo": "커피하고 사이다를 사요.",
+      "exampleZhTW": "買咖啡和汽水。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "與 싸다（便宜）辨別"
+    },
+    {
+      "id": "KR-V009",
+      "ko": "싸다",
+      "zhTW": "便宜",
+      "formInText": "싸요",
+      "exampleKo": "커피는 싸요.",
+      "exampleZhTW": "咖啡很便宜。",
+      "sourceLabel": "教材第5節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "形容詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "與 사다（買）辨別"
+    },
+    {
+      "id": "KR-V010",
+      "ko": "커피",
+      "zhTW": "咖啡",
+      "formInText": "커피를",
+      "exampleKo": "저는 커피를 좋아해요.",
+      "exampleZhTW": "我喜歡咖啡。",
+      "sourceLabel": "教材第4節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "커피가 있어요／커피를 사요"
+    },
+    {
+      "id": "KR-V011",
+      "ko": "오다",
+      "zhTW": "來",
+      "formInText": "와요",
+      "exampleKo": "친구도 시내에 와요.",
+      "exampleZhTW": "朋友也來市區。",
+      "sourceLabel": "教材第2節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "오다→와요；與 가다 對比"
+    },
+    {
+      "id": "KR-V012",
+      "ko": "파티",
+      "zhTW": "派對／聚會",
+      "formInText": "파티에",
+      "exampleKo": "친구하고 파티에 가요.",
+      "exampleZhTW": "和朋友去派對。",
+      "sourceLabel": "教材第4節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "파티에 가요／파티에서 소개해요"
+    },
+    {
+      "id": "KR-V013",
+      "ko": "있다",
+      "zhTW": "有／在／存在",
+      "formInText": "있어요",
+      "exampleKo": "카페에 커피가 있어요.",
+      "exampleZhTW": "咖啡店有咖啡。",
+      "sourceLabel": "教材第3節常用句（있어요?）",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "表示存在；위치＋에 있어요"
+    },
+    {
+      "id": "KR-V014",
+      "ko": "사이다",
+      "zhTW": "汽水",
+      "formInText": "사이다도",
+      "exampleKo": "사이다도 있어요.",
+      "exampleZhTW": "汽水也有。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "韓文常指清爽的碳酸汽水"
+    },
+    {
+      "id": "KR-V015",
+      "ko": "좋아하다",
+      "zhTW": "喜歡",
+      "formInText": "좋아해요",
+      "exampleKo": "친구는 사이다를 좋아해요.",
+      "exampleZhTW": "朋友喜歡汽水。",
+      "sourceLabel": "文法主線補充",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "喜歡的對象通常用 을/를"
+    },
+    {
+      "id": "KR-V016",
+      "ko": "소개하다",
+      "zhTW": "介紹",
+      "formInText": "소개해요",
+      "exampleKo": "파티에서 친구를 소개해요.",
+      "exampleZhTW": "在派對上介紹朋友。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "하다→해요"
+    },
+    {
+      "id": "KR-V017",
+      "ko": "같이",
+      "zhTW": "一起",
+      "formInText": "같이",
+      "exampleKo": "친구하고 같이 쉬어요.",
+      "exampleZhTW": "和朋友一起休息。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "副詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "친구하고＝跟朋友；같이＝一起"
+    },
+    {
+      "id": "KR-V018",
+      "ko": "쉬다",
+      "zhTW": "休息",
+      "formInText": "쉬어요",
+      "exampleKo": "친구하고 같이 쉬어요.",
+      "exampleZhTW": "和朋友一起休息。",
+      "sourceLabel": "教材第3節",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "쉬다→쉬어요"
+    },
+    {
+      "id": "KR-V019",
+      "ko": "카페",
+      "zhTW": "咖啡店",
+      "formInText": "카페에",
+      "exampleKo": "저는 친구하고 카페에 가요.",
+      "exampleZhTW": "我和朋友去咖啡店。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "카페에（去咖啡店）／카페에서（在咖啡店做事）"
+    },
+    {
+      "id": "KR-V020",
+      "ko": "메뉴",
+      "zhTW": "菜單",
+      "formInText": "메뉴를",
+      "exampleKo": "카페에서 메뉴를 봐요.",
+      "exampleZhTW": "在咖啡店看菜單。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "메뉴를 보다＝看菜單"
+    },
+    {
+      "id": "KR-V021",
+      "ko": "보다",
+      "zhTW": "看",
+      "formInText": "봐요",
+      "exampleKo": "카페에서 메뉴를 봐요.",
+      "exampleZhTW": "在咖啡店看菜單。",
+      "sourceLabel": "教材第2節",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "動詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "보다→봐요"
+    },
+    {
+      "id": "KR-V022",
+      "ko": "없다",
+      "zhTW": "沒有／不在",
+      "formInText": "없어요",
+      "exampleKo": "말차는 없어요.",
+      "exampleZhTW": "沒有抹茶。",
+      "sourceLabel": "文法主線補充（教材後續也收錄）",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "形容詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "있어요 的反義"
+    },
+    {
+      "id": "KR-V023",
+      "ko": "말차",
+      "zhTW": "抹茶",
+      "formInText": "말차는",
+      "exampleKo": "말차는 없어요.",
+      "exampleZhTW": "沒有抹茶。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "말차가 있어요?＝有抹茶嗎？"
+    },
+    {
+      "id": "KR-V024",
+      "ko": "이거",
+      "zhTW": "這個",
+      "formInText": "이거",
+      "exampleKo": "이거 하나하고 이거 하나 주세요.",
+      "exampleZhTW": "這個一個，再來這個一個，請給我。",
+      "sourceLabel": "課堂補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "指示詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "指菜單或物品時很實用"
+    },
+    {
+      "id": "KR-V025",
+      "ko": "하나",
+      "zhTW": "一個（數字1）",
+      "formInText": "하나",
+      "exampleKo": "이거 하나 주세요.",
+      "exampleZhTW": "這個請給我一個。",
+      "sourceLabel": "課堂補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "數詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "한 잔＝一杯；數量詞前會變形"
+    },
+    {
+      "id": "KR-V026",
+      "ko": "하고",
+      "zhTW": "和／跟",
+      "formInText": "하고",
+      "exampleKo": "이거 하나하고 이거 하나 주세요.",
+      "exampleZhTW": "這個一個，再來這個一個，請給我。",
+      "sourceLabel": "課堂補充／文法主線",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "助詞",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "和日文 と 功能相近"
+    },
+    {
+      "id": "KR-V027",
+      "ko": "도",
+      "zhTW": "也",
+      "formInText": "도",
+      "exampleKo": "사이다도 있어요.",
+      "exampleZhTW": "汽水也有。",
+      "sourceLabel": "文法主線補充",
+      "lessonIds": [
+        "KR-R01",
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "助詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "도 加在誰後面，就強調誰也"
+    },
+    {
+      "id": "KR-V028",
+      "ko": "주세요",
+      "zhTW": "請給我",
+      "formInText": "주세요",
+      "exampleKo": "이거 하나 주세요.",
+      "exampleZhTW": "請給我一個這個。",
+      "sourceLabel": "課堂補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "固定句型",
+      "reviewStatus": "本週重點",
+      "learningNoteZh": "點餐常用，不必現在拆解語尾"
+    },
+    {
+      "id": "KR-V029",
+      "ko": "직원",
+      "zhTW": "店員／工作人員",
+      "formInText": "직원",
+      "exampleKo": "직원: 네, 여기 있어요.",
+      "exampleZhTW": "店員：好的，給你。",
+      "sourceLabel": "閱讀補充",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "名詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "咖啡店及商店都通用"
+    },
+    {
+      "id": "KR-V030",
+      "ko": "여기",
+      "zhTW": "這裡",
+      "formInText": "여기",
+      "exampleKo": "네, 여기 있어요.",
+      "exampleZhTW": "好的，給你／在這裡。",
+      "sourceLabel": "教材第4節",
+      "lessonIds": [
+        "KR-R02"
+      ],
+      "partOfSpeechZh": "場所代詞",
+      "reviewStatus": "已看過",
+      "learningNoteZh": "여기 있어요＝在這裡／給你"
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "language": "ko-KR",
+  "generatedFrom": "ChatGPT Korean learning conversation; supplementary reading, not textbook verbatim",
+  "lessons": [
+    {
+      "id": "KR-R01",
+      "order": 1,
+      "titleKo": "시내와 파티",
+      "titleZh": "市區與派對",
+      "sourceType": "chatgpt_learning_article",
+      "level": "A1",
+      "paragraphs": [
+        {
+          "ko": "저는 기차를 타요. 시내에 가요. 시내에서 모자를 사요. 모자는 싸요. 커피도 사요.",
+          "zh": "我搭火車去市區，在市區買帽子。帽子很便宜，我也買咖啡。"
+        },
+        {
+          "ko": "친구도 시내에 와요. 친구하고 파티에 가요. 파티에 커피가 있어요. 사이다도 있어요.",
+          "zh": "朋友也來市區，我和朋友去派對。派對上有咖啡，也有汽水。"
+        },
+        {
+          "ko": "저는 커피를 좋아해요. 친구는 사이다를 좋아해요. 파티에서 친구를 소개해요. 친구하고 같이 쉬어요.",
+          "zh": "我喜歡咖啡，朋友喜歡汽水。我在派對上介紹朋友，和朋友一起休息。"
+        }
+      ],
+      "grammar": [
+        "은/는",
+        "이/가",
+        "을/를",
+        "에（目的地、存在位置）",
+        "에서（動作場所）",
+        "도",
+        "하고",
+        "있어요",
+        "좋아해요",
+        "-아요/-어요"
+      ],
+      "reviewFocus": [
+        "사다 vs 싸다",
+        "에 vs 에서",
+        "하고 + 같이"
+      ],
+      "questions": [
+        {
+          "id": "KR-R01-Q01",
+          "type": "multiple_choice",
+          "promptZh": "主角去了市區，主要做了哪件事？",
+          "optionsZh": [
+            "買帽子和咖啡",
+            "買火車票和汽水",
+            "介紹老師"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R01-Q02",
+          "type": "multiple_choice",
+          "promptZh": "故事中，價格便宜的是什麼？",
+          "optionsZh": [
+            "咖啡",
+            "帽子",
+            "火車"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R01-Q03",
+          "type": "multiple_choice",
+          "promptZh": "朋友來到市區後，他們一起去了哪裡？",
+          "optionsZh": [
+            "學校",
+            "咖啡店",
+            "派對"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "KR-R01-Q04",
+          "type": "multiple_choice",
+          "promptZh": "文章中，朋友喜歡喝什麼？",
+          "optionsZh": [
+            "汽水",
+            "咖啡",
+            "抹茶"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R01-Q05",
+          "type": "multiple_choice",
+          "promptZh": "「파티에 커피가 있어요」為什麼使用 에？",
+          "optionsZh": [
+            "表示咖啡是買的對象",
+            "表示咖啡存在的位置",
+            "表示介紹朋友的場所"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R01-Q06",
+          "type": "multiple_choice",
+          "promptZh": "「파티에서 친구를 소개해요」使用 에서 的原因是？",
+          "optionsZh": [
+            "表示要去派對",
+            "表示派對也存在",
+            "表示介紹朋友的動作在派對發生"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "KR-R01-Q07",
+          "type": "multiple_choice",
+          "promptZh": "「친구도 시내에 와요」裡的 도 強調什麼？",
+          "optionsZh": [
+            "朋友也來",
+            "市區也來",
+            "火車也來"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R01-Q08",
+          "type": "multiple_choice",
+          "promptZh": "如果你要說「在市區買帽子」，應該使用哪一句？",
+          "optionsZh": [
+            "시내에 모자를 사요.",
+            "시내에서 모자를 사요.",
+            "시내를 모자에 사요."
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R01-Q09",
+          "type": "multiple_choice",
+          "promptZh": "下列哪個順序符合文章內容？",
+          "optionsZh": [
+            "先去派對，再搭火車",
+            "先介紹朋友，再買帽子",
+            "搭火車、到市區買東西、參加派對"
+          ],
+          "correctIndex": 2
+        }
+      ],
+      "textKo": "저는 기차를 타요. 시내에 가요. 시내에서 모자를 사요. 모자는 싸요. 커피도 사요.\n\n친구도 시내에 와요. 친구하고 파티에 가요. 파티에 커피가 있어요. 사이다도 있어요.\n\n저는 커피를 좋아해요. 친구는 사이다를 좋아해요. 파티에서 친구를 소개해요. 친구하고 같이 쉬어요.",
+      "isTextbookVerbatim": false,
+      "vocabularyIds": [
+        "KR-V001",
+        "KR-V002",
+        "KR-V003",
+        "KR-V004",
+        "KR-V005",
+        "KR-V006",
+        "KR-V007",
+        "KR-V008",
+        "KR-V009",
+        "KR-V010",
+        "KR-V011",
+        "KR-V012",
+        "KR-V013",
+        "KR-V014",
+        "KR-V015",
+        "KR-V016",
+        "KR-V017",
+        "KR-V018",
+        "KR-V026",
+        "KR-V027"
+      ]
+    },
+    {
+      "id": "KR-R02",
+      "order": 2,
+      "titleKo": "카페에서",
+      "titleZh": "在咖啡店",
+      "sourceType": "chatgpt_learning_article",
+      "level": "A1",
+      "paragraphs": [
+        {
+          "ko": "저는 친구하고 카페에 가요.\n카페에서 메뉴를 봐요.\n커피가 있어요. 사이다도 있어요.\n말차는 없어요.",
+          "zh": "我和朋友去咖啡店。在店裡看菜單；有咖啡也有汽水，但沒有抹茶。"
+        },
+        {
+          "ko": "저는 커피를 좋아해요.\n친구는 사이다를 좋아해요.",
+          "zh": "我喜歡咖啡，朋友喜歡汽水。"
+        },
+        {
+          "ko": "저: 이거 하나하고 이거 하나 주세요.\n직원: 네, 여기 있어요.",
+          "zh": "我：這個一個，再來這個一個，請給我。\n店員：好的，給你。"
+        },
+        {
+          "ko": "커피하고 사이다를 사요.\n커피는 싸요.\n친구하고 같이 쉬어요.",
+          "zh": "我們買咖啡和汽水。咖啡很便宜，和朋友一起休息。"
+        }
+      ],
+      "grammar": [
+        "은/는",
+        "이/가",
+        "을/를",
+        "에（目的地、存在位置）",
+        "에서（動作場所）",
+        "도",
+        "하고",
+        "있어요/없어요",
+        "좋아해요",
+        "주세요（固定句型）"
+      ],
+      "reviewFocus": [
+        "사다 vs 싸다",
+        "에 vs 에서",
+        "이거 + 하나 + 하고 + 주세요",
+        "친구하고 같이"
+      ],
+      "questions": [
+        {
+          "id": "KR-R02-Q01",
+          "type": "multiple_choice",
+          "promptZh": "主角和誰一起去咖啡店？",
+          "optionsZh": [
+            "老師",
+            "朋友",
+            "店員"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R02-Q02",
+          "type": "multiple_choice",
+          "promptZh": "他們進咖啡店後，先做什麼？",
+          "optionsZh": [
+            "看菜單",
+            "休息",
+            "介紹朋友"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R02-Q03",
+          "type": "multiple_choice",
+          "promptZh": "店裡沒有哪一種飲料？",
+          "optionsZh": [
+            "汽水",
+            "咖啡",
+            "抹茶"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "KR-R02-Q04",
+          "type": "multiple_choice",
+          "promptZh": "朋友喜歡哪一種飲料？",
+          "optionsZh": [
+            "抹茶",
+            "汽水",
+            "咖啡"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R02-Q05",
+          "type": "multiple_choice",
+          "promptZh": "點餐時的 이거 하나하고 이거 하나 주세요，總共點幾樣？",
+          "optionsZh": [
+            "兩樣",
+            "三樣",
+            "一樣"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R02-Q06",
+          "type": "multiple_choice",
+          "promptZh": "카페에서 메뉴를 봐요 為什麼使用 에서？",
+          "optionsZh": [
+            "表示前往咖啡店",
+            "表示菜單存在的位置",
+            "表示看菜單的動作在咖啡店發生"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "KR-R02-Q07",
+          "type": "multiple_choice",
+          "promptZh": "커피하고 사이다를 사요 中的 사요 是什麼？",
+          "optionsZh": [
+            "便宜",
+            "買",
+            "休息"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": "KR-R02-Q08",
+          "type": "multiple_choice",
+          "promptZh": "커피는 싸요 表示什麼？",
+          "optionsZh": [
+            "咖啡很便宜",
+            "購買咖啡",
+            "咖啡已經賣完"
+          ],
+          "correctIndex": 0
+        },
+        {
+          "id": "KR-R02-Q09",
+          "type": "multiple_choice",
+          "promptZh": "친구하고 같이 쉬어요，哪個解釋最準確？",
+          "optionsZh": [
+            "朋友也休息，但不一定在一起",
+            "去朋友所在的地方",
+            "和朋友一起休息"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": "KR-R02-Q10",
+          "type": "multiple_choice",
+          "promptZh": "根據全文，下列哪個順序正確？",
+          "optionsZh": [
+            "點餐 → 去咖啡店 → 看菜單",
+            "去咖啡店 → 看菜單 → 點餐 → 休息",
+            "去咖啡店 → 休息 → 看菜單 → 點餐"
+          ],
+          "correctIndex": 1
+        }
+      ],
+      "textKo": "저는 친구하고 카페에 가요.\n카페에서 메뉴를 봐요.\n커피가 있어요. 사이다도 있어요.\n말차는 없어요.\n\n저는 커피를 좋아해요.\n친구는 사이다를 좋아해요.\n\n저: 이거 하나하고 이거 하나 주세요.\n직원: 네, 여기 있어요.\n\n커피하고 사이다를 사요.\n커피는 싸요.\n친구하고 같이 쉬어요.",
+      "isTextbookVerbatim": false,
+      "vocabularyIds": [
+        "KR-V001",
+        "KR-V002",
+        "KR-V006",
+        "KR-V008",
+        "KR-V009",
+        "KR-V010",
+        "KR-V013",
+        "KR-V014",
+        "KR-V015",
+        "KR-V017",
+        "KR-V018",
+        "KR-V019",
+        "KR-V020",
+        "KR-V021",
+        "KR-V022",
+        "KR-V023",
+        "KR-V024",
+        "KR-V025",
+        "KR-V026",
+        "KR-V027",
+        "KR-V028",
+        "KR-V029",
+        "KR-V030"
+      ]
+    }
+  ]
+}
