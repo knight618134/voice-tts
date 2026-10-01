@@ -149,6 +149,8 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-article-paragraph:last-child { padding-bottom: 4px; margin-bottom: 0; border-bottom: 0; }
 .korean-article-paragraph.is-current { border-bottom-color: #a79eee; }
 .korean-notebook-panel input[type="search"] { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 9px; }
+.korean-reference-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.korean-reference-filters select { margin-top: 8px; }
 .korean-notebook-panel select { margin-top: 8px; }
 .korean-notebook { display: grid; gap: 10px; max-height: 720px; margin-top: 13px; overflow: auto; }
 .korean-mode-tabs { margin-top: -4px; }
@@ -229,6 +231,7 @@ input[type="range"] { accent-color: var(--purple); }
   .korean-heading-actions .primary-button, .korean-heading-actions .secondary-button { flex: 1; }
   .korean-article-body { padding: 16px 15px 3px; }
   .split-fields, .article-actions { grid-template-columns: 1fr; }
+  .korean-reference-filters { grid-template-columns: 1fr; }
   .speaker-a, .speaker-b { margin-left: 0; margin-right: 0; }
   .speaker-b { background: #fbfbff; }
   .player-card { position: sticky; z-index: 5; top: max(8px, env(safe-area-inset-top)); align-items: stretch; flex-direction: column; gap: 12px; margin: 0 0 16px; box-shadow: 0 12px 32px rgba(45, 39, 85, .12); }

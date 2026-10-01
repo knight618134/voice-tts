@@ -16,6 +16,7 @@
 - Korean mode：KR-R01、KR-R02 閱讀、繁中翻譯揭示、段落／全文朗讀、可點擊單字查詢
 - Korean notebook：30 筆去重單字、例句、來源／課次、複習狀態、搜尋、匯出 JSON／TSV
 - Korean study sections：依課次分開的單字複習、單字測驗、句子練習、連續文章閱讀；單字可分開播放單字／例句，並依 Repeat 設定連續播放
+- Korean full content pack：內建 `src/data/korean-content-full.json` 與 `src/data/korean-vocabulary-full.json`，提供 191 筆教材單字、25 片語、9 文法項目、5 篇閱讀、117 個發音例子與 5 個發音長句
 - Korean quiz：19 題，按下 Submit answers 後才計分；第一次與重做結果分開保存
 - Korean import：可預覽並匯入未來的 `KR-R03` 等 JSON；相同 ID 與相同內容不重複，衝突會拒絕
 
@@ -54,7 +55,7 @@ Article mode 直接貼上英文段落。`Full article · continuous` 會先將�
 
 ## Korean mode
 
-切換右上角的 `Language` 到 `한국어 · Korean` 後，可從內建的 KR-R01／KR-R02 選擇閱讀課次。韓文內容位於 [`src/data/korean-lessons.json`](src/data/korean-lessons.json) 和 [`src/data/korean-vocabulary.json`](src/data/korean-vocabulary.json)，使用 `schemaVersion: 1`、穩定 ID 與課次／單字交叉引用。文章是生成的學習材料，`isTextbookVerbatim` 為 `false`，不包含教材 PDF 原文。
+切換右上角的 `Language` 到 `한국어 · Korean` 後，可從內建課程選擇閱讀課次。原本的 `src/data/korean-lessons.json`／`korean-vocabulary.json` 仍保留，完整內容包則位於 [`src/data/korean-content-full.json`](src/data/korean-content-full.json) 和 [`src/data/korean-vocabulary-full.json`](src/data/korean-vocabulary-full.json)。啟動時會做資料正規化與 lemma 去重，保留舊版複習紀錄，同時加入 reading-03～05；使用穩定 `id`／source id，不依賴陣列位置。文章是生成的學習材料，`isTextbookVerbatim` 為 `false`，不包含教材 PDF 原文。
 
 韓文播放固定使用瀏覽器 `SpeechSynthesis`，每次 utterance 設為 `lang = 'ko-KR'`；Piper/Kokoro 的英文設定不會被宣稱支援韓文。韓文模式中的 Browser Voice A/B 只列出瀏覽器已安裝的 `ko-*` voices。若裝置沒有載入韓文 voice，畫面會提示安裝 Korean 系統語音。iPhone Safari 請從明確的 `Listen` 或 `Play` 按鈕開始播放；程式會在 tap 事件內立即呼叫 SpeechSynthesis，避免等待 voice 載入而失去 user activation。
 
@@ -62,11 +63,15 @@ Article mode 直接貼上英文段落。`Full article · continuous` 會先將�
 
 `句子` 模式會將課文拆成逐句卡片；`文章` 模式則保留整篇文章的連續閱讀結構，並提供整篇／段落朗讀。韓文文字中的已知單字會顯示詞形、助詞或變化提示，可用 `Hide forms & particles` 暫時隱藏。`單字測驗` 會從目前課次抽取最多 10 題，第一次作答與重做成績分開保存於 `vocabulary-reader:korean-word-quiz:v1`。
 
+參考區另外提供 `Phrases`、`Grammar / particles`、`Pronunciation examples`，且教材單字可依教材章節、詞性、主題與 `learning_state` 篩選。純音節練習不會被加入一般單字卡。
+
 點擊文章中的底線單字會聚焦到 notebook。`Naver Dictionary` 只是另開參考頁，使用 URL 格式：`https://korean.dict.naver.com/koendict/#/search?query=<encodeURIComponent(lemma)>`。本專案不爬取 Naver、不重新散佈字典音檔，也不宣稱能自動同步 Naver 帳戶。
 
 ### 匯入未來課次
 
 在 Korean content panel 點擊 `Import Korean JSON`，選取包含 `schemaVersion: 1` 且至少有 `lessons` 或 `vocabulary` 的檔案。每筆內容必須有穩定 `id`；lesson question 的 `correctIndex` 必須落在 options 範圍內，課次與單字引用會被檢查。匯入結果存於版本化 localStorage key `vocabulary-reader:korean-content:v1`，複製同一份 bundle 不會增加重複內容或清除複習／測驗進度。
+
+完整內容包的 `schema_version: 1.0.0` 新格式也可直接透過 `Import Korean JSON` 匯入；程式會轉成目前 reader 所需的顯示格式，並將 phrases、grammar、pronunciation examples 分開保存。新增 reading-06、reading-07 時，只要沿用相同欄位與穩定 ID，不需要修改 UI code。
 
 新增 KR-R03 時，沿用現有欄位與唯一 ID（例如 `KR-R03`、`KR-R03-Q01`、`KR-V031`），即可直接匯入，不需要修改 application code。使用 `Export JSON` 可取得目前內容 bundle；`Export TSV` 會輸出 notebook 欄位供試算表或 Anki 整理。
 

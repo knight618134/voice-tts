@@ -227,10 +227,22 @@
             <div class="panel-heading">
               <div>
                 <p class="eyebrow">KOREAN NOTEBOOK</p>
-                <h2>Reference vocabulary <span id="koreanVocabCount" class="count-badge">0</span></h2>
+                <h2>韓文參考區 <span id="koreanVocabCount" class="count-badge">0</span></h2>
               </div>
             </div>
             <input id="koreanVocabSearch" type="search" placeholder="Search Korean or 中文" />
+            <select id="koreanNotebookType" aria-label="Korean reference type">
+              <option value="vocabulary">Vocabulary</option>
+              <option value="phrases">Phrases</option>
+              <option value="grammar">Grammar / particles</option>
+              <option value="pronunciation">Pronunciation examples</option>
+            </select>
+            <div class="korean-reference-filters">
+              <select id="koreanVocabSectionFilter" aria-label="Filter vocabulary by textbook section"><option value="all">All textbook sections</option></select>
+              <select id="koreanVocabPosFilter" aria-label="Filter vocabulary by part of speech"><option value="all">All parts of speech</option></select>
+              <select id="koreanVocabTopicFilter" aria-label="Filter vocabulary by topic"><option value="all">All topics</option></select>
+              <select id="koreanVocabStateFilter" aria-label="Filter vocabulary by learning state"><option value="all">All learning states</option></select>
+            </div>
             <select id="koreanVocabLessonFilter" aria-label="Filter vocabulary by lesson"></select>
             <div id="koreanNotebook" class="korean-notebook"></div>
           </section>

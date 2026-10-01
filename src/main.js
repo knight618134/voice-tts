@@ -93,6 +93,11 @@ const elements = {
   koreanNotebookPanel: $('#koreanNotebookPanel'),
   koreanVocabCount: $('#koreanVocabCount'),
   koreanVocabSearch: $('#koreanVocabSearch'),
+  koreanNotebookType: $('#koreanNotebookType'),
+  koreanVocabSectionFilter: $('#koreanVocabSectionFilter'),
+  koreanVocabPosFilter: $('#koreanVocabPosFilter'),
+  koreanVocabTopicFilter: $('#koreanVocabTopicFilter'),
+  koreanVocabStateFilter: $('#koreanVocabStateFilter'),
   koreanVocabLessonFilter: $('#koreanVocabLessonFilter'),
   koreanNotebook: $('#koreanNotebook'),
   voiceALabel: $('#voiceALabel'),
@@ -143,7 +148,12 @@ const state = {
   koreanQuizResult: null,
   pendingKoreanImport: null,
   koreanVocabSearch: '',
+  koreanNotebookType: 'vocabulary',
   koreanVocabLesson: 'all',
+  koreanVocabSection: 'all',
+  koreanVocabPos: 'all',
+  koreanVocabTopic: 'all',
+  koreanVocabState: 'all',
   koreanSection: 'vocabulary',
   koreanWordProgress: loadJsonStorage(KOREAN_WORD_PROGRESS_KEY, {}),
   koreanWordQuizProgress: loadJsonStorage(KOREAN_WORD_QUIZ_KEY, {}),
@@ -522,6 +532,8 @@ function submitKoreanQuiz() {
 function focusKoreanVocabulary(id) {
   const entry = state.koreanContent.vocabulary.find((candidate) => candidate.id === id);
   if (!entry) return;
+  state.koreanNotebookType = 'vocabulary';
+  elements.koreanNotebookType.value = 'vocabulary';
   state.koreanVocabSearch = entry.ko;
   elements.koreanVocabSearch.value = entry.ko;
   renderKoreanNotebook();
@@ -529,11 +541,38 @@ function focusKoreanVocabulary(id) {
 }
 
 function renderKoreanNotebook() {
+  const referenceType = state.koreanNotebookType;
+  elements.koreanVocabSectionFilter.parentElement.classList.toggle('is-hidden', referenceType !== 'vocabulary');
+  elements.koreanVocabLessonFilter.classList.toggle('is-hidden', referenceType !== 'vocabulary');
+  if (referenceType !== 'vocabulary') {
+    const search = state.koreanVocabSearch.trim().toLowerCase();
+    const renderable = referenceType === 'phrases'
+      ? state.koreanContent.phrases || []
+      : referenceType === 'grammar'
+        ? state.koreanContent.grammar || []
+        : [...(state.koreanContent.pronunciationExamples || []), ...(state.koreanContent.pronunciationSentences || [])];
+    const matches = (item) => JSON.stringify(item).toLowerCase().includes(search);
+    const rows = renderable.filter(matches);
+    elements.koreanVocabCount.textContent = `${rows.length}/${renderable.length}`;
+    elements.koreanNotebook.innerHTML = rows.length ? rows.map((item) => {
+      if (referenceType === 'phrases') return `<article class="korean-vocab-card"><div class="korean-vocab-heading"><div><h3 lang="ko">${escapeHtml(item.text)}</h3><p>${escapeHtml(item.meaning_zh_tw || '')}</p></div><span class="review-pill">Phrase</span></div><p class="field-hint">${escapeHtml(item.category || '')}</p><div class="korean-vocab-actions"><button class="secondary-button korean-audio-button" type="button" data-korean-reference-speak="${escapeHtml(item.id)}" data-korean-reference-text="${escapeHtml(item.text)}" data-korean-audio-toggle="reference-${escapeHtml(item.id)}" data-default-audio-label="▶ Listen">▶ Listen</button></div></article>`;
+      if (referenceType === 'grammar') return `<article class="korean-vocab-card"><div class="korean-vocab-heading"><div><h3 lang="ko">${escapeHtml(item.form)}</h3><p>${escapeHtml(item.meaning_zh_tw || '')}</p></div><span class="review-pill">Grammar</span></div><p class="field-hint">${escapeHtml(item.category || '')}</p></article>`;
+      const written = item.written || '';
+      const pronounced = item.pronounced_as || '';
+      return `<article class="korean-vocab-card"><div class="korean-vocab-heading"><div><h3 lang="ko">${escapeHtml(written)}</h3><p>發音：${escapeHtml(pronounced)}</p></div><span class="review-pill">Pronunciation</span></div><p class="field-hint">Section ${escapeHtml(item.section || '')} · ${escapeHtml(item.rule || '')}</p><div class="korean-vocab-actions"><button class="secondary-button korean-audio-button" type="button" data-korean-reference-speak="${escapeHtml(item.id)}" data-korean-reference-text="${escapeHtml(written)}" data-korean-audio-toggle="reference-${escapeHtml(item.id)}" data-default-audio-label="▶ Listen">▶ Listen</button></div></article>`;
+    }).join('') : '<p class="empty-state">No matching Korean reference items.</p>';
+    elements.koreanNotebook.querySelectorAll('[data-korean-reference-speak]').forEach((button) => button.addEventListener('click', () => toggleKoreanInlineAudio(button, button.dataset.koreanReferenceText, { label: button.dataset.koreanReferenceSpeak })));
+    return;
+  }
   const search = state.koreanVocabSearch.trim().toLowerCase();
   const entries = state.koreanContent.vocabulary.filter((entry) => {
     const lessonMatch = state.koreanVocabLesson === 'all' || entry.lessonIds?.includes(state.koreanVocabLesson);
+    const sectionMatch = state.koreanVocabSection === 'all' || entry.textbookSections?.includes(Number(state.koreanVocabSection));
+    const posMatch = state.koreanVocabPos === 'all' || entry.partOfSpeechZh === state.koreanVocabPos;
+    const topicMatch = state.koreanVocabTopic === 'all' || entry.topics?.includes(state.koreanVocabTopic);
+    const learningStateMatch = state.koreanVocabState === 'all' || entry.learningState === state.koreanVocabState;
     const searchMatch = !search || [entry.ko, entry.formInText, entry.zhTW, entry.exampleKo, entry.sourceLabel].some((value) => String(value || '').toLowerCase().includes(search));
-    return lessonMatch && searchMatch;
+    return lessonMatch && sectionMatch && posMatch && topicMatch && learningStateMatch && searchMatch;
   });
   elements.koreanVocabCount.textContent = `${entries.length}/${state.koreanContent.vocabulary.length}`;
   elements.koreanNotebook.innerHTML = entries.length ? entries.map((entry) => {
@@ -944,6 +983,19 @@ function updateKoreanLessonOptions() {
   elements.koreanLessonHint.textContent = lesson ? `${lesson.sourceType} · ${lesson.paragraphs.length} paragraphs · ${lesson.questions.length} questions · ${lesson.vocabularyIds?.length || 0} linked vocabulary items` : 'Import a Korean lesson JSON bundle to begin.';
   elements.koreanVocabLessonFilter.innerHTML = `<option value="all">All lessons</option>${lessons.map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.id)} · ${escapeHtml(item.titleKo)}</option>`).join('')}`;
   elements.koreanVocabLessonFilter.value = state.koreanVocabLesson;
+  const vocabulary = state.koreanContent.vocabulary;
+  const sections = [...new Set(vocabulary.flatMap((entry) => entry.textbookSections || []))].sort((left, right) => left - right);
+  const pos = [...new Set(vocabulary.map((entry) => entry.partOfSpeechZh).filter(Boolean))].sort();
+  const topics = [...new Set(vocabulary.flatMap((entry) => entry.topics || []))].sort();
+  const learningStates = [...new Set(vocabulary.map((entry) => entry.learningState).filter(Boolean))].sort();
+  elements.koreanVocabSectionFilter.innerHTML = `<option value="all">All textbook sections</option>${sections.map((item) => `<option value="${escapeHtml(item)}">Section ${escapeHtml(item)}</option>`).join('')}`;
+  elements.koreanVocabPosFilter.innerHTML = `<option value="all">All parts of speech</option>${pos.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
+  elements.koreanVocabTopicFilter.innerHTML = `<option value="all">All topics</option>${topics.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
+  elements.koreanVocabStateFilter.innerHTML = `<option value="all">All learning states</option>${learningStates.map((item) => `<option value="${escapeHtml(item)}">${escapeHtml(item)}</option>`).join('')}`;
+  elements.koreanVocabSectionFilter.value = state.koreanVocabSection;
+  elements.koreanVocabPosFilter.value = state.koreanVocabPos;
+  elements.koreanVocabTopicFilter.value = state.koreanVocabTopic;
+  elements.koreanVocabStateFilter.value = state.koreanVocabState;
 }
 
 function loadKoreanLesson() {
@@ -966,7 +1018,7 @@ function showKoreanImportPreview(result, fileName) {
   elements.koreanImportPreview.classList.remove('is-hidden');
   elements.koreanImportPreview.dataset.type = result.ok ? 'success' : 'error';
   elements.koreanImportPreview.innerHTML = result.ok
-    ? `<strong>${escapeHtml(fileName)} is ready to import.</strong><br>${result.summary.lessons} lessons · ${result.summary.vocabulary} vocabulary · ${result.summary.questions} questions${collisionHint}`
+    ? `<strong>${escapeHtml(fileName)} is ready to import.</strong><br>${result.summary.lessons} lessons · ${result.summary.vocabulary} vocabulary · ${result.summary.phrases || 0} phrases · ${result.summary.grammar || 0} grammar · ${result.summary.pronunciationExamples || 0} pronunciation examples${collisionHint}`
     : `<strong>Import rejected.</strong><br>${result.errors.map((error) => escapeHtml(error)).join('<br>')}${collisionHint}`;
   elements.confirmKoreanImportButton.disabled = !result.ok;
 }
@@ -983,7 +1035,7 @@ async function previewKoreanImport() {
   }
   const knownVocabularyIds = new Set(state.koreanContent.vocabulary.map((entry) => entry.id));
   const result = validateKoreanBundle(parsed, { knownVocabularyIds, allowPartial: true });
-  state.pendingKoreanImport = result.ok ? { lessons: result.lessons, vocabulary: result.vocabulary } : null;
+  state.pendingKoreanImport = result.ok ? { lessons: result.lessons, vocabulary: result.vocabulary, phrases: result.phrases, grammar: result.grammar, pronunciationExamples: result.pronunciationExamples, pronunciationSentences: result.pronunciationSentences } : null;
   showKoreanImportPreview(result, file.name);
 }
 
@@ -1350,7 +1402,12 @@ elements.confirmKoreanImportButton.addEventListener('click', () => confirmKorean
 elements.exportKoreanJsonButton.addEventListener('click', () => downloadText('korean-content.json', exportKoreanContent(state.koreanContent), 'application/json;charset=utf-8'));
 elements.exportKoreanTsvButton.addEventListener('click', () => exportKoreanTsv());
 elements.koreanVocabSearch.addEventListener('input', () => { state.koreanVocabSearch = elements.koreanVocabSearch.value; renderKoreanNotebook(); });
+elements.koreanNotebookType.addEventListener('change', () => { state.koreanNotebookType = elements.koreanNotebookType.value; state.koreanVocabSearch = ''; elements.koreanVocabSearch.value = ''; renderKoreanNotebook(); });
 elements.koreanVocabLessonFilter.addEventListener('change', () => { state.koreanVocabLesson = elements.koreanVocabLessonFilter.value; renderKoreanNotebook(); });
+elements.koreanVocabSectionFilter.addEventListener('change', () => { state.koreanVocabSection = elements.koreanVocabSectionFilter.value; renderKoreanNotebook(); });
+elements.koreanVocabPosFilter.addEventListener('change', () => { state.koreanVocabPos = elements.koreanVocabPosFilter.value; renderKoreanNotebook(); });
+elements.koreanVocabTopicFilter.addEventListener('change', () => { state.koreanVocabTopic = elements.koreanVocabTopicFilter.value; renderKoreanNotebook(); });
+elements.koreanVocabStateFilter.addEventListener('change', () => { state.koreanVocabState = elements.koreanVocabStateFilter.value; renderKoreanNotebook(); });
 elements.importArticleButton.addEventListener('click', () => elements.articleFileInput.click());
 elements.articleFileInput.addEventListener('change', () => importArticleFile().catch((error) => showNotice(`Could not import article: ${error.message}`, 'error')));
 elements.generateN8nButton.addEventListener('click', () => generateWithN8n());

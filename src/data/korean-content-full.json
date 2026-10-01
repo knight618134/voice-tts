@@ -1,0 +1,7097 @@
+{
+  "schema_version": "1.0.0",
+  "language": "ko",
+  "tts_language": "ko-KR",
+  "title": "Korean Vocabulary + Reading Content",
+  "source_policy": {
+    "textbook_vocabulary": "Sections 1–8 formal vocabulary lists are normal study vocabulary.",
+    "textbook_phrases": "Common/daily expressions are stored separately as phrases.",
+    "pronunciation_examples": "Sections 9–10 pronunciation-rule examples are separated from normal vocabulary.",
+    "syllable_drills": "Pure Hangul syllable drills such as 가/거/기 are intentionally excluded from vocabulary."
+  },
+  "counts": {
+    "vocabulary_entries": 191,
+    "textbook_common_phrases": 25,
+    "grammar_items": 9,
+    "reading_lessons": 5,
+    "reading_sentences": 68,
+    "pronunciation_examples": 117,
+    "pronunciation_sentences": 5
+  },
+  "categories": {
+    "part_of_speech": [
+      "adjective",
+      "adverb",
+      "determiner",
+      "expression",
+      "interjection",
+      "noun",
+      "numeral",
+      "pronoun",
+      "verb",
+      "verb_intransitive",
+      "verb_transitive"
+    ],
+    "semantic_topics": [
+      "action",
+      "animals_nature",
+      "description",
+      "food_drink",
+      "function_or_context",
+      "general",
+      "objects",
+      "people_family",
+      "places_directions",
+      "shopping",
+      "study_language",
+      "time_season",
+      "transport"
+    ],
+    "learning_state": [
+      "active",
+      "textbook_pool"
+    ]
+  },
+  "vocabulary": [
+    {
+      "id": "tb-가다",
+      "lemma": "가다",
+      "display": "가다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "去、走",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-거기",
+      "lemma": "거기",
+      "display": "거기",
+      "pos": "pronoun",
+      "meaning_zh_tw": "那裡",
+      "topics": [
+        "function_or_context",
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-그",
+      "lemma": "그",
+      "display": "그",
+      "pos": "pronoun",
+      "meaning_zh_tw": "他、她、那個",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        },
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-나",
+      "lemma": "나",
+      "display": "나",
+      "pos": "pronoun",
+      "meaning_zh_tw": "我",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-나가다",
+      "lemma": "나가다",
+      "display": "나가다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "出去、前進",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-나이",
+      "lemma": "나이",
+      "display": "나이",
+      "pos": "noun",
+      "meaning_zh_tw": "年齡",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-너",
+      "lemma": "너",
+      "display": "너",
+      "pos": "pronoun",
+      "meaning_zh_tw": "你",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-더",
+      "lemma": "더",
+      "display": "더",
+      "pos": "adverb",
+      "meaning_zh_tw": "更、更加",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아니",
+      "lemma": "아니",
+      "display": "아니",
+      "pos": "adverb",
+      "meaning_zh_tw": "不",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아이",
+      "lemma": "아이",
+      "display": "아이",
+      "pos": "noun",
+      "meaning_zh_tw": "小孩",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-이",
+      "lemma": "이",
+      "display": "이",
+      "pos": "pronoun",
+      "meaning_zh_tw": "這",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-이기다",
+      "lemma": "이기다",
+      "display": "이기다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "戰勝、贏",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-저",
+      "lemma": "저",
+      "display": "저",
+      "pos": "pronoun",
+      "meaning_zh_tw": "那（較遠）",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 1,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            8
+          ]
+        }
+      ],
+      "surface_forms": [
+        "저는"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-고기",
+      "lemma": "고기",
+      "display": "고기",
+      "pos": "noun",
+      "meaning_zh_tw": "肉",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [
+        "고기를",
+        "고기는"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-구",
+      "lemma": "구",
+      "display": "구",
+      "pos": "numeral",
+      "meaning_zh_tw": "九",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-구두",
+      "lemma": "구두",
+      "display": "구두",
+      "pos": "noun",
+      "meaning_zh_tw": "皮鞋",
+      "topics": [
+        "objects",
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-그루",
+      "lemma": "그루",
+      "display": "그루",
+      "pos": "noun",
+      "meaning_zh_tw": "株（樹木量詞）",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-나오다",
+      "lemma": "나오다",
+      "display": "나오다",
+      "pos": "verb",
+      "meaning_zh_tw": "出來",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-누구",
+      "lemma": "누구",
+      "display": "누구",
+      "pos": "pronoun",
+      "meaning_zh_tw": "誰",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-누나",
+      "lemma": "누나",
+      "display": "누나",
+      "pos": "noun",
+      "meaning_zh_tw": "姊姊（男性稱呼）",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-두다",
+      "lemma": "두다",
+      "display": "두다",
+      "pos": "verb",
+      "meaning_zh_tw": "放",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-머리",
+      "lemma": "머리",
+      "display": "머리",
+      "pos": "noun",
+      "meaning_zh_tw": "頭、頭髮",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-모두",
+      "lemma": "모두",
+      "display": "모두",
+      "pos": "adverb",
+      "meaning_zh_tw": "全部、整個",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-모르다",
+      "lemma": "모르다",
+      "display": "모르다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "不知道",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-보다",
+      "lemma": "보다",
+      "display": "보다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "看",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [
+        "봐요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-비누",
+      "lemma": "비누",
+      "display": "비누",
+      "pos": "noun",
+      "meaning_zh_tw": "肥皂",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아니다",
+      "lemma": "아니다",
+      "display": "아니다",
+      "pos": "adjective",
+      "meaning_zh_tw": "不是",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아버지",
+      "lemma": "아버지",
+      "display": "아버지",
+      "pos": "noun",
+      "meaning_zh_tw": "爸爸",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        },
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "아버지하고",
+        "아버지는",
+        "아버지"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-어디",
+      "lemma": "어디",
+      "display": "어디",
+      "pos": "pronoun",
+      "meaning_zh_tw": "哪裡",
+      "topics": [
+        "function_or_context",
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-어머니",
+      "lemma": "어머니",
+      "display": "어머니",
+      "pos": "noun",
+      "meaning_zh_tw": "媽媽",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-오다",
+      "lemma": "오다",
+      "display": "오다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "來",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [
+        "와요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-우리",
+      "lemma": "우리",
+      "display": "우리",
+      "pos": "pronoun",
+      "meaning_zh_tw": "我們",
+      "topics": [
+        "function_or_context",
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 2,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            15,
+            16
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-기회",
+      "lemma": "기회",
+      "display": "기회",
+      "pos": "noun",
+      "meaning_zh_tw": "機會",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-노래",
+      "lemma": "노래",
+      "display": "노래",
+      "pos": "noun",
+      "meaning_zh_tw": "歌曲",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "노래를"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-되다",
+      "lemma": "되다",
+      "display": "되다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "成為、可以",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-뒤",
+      "lemma": "뒤",
+      "display": "뒤",
+      "pos": "noun",
+      "meaning_zh_tw": "後面",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-매우",
+      "lemma": "매우",
+      "display": "매우",
+      "pos": "adverb",
+      "meaning_zh_tw": "很、十分",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-모자",
+      "lemma": "모자",
+      "display": "모자",
+      "pos": "noun",
+      "meaning_zh_tw": "帽子",
+      "topics": [
+        "objects",
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "모자를",
+        "모자는",
+        "모자하고",
+        "모자"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-03"
+      ]
+    },
+    {
+      "id": "tb-바지",
+      "lemma": "바지",
+      "display": "바지",
+      "pos": "noun",
+      "meaning_zh_tw": "褲子",
+      "topics": [
+        "objects",
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "바지를",
+        "바지는",
+        "바지도",
+        "바지"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-03"
+      ]
+    },
+    {
+      "id": "tb-배",
+      "lemma": "배",
+      "display": "배",
+      "pos": "noun",
+      "meaning_zh_tw": "船",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-배우다",
+      "lemma": "배우다",
+      "display": "배우다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "學、學習",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-버스",
+      "lemma": "버스",
+      "display": "버스",
+      "pos": "noun",
+      "meaning_zh_tw": "公車",
+      "topics": [
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "버스를"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-사귀다",
+      "lemma": "사귀다",
+      "display": "사귀다",
+      "pos": "verb",
+      "meaning_zh_tw": "交往、來往",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-사다",
+      "lemma": "사다",
+      "display": "사다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "買",
+      "topics": [
+        "action",
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "사요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-사이다",
+      "lemma": "사이다",
+      "display": "사이다",
+      "pos": "noun",
+      "meaning_zh_tw": "汽水",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "사이다도",
+        "사이다를",
+        "사이다는",
+        "사이다"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-사회",
+      "lemma": "사회",
+      "display": "사회",
+      "pos": "noun",
+      "meaning_zh_tw": "社會",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-새",
+      "lemma": "새",
+      "display": "새",
+      "pos": "determiner",
+      "meaning_zh_tw": "新的",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-새해",
+      "lemma": "새해",
+      "display": "새해",
+      "pos": "noun",
+      "meaning_zh_tw": "新年",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-세수",
+      "lemma": "세수",
+      "display": "세수",
+      "pos": "noun",
+      "meaning_zh_tw": "洗臉",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-소",
+      "lemma": "소",
+      "display": "소",
+      "pos": "noun",
+      "meaning_zh_tw": "牛",
+      "topics": [
+        "animals_nature"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-소개하다",
+      "lemma": "소개하다",
+      "display": "소개하다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "介紹",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "소개해요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-04"
+      ]
+    },
+    {
+      "id": "tb-소리",
+      "lemma": "소리",
+      "display": "소리",
+      "pos": "noun",
+      "meaning_zh_tw": "聲音",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-쉬다",
+      "lemma": "쉬다",
+      "display": "쉬다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "休息",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "쉬어요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-시내",
+      "lemma": "시내",
+      "display": "시내",
+      "pos": "noun",
+      "meaning_zh_tw": "市區、市內",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [
+        "시내에",
+        "시내에서",
+        "시내"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-시대",
+      "lemma": "시대",
+      "display": "시대",
+      "pos": "noun",
+      "meaning_zh_tw": "時代",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아래",
+      "lemma": "아래",
+      "display": "아래",
+      "pos": "noun",
+      "meaning_zh_tw": "下面",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아주머니",
+      "lemma": "아주머니",
+      "display": "아주머니",
+      "pos": "noun",
+      "meaning_zh_tw": "阿姨、大嬸",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-어제",
+      "lemma": "어제",
+      "display": "어제",
+      "pos": "noun",
+      "meaning_zh_tw": "昨天",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-어휘",
+      "lemma": "어휘",
+      "display": "어휘",
+      "pos": "noun",
+      "meaning_zh_tw": "詞彙",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-위",
+      "lemma": "위",
+      "display": "위",
+      "pos": "noun",
+      "meaning_zh_tw": "上面",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-지나가다",
+      "lemma": "지나가다",
+      "display": "지나가다",
+      "pos": "verb",
+      "meaning_zh_tw": "經過、過去",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 3,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            23,
+            24
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-고추",
+      "lemma": "고추",
+      "display": "고추",
+      "pos": "noun",
+      "meaning_zh_tw": "辣椒",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-교수",
+      "lemma": "교수",
+      "display": "교수",
+      "pos": "noun",
+      "meaning_zh_tw": "教授",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-기차",
+      "lemma": "기차",
+      "display": "기차",
+      "pos": "noun",
+      "meaning_zh_tw": "火車",
+      "topics": [
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "기차를",
+        "기차"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-03",
+        "reading-04"
+      ]
+    },
+    {
+      "id": "tb-기초",
+      "lemma": "기초",
+      "display": "기초",
+      "pos": "noun",
+      "meaning_zh_tw": "基礎",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-내려가다",
+      "lemma": "내려가다",
+      "display": "내려가다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "下去",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-내려오다",
+      "lemma": "내려오다",
+      "display": "내려오다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "下來",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-노트",
+      "lemma": "노트",
+      "display": "노트",
+      "pos": "noun",
+      "meaning_zh_tw": "筆記本",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "노트가",
+        "노트를",
+        "노트"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-04"
+      ]
+    },
+    {
+      "id": "tb-뉴스",
+      "lemma": "뉴스",
+      "display": "뉴스",
+      "pos": "noun",
+      "meaning_zh_tw": "新聞",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-대표",
+      "lemma": "대표",
+      "display": "대표",
+      "pos": "noun",
+      "meaning_zh_tw": "代表",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-소파",
+      "lemma": "소파",
+      "display": "소파",
+      "pos": "noun",
+      "meaning_zh_tw": "沙發",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-시키다",
+      "lemma": "시키다",
+      "display": "시키다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "使喚、讓…做",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아프다",
+      "lemma": "아프다",
+      "display": "아프다",
+      "pos": "adjective",
+      "meaning_zh_tw": "痛、不舒服",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-야구",
+      "lemma": "야구",
+      "display": "야구",
+      "pos": "noun",
+      "meaning_zh_tw": "棒球",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-여기",
+      "lemma": "여기",
+      "display": "여기",
+      "pos": "pronoun",
+      "meaning_zh_tw": "這裡",
+      "topics": [
+        "function_or_context",
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "여기"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02"
+      ]
+    },
+    {
+      "id": "tb-여러",
+      "lemma": "여러",
+      "display": "여러",
+      "pos": "determiner",
+      "meaning_zh_tw": "許多",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-여보시오",
+      "lemma": "여보시오",
+      "display": "여보시오",
+      "pos": "interjection",
+      "meaning_zh_tw": "喂（較客氣）",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-여자",
+      "lemma": "여자",
+      "display": "여자",
+      "pos": "noun",
+      "meaning_zh_tw": "女子、女性",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-외치다",
+      "lemma": "외치다",
+      "display": "외치다",
+      "pos": "verb",
+      "meaning_zh_tw": "喊叫",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-요구",
+      "lemma": "요구",
+      "display": "요구",
+      "pos": "noun",
+      "meaning_zh_tw": "要求",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-요구하다",
+      "lemma": "요구하다",
+      "display": "요구하다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "要求",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-요리",
+      "lemma": "요리",
+      "display": "요리",
+      "pos": "noun",
+      "meaning_zh_tw": "料理",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-유리",
+      "lemma": "유리",
+      "display": "유리",
+      "pos": "noun",
+      "meaning_zh_tw": "玻璃",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-이야기",
+      "lemma": "이야기",
+      "display": "이야기",
+      "pos": "noun",
+      "meaning_zh_tw": "故事",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-차다",
+      "lemma": "차다",
+      "display": "차다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "踢",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-차표",
+      "lemma": "차표",
+      "display": "차표",
+      "pos": "noun",
+      "meaning_zh_tw": "車票",
+      "topics": [
+        "shopping",
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "차표를",
+        "차표가",
+        "차표"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-03",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-커피",
+      "lemma": "커피",
+      "display": "커피",
+      "pos": "noun",
+      "meaning_zh_tw": "咖啡",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "커피도",
+        "커피를",
+        "커피가",
+        "커피는",
+        "커피하고",
+        "커피"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-켜다",
+      "lemma": "켜다",
+      "display": "켜다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "開（燈、電器）",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-크다",
+      "lemma": "크다",
+      "display": "크다",
+      "pos": "adjective",
+      "meaning_zh_tw": "大、高",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-키",
+      "lemma": "키",
+      "display": "키",
+      "pos": "noun",
+      "meaning_zh_tw": "身高、個子",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-타다",
+      "lemma": "타다",
+      "display": "타다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "乘、坐、騎",
+      "topics": [
+        "action",
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "타요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-파티",
+      "lemma": "파티",
+      "display": "파티",
+      "pos": "noun",
+      "meaning_zh_tw": "派對",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [
+        "파티에",
+        "파티에서",
+        "파티"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-표",
+      "lemma": "표",
+      "display": "표",
+      "pos": "noun",
+      "meaning_zh_tw": "票",
+      "topics": [
+        "shopping",
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 4,
+          "section_title": "모음 자음（元音 輔音）",
+          "pages": [
+            31,
+            32
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-계시다",
+      "lemma": "계시다",
+      "display": "계시다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "在、有（敬語）",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-기쁘다",
+      "lemma": "기쁘다",
+      "display": "기쁘다",
+      "pos": "adjective",
+      "meaning_zh_tw": "高興",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-깨다",
+      "lemma": "깨다",
+      "display": "깨다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "醒來",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-나쁘다",
+      "lemma": "나쁘다",
+      "display": "나쁘다",
+      "pos": "adjective",
+      "meaning_zh_tw": "壞、不好",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-때리다",
+      "lemma": "때리다",
+      "display": "때리다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "打",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-바꾸다",
+      "lemma": "바꾸다",
+      "display": "바꾸다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "更換、交換",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-바쁘다",
+      "lemma": "바쁘다",
+      "display": "바쁘다",
+      "pos": "adjective",
+      "meaning_zh_tw": "忙",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [
+        "바빠요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-04"
+      ]
+    },
+    {
+      "id": "tb-시계",
+      "lemma": "시계",
+      "display": "시계",
+      "pos": "noun",
+      "meaning_zh_tw": "手錶、時鐘",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [
+        "시계도",
+        "시계는",
+        "시계를"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-04"
+      ]
+    },
+    {
+      "id": "tb-싸다",
+      "lemma": "싸다",
+      "display": "싸다",
+      "pos": "adjective",
+      "meaning_zh_tw": "便宜",
+      "topics": [
+        "description",
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [
+        "싸요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-쓰다",
+      "lemma": "쓰다",
+      "display": "쓰다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "寫、使用",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-아저씨",
+      "lemma": "아저씨",
+      "display": "아저씨",
+      "pos": "noun",
+      "meaning_zh_tw": "叔叔、大叔",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-어째서",
+      "lemma": "어째서",
+      "display": "어째서",
+      "pos": "adverb",
+      "meaning_zh_tw": "為什麼",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-오빠",
+      "lemma": "오빠",
+      "display": "오빠",
+      "pos": "noun",
+      "meaning_zh_tw": "哥哥（女性稱呼）",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-토끼",
+      "lemma": "토끼",
+      "display": "토끼",
+      "pos": "noun",
+      "meaning_zh_tw": "兔子",
+      "topics": [
+        "animals_nature"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 5,
+          "section_title": "자음（輔音）",
+          "pages": [
+            38
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-과거",
+      "lemma": "과거",
+      "display": "과거",
+      "pos": "noun",
+      "meaning_zh_tw": "過去",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-교과서",
+      "lemma": "교과서",
+      "display": "교과서",
+      "pos": "noun",
+      "meaning_zh_tw": "教科書",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-궤도",
+      "lemma": "궤도",
+      "display": "궤도",
+      "pos": "noun",
+      "meaning_zh_tw": "軌道",
+      "topics": [
+        "transport"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-그리워하다",
+      "lemma": "그리워하다",
+      "display": "그리워하다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "思念",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-꿰다",
+      "lemma": "꿰다",
+      "display": "꿰다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "穿、縫",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-돼지",
+      "lemma": "돼지",
+      "display": "돼지",
+      "pos": "noun",
+      "meaning_zh_tw": "豬",
+      "topics": [
+        "animals_nature"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-비교하다",
+      "lemma": "비교하다",
+      "display": "비교하다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "比較",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-사과",
+      "lemma": "사과",
+      "display": "사과",
+      "pos": "noun",
+      "meaning_zh_tw": "蘋果",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-왜",
+      "lemma": "왜",
+      "display": "왜",
+      "pos": "pronoun",
+      "meaning_zh_tw": "為什麼",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-의자",
+      "lemma": "의자",
+      "display": "의자",
+      "pos": "noun",
+      "meaning_zh_tw": "椅子",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-주의",
+      "lemma": "주의",
+      "display": "주의",
+      "pos": "noun",
+      "meaning_zh_tw": "注意",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 6,
+          "section_title": "모음（元音）",
+          "pages": [
+            45
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-가깝다",
+      "lemma": "가깝다",
+      "display": "가깝다",
+      "pos": "adjective",
+      "meaning_zh_tw": "近",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-가방",
+      "lemma": "가방",
+      "display": "가방",
+      "pos": "noun",
+      "meaning_zh_tw": "包包",
+      "topics": [
+        "objects"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-가볍다",
+      "lemma": "가볍다",
+      "display": "가볍다",
+      "pos": "adjective",
+      "meaning_zh_tw": "輕",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-가을",
+      "lemma": "가을",
+      "display": "가을",
+      "pos": "noun",
+      "meaning_zh_tw": "秋天",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-강",
+      "lemma": "강",
+      "display": "강",
+      "pos": "noun",
+      "meaning_zh_tw": "江、河",
+      "topics": [
+        "animals_nature"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-겨울",
+      "lemma": "겨울",
+      "display": "겨울",
+      "pos": "noun",
+      "meaning_zh_tw": "冬天",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-경치",
+      "lemma": "경치",
+      "display": "경치",
+      "pos": "noun",
+      "meaning_zh_tw": "風景",
+      "topics": [
+        "animals_nature"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-고향",
+      "lemma": "고향",
+      "display": "고향",
+      "pos": "noun",
+      "meaning_zh_tw": "故鄉",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-곱다",
+      "lemma": "곱다",
+      "display": "곱다",
+      "pos": "adjective",
+      "meaning_zh_tw": "漂亮、好看",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-공",
+      "lemma": "공",
+      "display": "공",
+      "pos": "noun",
+      "meaning_zh_tw": "功、功勞",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-공원",
+      "lemma": "공원",
+      "display": "공원",
+      "pos": "noun",
+      "meaning_zh_tw": "公園",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-공장",
+      "lemma": "공장",
+      "display": "공장",
+      "pos": "noun",
+      "meaning_zh_tw": "工廠",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-글",
+      "lemma": "글",
+      "display": "글",
+      "pos": "noun",
+      "meaning_zh_tw": "文章、文字",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-금년",
+      "lemma": "금년",
+      "display": "금년",
+      "pos": "noun",
+      "meaning_zh_tw": "今年",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-남자",
+      "lemma": "남자",
+      "display": "남자",
+      "pos": "noun",
+      "meaning_zh_tw": "男子、男性",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-내년",
+      "lemma": "내년",
+      "display": "내년",
+      "pos": "noun",
+      "meaning_zh_tw": "明年",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-단어",
+      "lemma": "단어",
+      "display": "단어",
+      "pos": "noun",
+      "meaning_zh_tw": "單字",
+      "topics": [
+        "study_language"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-도서관",
+      "lemma": "도서관",
+      "display": "도서관",
+      "pos": "noun",
+      "meaning_zh_tw": "圖書館",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-동쪽",
+      "lemma": "동쪽",
+      "display": "동쪽",
+      "pos": "noun",
+      "meaning_zh_tw": "東邊",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-듣다",
+      "lemma": "듣다",
+      "display": "듣다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "聽",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-먹다",
+      "lemma": "먹다",
+      "display": "먹다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "吃",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-먼저",
+      "lemma": "먼저",
+      "display": "먼저",
+      "pos": "adverb",
+      "meaning_zh_tw": "先、首先",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-몸",
+      "lemma": "몸",
+      "display": "몸",
+      "pos": "noun",
+      "meaning_zh_tw": "身體",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-믿다",
+      "lemma": "믿다",
+      "display": "믿다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "相信、信任",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-밤",
+      "lemma": "밤",
+      "display": "밤",
+      "pos": "noun",
+      "meaning_zh_tw": "夜晚",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-서쪽",
+      "lemma": "서쪽",
+      "display": "서쪽",
+      "pos": "noun",
+      "meaning_zh_tw": "西邊",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-식당",
+      "lemma": "식당",
+      "display": "식당",
+      "pos": "noun",
+      "meaning_zh_tw": "餐廳、食堂",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-싣다",
+      "lemma": "싣다",
+      "display": "싣다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "裝載、搬運",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-오늘",
+      "lemma": "오늘",
+      "display": "오늘",
+      "pos": "noun",
+      "meaning_zh_tw": "今天",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-오른쪽",
+      "lemma": "오른쪽",
+      "display": "오른쪽",
+      "pos": "noun",
+      "meaning_zh_tw": "右邊",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-외국",
+      "lemma": "외국",
+      "display": "외국",
+      "pos": "noun",
+      "meaning_zh_tw": "外國",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-작다",
+      "lemma": "작다",
+      "display": "작다",
+      "pos": "adjective",
+      "meaning_zh_tw": "小、矮",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 7,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-값",
+      "lemma": "값",
+      "display": "값",
+      "pos": "noun",
+      "meaning_zh_tw": "價錢",
+      "topics": [
+        "shopping"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-곬",
+      "lemma": "곬",
+      "display": "곬",
+      "pos": "noun",
+      "meaning_zh_tw": "道路、方向",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-괜찮다",
+      "lemma": "괜찮다",
+      "display": "괜찮다",
+      "pos": "adjective",
+      "meaning_zh_tw": "不錯、沒關係",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-굶다",
+      "lemma": "굶다",
+      "display": "굶다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "挨餓、不吃",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-귀찮다",
+      "lemma": "귀찮다",
+      "display": "귀찮다",
+      "pos": "adjective",
+      "meaning_zh_tw": "麻煩、厭煩",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-끊다",
+      "lemma": "끊다",
+      "display": "끊다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "弄斷、切斷",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-끓다",
+      "lemma": "끓다",
+      "display": "끓다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "沸騰",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-끝",
+      "lemma": "끝",
+      "display": "끝",
+      "pos": "noun",
+      "meaning_zh_tw": "結束、末端",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-낫",
+      "lemma": "낫",
+      "display": "낫",
+      "pos": "noun",
+      "meaning_zh_tw": "鐮刀",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-낮",
+      "lemma": "낮",
+      "display": "낮",
+      "pos": "noun",
+      "meaning_zh_tw": "白天",
+      "topics": [
+        "time_season"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-넋",
+      "lemma": "넋",
+      "display": "넋",
+      "pos": "noun",
+      "meaning_zh_tw": "靈魂",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-넓다",
+      "lemma": "넓다",
+      "display": "넓다",
+      "pos": "adjective",
+      "meaning_zh_tw": "寬",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-동녘",
+      "lemma": "동녘",
+      "display": "동녘",
+      "pos": "noun",
+      "meaning_zh_tw": "東方",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-맛",
+      "lemma": "맛",
+      "display": "맛",
+      "pos": "noun",
+      "meaning_zh_tw": "味道",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-몫",
+      "lemma": "몫",
+      "display": "몫",
+      "pos": "noun",
+      "meaning_zh_tw": "份額",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-밖",
+      "lemma": "밖",
+      "display": "밖",
+      "pos": "noun",
+      "meaning_zh_tw": "外面",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-삯",
+      "lemma": "삯",
+      "display": "삯",
+      "pos": "noun",
+      "meaning_zh_tw": "工錢",
+      "topics": [
+        "general"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-싫다",
+      "lemma": "싫다",
+      "display": "싫다",
+      "pos": "adjective",
+      "meaning_zh_tw": "討厭、不喜歡",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-쌓다",
+      "lemma": "쌓다",
+      "display": "쌓다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "堆、累積",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-앉다",
+      "lemma": "앉다",
+      "display": "앉다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "坐",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-앓다",
+      "lemma": "앓다",
+      "display": "앓다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "生病",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-얹다",
+      "lemma": "얹다",
+      "display": "얹다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "放到上面",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-없다",
+      "lemma": "없다",
+      "display": "없다",
+      "pos": "adjective",
+      "meaning_zh_tw": "沒有",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [
+        "없어요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "tb-옆",
+      "lemma": "옆",
+      "display": "옆",
+      "pos": "noun",
+      "meaning_zh_tw": "旁邊",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-옳다",
+      "lemma": "옳다",
+      "display": "옳다",
+      "pos": "adjective",
+      "meaning_zh_tw": "對、正確",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-점잖다",
+      "lemma": "점잖다",
+      "display": "점잖다",
+      "pos": "adjective",
+      "meaning_zh_tw": "斯文、穩重",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-좋다",
+      "lemma": "좋다",
+      "display": "좋다",
+      "pos": "adjective",
+      "meaning_zh_tw": "好、喜歡",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-팥",
+      "lemma": "팥",
+      "display": "팥",
+      "pos": "noun",
+      "meaning_zh_tw": "紅豆",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-핥다",
+      "lemma": "핥다",
+      "display": "핥다",
+      "pos": "verb_intransitive",
+      "meaning_zh_tw": "舔",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "tb-훑다",
+      "lemma": "훑다",
+      "display": "훑다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "捋、順著摸",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "textbook_vocabulary",
+          "section": 8,
+          "section_title": "받침（韻尾）",
+          "pages": [
+            61,
+            62
+          ]
+        }
+      ],
+      "surface_forms": [],
+      "learning_state": "textbook_pool",
+      "tts_language": "ko-KR",
+      "used_in_readings": []
+    },
+    {
+      "id": "course-같이",
+      "lemma": "같이",
+      "display": "같이",
+      "pos": "adverb",
+      "meaning_zh_tw": "一起",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "같이"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "course-말차",
+      "lemma": "말차",
+      "display": "말차",
+      "pos": "noun",
+      "meaning_zh_tw": "抹茶",
+      "topics": [
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "말차는"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02"
+      ]
+    },
+    {
+      "id": "course-메뉴",
+      "lemma": "메뉴",
+      "display": "메뉴",
+      "pos": "noun",
+      "meaning_zh_tw": "菜單",
+      "topics": [
+        "objects",
+        "food_drink"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "메뉴를"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02"
+      ]
+    },
+    {
+      "id": "course-이거",
+      "lemma": "이거",
+      "display": "이거",
+      "pos": "pronoun",
+      "meaning_zh_tw": "這個",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "이거"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-03",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "course-있다",
+      "lemma": "있다",
+      "display": "있다",
+      "pos": "adjective",
+      "meaning_zh_tw": "有、存在、在",
+      "topics": [
+        "description"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "있어요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "course-좋아하다",
+      "lemma": "좋아하다",
+      "display": "좋아하다",
+      "pos": "verb_transitive",
+      "meaning_zh_tw": "喜歡",
+      "topics": [
+        "action"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "좋아해요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "course-주세요",
+      "lemma": "주세요",
+      "display": "주세요",
+      "pos": "expression",
+      "meaning_zh_tw": "請給我",
+      "topics": [
+        "shopping",
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "주세요"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-03"
+      ]
+    },
+    {
+      "id": "course-직원",
+      "lemma": "직원",
+      "display": "직원",
+      "pos": "noun",
+      "meaning_zh_tw": "店員、工作人員",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "직원"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02"
+      ]
+    },
+    {
+      "id": "course-친구",
+      "lemma": "친구",
+      "display": "친구",
+      "pos": "noun",
+      "meaning_zh_tw": "朋友",
+      "topics": [
+        "people_family"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "친구",
+        "친구도",
+        "친구는",
+        "친구하고"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-01",
+        "reading-02",
+        "reading-03",
+        "reading-04",
+        "reading-05"
+      ]
+    },
+    {
+      "id": "course-카페",
+      "lemma": "카페",
+      "display": "카페",
+      "pos": "noun",
+      "meaning_zh_tw": "咖啡店",
+      "topics": [
+        "places_directions"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "카페에",
+        "카페에서"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-03"
+      ]
+    },
+    {
+      "id": "course-하나",
+      "lemma": "하나",
+      "display": "하나",
+      "pos": "numeral",
+      "meaning_zh_tw": "一個、一",
+      "topics": [
+        "function_or_context"
+      ],
+      "sources": [
+        {
+          "kind": "course_supplement",
+          "lessons": [
+            "reading-01",
+            "reading-02",
+            "reading-03",
+            "reading-04",
+            "reading-05"
+          ]
+        }
+      ],
+      "surface_forms": [
+        "하나하고",
+        "하나"
+      ],
+      "learning_state": "active",
+      "tts_language": "ko-KR",
+      "used_in_readings": [
+        "reading-02",
+        "reading-03"
+      ]
+    }
+  ],
+  "phrases": [
+    {
+      "id": "phrase-001",
+      "text": "안녕!",
+      "meaning_zh_tw": "你好！",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 1,
+          "page": 9
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-002",
+      "text": "안녕하세요!",
+      "meaning_zh_tw": "您好！",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 1,
+          "page": 9
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-003",
+      "text": "안녕히 가세요.",
+      "meaning_zh_tw": "再見，請慢走。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 1,
+          "page": 9
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-004",
+      "text": "안녕히 계세요.",
+      "meaning_zh_tw": "再見，請留步。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 1,
+          "page": 9
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-005",
+      "text": "또 만나요.",
+      "meaning_zh_tw": "再見／下次見。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 1,
+          "page": 9
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-006",
+      "text": "반갑습니다.",
+      "meaning_zh_tw": "很高興見到你。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 2,
+          "page": 17
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-007",
+      "text": "고마워요.",
+      "meaning_zh_tw": "謝謝。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 2,
+          "page": 17
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-008",
+      "text": "감사합니다.",
+      "meaning_zh_tw": "謝謝。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 2,
+          "page": 17
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-009",
+      "text": "미안해요.",
+      "meaning_zh_tw": "對不起。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 2,
+          "page": 17
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-010",
+      "text": "여기 있어요.",
+      "meaning_zh_tw": "給你／在這裡。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 2,
+          "page": 17
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-011",
+      "text": "어디예요?",
+      "meaning_zh_tw": "在哪裡？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 3,
+          "page": 25
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-012",
+      "text": "어디 가요?",
+      "meaning_zh_tw": "去哪裡？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 3,
+          "page": 25
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-013",
+      "text": "있어요?",
+      "meaning_zh_tw": "有嗎？／在嗎？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 3,
+          "page": 25
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-014",
+      "text": "얼마예요?",
+      "meaning_zh_tw": "多少錢？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 3,
+          "page": 25
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-015",
+      "text": "누구세요?",
+      "meaning_zh_tw": "請問是誰？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 4,
+          "page": 33
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-016",
+      "text": "저예요.",
+      "meaning_zh_tw": "是我。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 4,
+          "page": 33
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-017",
+      "text": "어서 오세요.",
+      "meaning_zh_tw": "歡迎／快請進。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 4,
+          "page": 33
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-018",
+      "text": "앉으세요.",
+      "meaning_zh_tw": "請坐。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 4,
+          "page": 33
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-019",
+      "text": "실례합니다.",
+      "meaning_zh_tw": "打擾一下／失禮了。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 6,
+          "page": 46
+        },
+        {
+          "kind": "textbook_phrase",
+          "section": 7,
+          "page": 54
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-020",
+      "text": "잘 부탁드립니다.",
+      "meaning_zh_tw": "拜託了／請多指教。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 6,
+          "page": 46
+        },
+        {
+          "kind": "textbook_phrase",
+          "section": 7,
+          "page": 54
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-021",
+      "text": "축하합니다.",
+      "meaning_zh_tw": "恭喜／祝賀。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 6,
+          "page": 46
+        },
+        {
+          "kind": "textbook_phrase",
+          "section": 7,
+          "page": 54
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-022",
+      "text": "잘 지냈어요?",
+      "meaning_zh_tw": "最近過得好嗎？",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 8,
+          "page": 63
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-023",
+      "text": "오랜만이에요.",
+      "meaning_zh_tw": "好久不見。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 8,
+          "page": 63
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-024",
+      "text": "도와 주세요.",
+      "meaning_zh_tw": "請幫忙。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 8,
+          "page": 63
+        }
+      ],
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "phrase-025",
+      "text": "천천히 하세요.",
+      "meaning_zh_tw": "請慢慢來。",
+      "category": "textbook_common_phrase",
+      "sources": [
+        {
+          "kind": "textbook_phrase",
+          "section": 8,
+          "page": 63
+        }
+      ],
+      "tts_language": "ko-KR"
+    }
+  ],
+  "grammar": [
+    {
+      "id": "grammar-topic",
+      "form": "은/는",
+      "meaning_zh_tw": "主題／對比助詞",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-subject",
+      "form": "이/가",
+      "meaning_zh_tw": "主語／存在主體助詞",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-object",
+      "form": "을/를",
+      "meaning_zh_tw": "受詞助詞",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-destination",
+      "form": "에",
+      "meaning_zh_tw": "目的地／靜態存在位置",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-action-place",
+      "form": "에서",
+      "meaning_zh_tw": "動作發生的場所",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-also",
+      "form": "도",
+      "meaning_zh_tw": "也",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-and-with",
+      "form": "하고",
+      "meaning_zh_tw": "和／跟／與",
+      "category": "particle"
+    },
+    {
+      "id": "grammar-copula",
+      "form": "이에요/예요",
+      "meaning_zh_tw": "是（禮貌體）",
+      "category": "copula"
+    },
+    {
+      "id": "grammar-polite-present",
+      "form": "-아요/-어요",
+      "meaning_zh_tw": "禮貌現在式",
+      "category": "ending"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "reading-01",
+      "title_ko": "시내와 파티",
+      "title_zh_tw": "市區與派對",
+      "text": "저는 기차를 타요. 시내에 가요. 시내에서 모자를 사요. 모자는 싸요. 커피도 사요.\n\n친구도 시내에 와요. 친구하고 파티에 가요. 파티에 커피가 있어요. 사이다도 있어요.\n\n저는 커피를 좋아해요. 친구는 사이다를 좋아해요. 파티에서 친구를 소개해요. 친구하고 같이 쉬어요.",
+      "sentences": [
+        {
+          "id": "reading-01-s01",
+          "text": "저는 기차를 타요.",
+          "tts_text": "저는 기차를 타요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s02",
+          "text": "시내에 가요.",
+          "tts_text": "시내에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s03",
+          "text": "시내에서 모자를 사요.",
+          "tts_text": "시내에서 모자를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s04",
+          "text": "모자는 싸요.",
+          "tts_text": "모자는 싸요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s05",
+          "text": "커피도 사요.",
+          "tts_text": "커피도 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s06",
+          "text": "친구도 시내에 와요.",
+          "tts_text": "친구도 시내에 와요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s07",
+          "text": "친구하고 파티에 가요.",
+          "tts_text": "친구하고 파티에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s08",
+          "text": "파티에 커피가 있어요.",
+          "tts_text": "파티에 커피가 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s09",
+          "text": "사이다도 있어요.",
+          "tts_text": "사이다도 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s10",
+          "text": "저는 커피를 좋아해요.",
+          "tts_text": "저는 커피를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s11",
+          "text": "친구는 사이다를 좋아해요.",
+          "tts_text": "친구는 사이다를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s12",
+          "text": "파티에서 친구를 소개해요.",
+          "tts_text": "파티에서 친구를 소개해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-01-s13",
+          "text": "친구하고 같이 쉬어요.",
+          "tts_text": "친구하고 같이 쉬어요.",
+          "tts_language": "ko-KR"
+        }
+      ]
+    },
+    {
+      "id": "reading-02",
+      "title_ko": "카페에서",
+      "title_zh_tw": "在咖啡店",
+      "text": "저는 친구하고 카페에 가요.\n카페에서 메뉴를 봐요.\n커피가 있어요. 사이다도 있어요.\n말차는 없어요.\n\n저는 커피를 좋아해요.\n친구는 사이다를 좋아해요.\n\n저: 이거 하나하고 이거 하나 주세요.\n직원: 네, 여기 있어요.\n\n커피하고 사이다를 사요.\n커피는 싸요.\n친구하고 같이 쉬어요.",
+      "sentences": [
+        {
+          "id": "reading-02-s01",
+          "text": "저는 친구하고 카페에 가요.",
+          "tts_text": "저는 친구하고 카페에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s02",
+          "text": "카페에서 메뉴를 봐요.",
+          "tts_text": "카페에서 메뉴를 봐요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s03",
+          "text": "커피가 있어요.",
+          "tts_text": "커피가 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s04",
+          "text": "사이다도 있어요.",
+          "tts_text": "사이다도 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s05",
+          "text": "말차는 없어요.",
+          "tts_text": "말차는 없어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s06",
+          "text": "저는 커피를 좋아해요.",
+          "tts_text": "저는 커피를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s07",
+          "text": "친구는 사이다를 좋아해요.",
+          "tts_text": "친구는 사이다를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s08",
+          "text": "저: 이거 하나하고 이거 하나 주세요.",
+          "tts_text": "이거 하나하고 이거 하나 주세요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s09",
+          "text": "직원: 네, 여기 있어요.",
+          "tts_text": "네, 여기 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s10",
+          "text": "커피하고 사이다를 사요.",
+          "tts_text": "커피하고 사이다를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s11",
+          "text": "커피는 싸요.",
+          "tts_text": "커피는 싸요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-02-s12",
+          "text": "친구하고 같이 쉬어요.",
+          "tts_text": "친구하고 같이 쉬어요.",
+          "tts_language": "ko-KR"
+        }
+      ]
+    },
+    {
+      "id": "reading-03",
+      "title_ko": "시내에서",
+      "title_zh_tw": "在市區",
+      "text": "저는 친구하고 차표를 사요.\n기차를 타요. 시내에 가요.\n\n시내에서 모자하고 바지를 봐요.\n친구는 바지를 좋아해요.\n저는 모자를 좋아해요.\n모자는 싸요.\n\n저: 이거 하나 주세요. 얼마예요?\n\n저는 모자를 사요.\n친구도 바지를 사요.\n\n친구하고 카페에 가요.\n카페에서 커피를 사요.\n친구하고 같이 쉬어요.",
+      "sentences": [
+        {
+          "id": "reading-03-s01",
+          "text": "저는 친구하고 차표를 사요.",
+          "tts_text": "저는 친구하고 차표를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s02",
+          "text": "기차를 타요.",
+          "tts_text": "기차를 타요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s03",
+          "text": "시내에 가요.",
+          "tts_text": "시내에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s04",
+          "text": "시내에서 모자하고 바지를 봐요.",
+          "tts_text": "시내에서 모자하고 바지를 봐요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s05",
+          "text": "친구는 바지를 좋아해요.",
+          "tts_text": "친구는 바지를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s06",
+          "text": "저는 모자를 좋아해요.",
+          "tts_text": "저는 모자를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s07",
+          "text": "모자는 싸요.",
+          "tts_text": "모자는 싸요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s08",
+          "text": "저: 이거 하나 주세요.",
+          "tts_text": "이거 하나 주세요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s09",
+          "text": "얼마예요?",
+          "tts_text": "얼마예요?",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s10",
+          "text": "저는 모자를 사요.",
+          "tts_text": "저는 모자를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s11",
+          "text": "친구도 바지를 사요.",
+          "tts_text": "친구도 바지를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s12",
+          "text": "친구하고 카페에 가요.",
+          "tts_text": "친구하고 카페에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s13",
+          "text": "카페에서 커피를 사요.",
+          "tts_text": "카페에서 커피를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-03-s14",
+          "text": "친구하고 같이 쉬어요.",
+          "tts_text": "친구하고 같이 쉬어요.",
+          "tts_language": "ko-KR"
+        }
+      ]
+    },
+    {
+      "id": "reading-04",
+      "title_ko": "기차와 파티",
+      "title_zh_tw": "火車與派對",
+      "text": "저는 친구하고 기차를 타요.\n친구는 바빠요.\n\n친구는 노트가 있어요.\n시계도 있어요.\n저는 노트가 없어요.\n시계는 있어요.\n\n친구는 노트를 봐요.\n저는 시계를 봐요.\n\n시내에 가요.\n시내에서 친구를 소개해요.\n친구하고 파티에 가요.\n\n파티에 커피가 있어요.\n사이다도 있어요.\n친구하고 같이 쉬어요.",
+      "sentences": [
+        {
+          "id": "reading-04-s01",
+          "text": "저는 친구하고 기차를 타요.",
+          "tts_text": "저는 친구하고 기차를 타요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s02",
+          "text": "친구는 바빠요.",
+          "tts_text": "친구는 바빠요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s03",
+          "text": "친구는 노트가 있어요.",
+          "tts_text": "친구는 노트가 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s04",
+          "text": "시계도 있어요.",
+          "tts_text": "시계도 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s05",
+          "text": "저는 노트가 없어요.",
+          "tts_text": "저는 노트가 없어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s06",
+          "text": "시계는 있어요.",
+          "tts_text": "시계는 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s07",
+          "text": "친구는 노트를 봐요.",
+          "tts_text": "친구는 노트를 봐요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s08",
+          "text": "저는 시계를 봐요.",
+          "tts_text": "저는 시계를 봐요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s09",
+          "text": "시내에 가요.",
+          "tts_text": "시내에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s10",
+          "text": "시내에서 친구를 소개해요.",
+          "tts_text": "시내에서 친구를 소개해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s11",
+          "text": "친구하고 파티에 가요.",
+          "tts_text": "친구하고 파티에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s12",
+          "text": "파티에 커피가 있어요.",
+          "tts_text": "파티에 커피가 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s13",
+          "text": "사이다도 있어요.",
+          "tts_text": "사이다도 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-04-s14",
+          "text": "친구하고 같이 쉬어요.",
+          "tts_text": "친구하고 같이 쉬어요.",
+          "tts_language": "ko-KR"
+        }
+      ]
+    },
+    {
+      "id": "reading-05",
+      "title_ko": "시내와 파티",
+      "title_zh_tw": "市區與派對（整合複習）",
+      "text": "저는 아버지하고 시내에 가요.\n아버지는 차표가 없어요.\n차표를 사요. 버스를 타요.\n\n시내에서 고기를 봐요.\n저: 이거 얼마예요?\n고기는 싸요. 고기를 사요.\n\n아버지는 노래를 좋아해요.\n저는 커피를 좋아해요.\n\n파티에 고기가 있어요.\n커피도 있어요. 사이다는 없어요.\n친구도 파티에 와요.\n친구하고 같이 쉬어요.",
+      "sentences": [
+        {
+          "id": "reading-05-s01",
+          "text": "저는 아버지하고 시내에 가요.",
+          "tts_text": "저는 아버지하고 시내에 가요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s02",
+          "text": "아버지는 차표가 없어요.",
+          "tts_text": "아버지는 차표가 없어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s03",
+          "text": "차표를 사요.",
+          "tts_text": "차표를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s04",
+          "text": "버스를 타요.",
+          "tts_text": "버스를 타요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s05",
+          "text": "시내에서 고기를 봐요.",
+          "tts_text": "시내에서 고기를 봐요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s06",
+          "text": "저: 이거 얼마예요?",
+          "tts_text": "이거 얼마예요?",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s07",
+          "text": "고기는 싸요.",
+          "tts_text": "고기는 싸요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s08",
+          "text": "고기를 사요.",
+          "tts_text": "고기를 사요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s09",
+          "text": "아버지는 노래를 좋아해요.",
+          "tts_text": "아버지는 노래를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s10",
+          "text": "저는 커피를 좋아해요.",
+          "tts_text": "저는 커피를 좋아해요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s11",
+          "text": "파티에 고기가 있어요.",
+          "tts_text": "파티에 고기가 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s12",
+          "text": "커피도 있어요.",
+          "tts_text": "커피도 있어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s13",
+          "text": "사이다는 없어요.",
+          "tts_text": "사이다는 없어요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s14",
+          "text": "친구도 파티에 와요.",
+          "tts_text": "친구도 파티에 와요.",
+          "tts_language": "ko-KR"
+        },
+        {
+          "id": "reading-05-s15",
+          "text": "친구하고 같이 쉬어요.",
+          "tts_text": "친구하고 같이 쉬어요.",
+          "tts_language": "ko-KR"
+        }
+      ]
+    }
+  ],
+  "pronunciation_examples": [
+    {
+      "id": "pron-001",
+      "section": 9,
+      "rule": "連音化",
+      "written": "책을",
+      "pronounced_as": "채글",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-002",
+      "section": 9,
+      "rule": "連音化",
+      "written": "발이",
+      "pronounced_as": "바리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-003",
+      "section": 9,
+      "rule": "連音化",
+      "written": "부엌에서",
+      "pronounced_as": "부어케서",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-004",
+      "section": 9,
+      "rule": "連音化",
+      "written": "받아라",
+      "pronounced_as": "바다라",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-005",
+      "section": 9,
+      "rule": "連音化",
+      "written": "낮에",
+      "pronounced_as": "나제",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-006",
+      "section": 9,
+      "rule": "連音化",
+      "written": "맞이",
+      "pronounced_as": "마지",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-007",
+      "section": 9,
+      "rule": "連音化",
+      "written": "쌀이",
+      "pronounced_as": "싸리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-008",
+      "section": 9,
+      "rule": "連音化",
+      "written": "밥을",
+      "pronounced_as": "바블",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-009",
+      "section": 9,
+      "rule": "連音化",
+      "written": "산이",
+      "pronounced_as": "사니",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-010",
+      "section": 9,
+      "rule": "連音化",
+      "written": "음악",
+      "pronounced_as": "으막",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-011",
+      "section": 9,
+      "rule": "連音化",
+      "written": "닦아라",
+      "pronounced_as": "다까라",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-012",
+      "section": 9,
+      "rule": "連音化",
+      "written": "받으러",
+      "pronounced_as": "바드러",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-013",
+      "section": 9,
+      "rule": "連音化",
+      "written": "꽃을",
+      "pronounced_as": "꼬츨",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-014",
+      "section": 9,
+      "rule": "連音化",
+      "written": "있으면",
+      "pronounced_as": "이쓰면",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-015",
+      "section": 9,
+      "rule": "連音化",
+      "written": "밤에",
+      "pronounced_as": "바메",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-016",
+      "section": 9,
+      "rule": "連音化",
+      "written": "앞이",
+      "pronounced_as": "아피",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-017",
+      "section": 9,
+      "rule": "連音化",
+      "written": "읽은",
+      "pronounced_as": "일근",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-018",
+      "section": 9,
+      "rule": "連音化",
+      "written": "굶어",
+      "pronounced_as": "굴머",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-019",
+      "section": 9,
+      "rule": "連音化",
+      "written": "핥아",
+      "pronounced_as": "할타",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-020",
+      "section": 9,
+      "rule": "連音化",
+      "written": "읊어라",
+      "pronounced_as": "을퍼라",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-021",
+      "section": 9,
+      "rule": "連音化",
+      "written": "넓은",
+      "pronounced_as": "널븐",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-022",
+      "section": 9,
+      "rule": "連音化",
+      "written": "앉아",
+      "pronounced_as": "안자",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-023",
+      "section": 9,
+      "rule": "連音化",
+      "written": "앉아라",
+      "pronounced_as": "안자라",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-024",
+      "section": 9,
+      "rule": "連音化",
+      "written": "삶을",
+      "pronounced_as": "살믈",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-025",
+      "section": 9,
+      "rule": "顎化",
+      "written": "같이",
+      "pronounced_as": "가치",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-026",
+      "section": 9,
+      "rule": "顎化",
+      "written": "붙이다",
+      "pronounced_as": "부치다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-027",
+      "section": 9,
+      "rule": "顎化",
+      "written": "갇히다",
+      "pronounced_as": "가치다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-028",
+      "section": 9,
+      "rule": "顎化",
+      "written": "닫히다",
+      "pronounced_as": "다치다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-029",
+      "section": 9,
+      "rule": "顎化",
+      "written": "맏이",
+      "pronounced_as": "마지",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-030",
+      "section": 9,
+      "rule": "顎化",
+      "written": "미닫이",
+      "pronounced_as": "미다지",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-031",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "학교",
+      "pronounced_as": "학꾜",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-032",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "먹다",
+      "pronounced_as": "먹따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-033",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "옆집",
+      "pronounced_as": "엽찝",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-034",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "깎다",
+      "pronounced_as": "깍따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-035",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "학생",
+      "pronounced_as": "학쌩",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-036",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "얻다",
+      "pronounced_as": "얻따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-037",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "옷감",
+      "pronounced_as": "옫깜",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-038",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "꽃발",
+      "pronounced_as": "꼳빨",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-039",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "있다",
+      "pronounced_as": "읻따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-040",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "없다",
+      "pronounced_as": "업따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-041",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "밝다",
+      "pronounced_as": "박따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-042",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "값지다",
+      "pronounced_as": "갑찌",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-043",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "없어",
+      "pronounced_as": "업써",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-044",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "발전",
+      "pronounced_as": "발쩐",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-045",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "철도",
+      "pronounced_as": "철또",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-046",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "물가",
+      "pronounced_as": "물까",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-047",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈등",
+      "pronounced_as": "갈뜽",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-048",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "결석",
+      "pronounced_as": "결썩",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-049",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "물질",
+      "pronounced_as": "물찔",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-050",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "신고",
+      "pronounced_as": "신꼬",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-051",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "안다",
+      "pronounced_as": "안따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-052",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "앉다",
+      "pronounced_as": "안따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-053",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "더듬다",
+      "pronounced_as": "더듬따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-054",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "담다",
+      "pronounced_as": "담따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-055",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "젊지",
+      "pronounced_as": "점찌",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-056",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "넓게",
+      "pronounced_as": "널께",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-057",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "핥다",
+      "pronounced_as": "할따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-058",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "할것",
+      "pronounced_as": "할껃",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-059",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈데",
+      "pronounced_as": "갈떼",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-060",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈곳",
+      "pronounced_as": "갈꼳",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-061",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "할수",
+      "pronounced_as": "할쑤",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-062",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "만날사람",
+      "pronounced_as": "만날싸람",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-063",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈가",
+      "pronounced_as": "갈까",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-064",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈게",
+      "pronounced_as": "갈께",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-065",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "먹을가",
+      "pronounced_as": "머글까",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-066",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "갈수록",
+      "pronounced_as": "갈쑤록",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-067",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "먹을지",
+      "pronounced_as": "머글찌",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-068",
+      "section": 9,
+      "rule": "緊音化",
+      "written": "먹을수록",
+      "pronounced_as": "머글쑤록",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-069",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "좋다",
+      "pronounced_as": "조타",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-070",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "많다",
+      "pronounced_as": "만타",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-071",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "좋고",
+      "pronounced_as": "조코",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-072",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "좋지",
+      "pronounced_as": "조치",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-073",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "싢고",
+      "pronounced_as": "실코",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-074",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "싢다",
+      "pronounced_as": "실타",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-075",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "싢지",
+      "pronounced_as": "실치",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-076",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "막히다",
+      "pronounced_as": "마키다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-077",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "잊히다",
+      "pronounced_as": "이치다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-078",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "밝히다",
+      "pronounced_as": "발키다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-079",
+      "section": 10,
+      "rule": "送氣音化",
+      "written": "입학",
+      "pronounced_as": "이팍",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-080",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "학문",
+      "pronounced_as": "항문",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-081",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "부엌문",
+      "pronounced_as": "부엉문",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-082",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "먹는다",
+      "pronounced_as": "멍는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-083",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "닦는다",
+      "pronounced_as": "당는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-084",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "밝는다",
+      "pronounced_as": "방는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-085",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "박물관",
+      "pronounced_as": "방물관",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-086",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "국민",
+      "pronounced_as": "궁민",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-087",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "흙물",
+      "pronounced_as": "흥물",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-088",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "흙냄새",
+      "pronounced_as": "흥냄새",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-089",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "맏누이",
+      "pronounced_as": "만누이",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-090",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "맏며느리",
+      "pronounced_as": "만며느리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-091",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "맡는다",
+      "pronounced_as": "만는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-092",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "밭머리",
+      "pronounced_as": "반머리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-093",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "옛날",
+      "pronounced_as": "옌날",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-094",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "옛말",
+      "pronounced_as": "옌말",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-095",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "있는다",
+      "pronounced_as": "인는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-096",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "젖니",
+      "pronounced_as": "전니",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-097",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "젖먹이",
+      "pronounced_as": "전머기",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-098",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "꽃망울",
+      "pronounced_as": "꼰망울",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-099",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "앞문",
+      "pronounced_as": "암문",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-100",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "밥먹다",
+      "pronounced_as": "밤먹따",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-101",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "잡는다",
+      "pronounced_as": "잠는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-102",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "앞날",
+      "pronounced_as": "암날",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-103",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "없느냐",
+      "pronounced_as": "엄느냐",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-104",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "밟는다",
+      "pronounced_as": "밤는다",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-105",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "설날",
+      "pronounced_as": "설랄",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-106",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "일년",
+      "pronounced_as": "일련",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-107",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "천리",
+      "pronounced_as": "철리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-108",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "진리",
+      "pronounced_as": "질리",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-109",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "신라",
+      "pronounced_as": "실라",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-110",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "침략",
+      "pronounced_as": "침냑",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-111",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "항로",
+      "pronounced_as": "항노",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-112",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "대통령",
+      "pronounced_as": "대통녕",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-113",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "담력",
+      "pronounced_as": "담녁",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-114",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "백리",
+      "pronounced_as": "뱅니",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-115",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "폭력",
+      "pronounced_as": "풍녁",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-116",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "범률",
+      "pronounced_as": "범뉼",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    },
+    {
+      "id": "pron-117",
+      "section": 10,
+      "rule": "輔音同化",
+      "written": "십리",
+      "pronounced_as": "심니",
+      "category": "pronunciation_example",
+      "tts_language": "ko-KR"
+    }
+  ],
+  "pronunciation_sentences": [
+    {
+      "written": "그렇지만 박물관에 못 갔습니다.",
+      "pronounced_as": "그러치만 방물과네 몯 깓씀니다.",
+      "section": 10
+    },
+    {
+      "written": "반갑습니다.",
+      "pronounced_as": "반갑씀니다.",
+      "section": 10
+    },
+    {
+      "written": "음료수는 뭘 하실래요?",
+      "pronounced_as": "음뇨수는 뭘 하실래요?",
+      "section": 10
+    },
+    {
+      "written": "축하합니다.",
+      "pronounced_as": "축카함니다.",
+      "section": 10
+    },
+    {
+      "written": "할머니께서는 작년에 돌아가셨습니다.",
+      "pronounced_as": "할머니께서는 장녀네 도라가셛씀니다.",
+      "section": 10
+    }
+  ],
+  "raw_reading_surface_tokens": [
+    "가요",
+    "같이",
+    "고기가",
+    "고기는",
+    "고기를",
+    "기차를",
+    "네",
+    "노래를",
+    "노트가",
+    "노트를",
+    "말차는",
+    "메뉴를",
+    "모자는",
+    "모자를",
+    "모자하고",
+    "바빠요",
+    "바지를",
+    "버스를",
+    "봐요",
+    "사요",
+    "사이다는",
+    "사이다도",
+    "사이다를",
+    "소개해요",
+    "쉬어요",
+    "시계는",
+    "시계도",
+    "시계를",
+    "시내에",
+    "시내에서",
+    "싸요",
+    "아버지는",
+    "아버지하고",
+    "얼마예요",
+    "없어요",
+    "여기",
+    "와요",
+    "이거",
+    "있어요",
+    "저",
+    "저는",
+    "좋아해요",
+    "주세요",
+    "직원",
+    "차표가",
+    "차표를",
+    "친구는",
+    "친구도",
+    "친구를",
+    "친구하고",
+    "카페에",
+    "카페에서",
+    "커피가",
+    "커피는",
+    "커피도",
+    "커피를",
+    "커피하고",
+    "타요",
+    "파티에",
+    "파티에서",
+    "하나",
+    "하나하고"
+  ]
+}
