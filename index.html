@@ -5,23 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#f6f7fb" />
     <meta name="description" content="A mobile-first vocabulary reader with browser and local Piper speech." />
-    <title>Vocabulary Reader</title>
+    <title>Language Practice</title>
   </head>
   <body>
     <div id="app" class="app-shell">
       <header class="topbar">
-        <div>
-          <p class="eyebrow">LOCAL LANGUAGE PRACTICE</p>
-          <h1>Vocabulary Reader</h1>
+        <div class="topbar-actions">
+          <button class="topbar-button" id="settingsMenuButton" type="button" aria-label="Open settings" aria-haspopup="dialog">☰ <span>Settings</span></button>
+          <span class="language-badge" id="headerLanguageBadge">한국어</span>
         </div>
-        <div class="topbar-note">
-          <label class="language-picker" for="languageSelect">Language
-            <select id="languageSelect">
-              <option value="en">English</option>
-              <option value="ko">한국어 · Korean</option>
-            </select>
-          </label>
-        </div>
+        <button class="topbar-button theme-toggle" id="themeToggleButton" type="button" aria-label="Switch to dark mode"><span id="themeToggleIcon">☾</span><span id="themeToggleText">Dark</span></button>
       </header>
 
       <main class="app-grid">
@@ -86,7 +79,7 @@
           </section>
         </section>
 
-        <aside class="sidebar" aria-label="Reader settings">
+        <aside class="sidebar" aria-label="Reference and review">
           <section class="panel input-panel">
             <div class="panel-heading">
               <div>
@@ -241,6 +234,39 @@
 
       <footer class="footer">Your reading data stays in this browser. Piper audio is generated locally after you enable it.</footer>
     </div>
+
+    <dialog class="settings-dialog" id="settingsDialog" aria-labelledby="settingsDialogTitle">
+      <div class="dialog-topbar">
+        <div><p class="eyebrow">APP SETTINGS</p><h2 id="settingsDialogTitle">設定</h2></div>
+        <button class="icon-button" id="closeSettingsButton" type="button" aria-label="Close settings">×</button>
+      </div>
+      <div class="settings-dialog-scroll">
+        <section class="settings-language-panel" aria-labelledby="settingsLanguageTitle">
+          <p class="eyebrow">STUDY LANGUAGE</p>
+          <h3 id="settingsLanguageTitle">學習語言</h3>
+          <div class="language-card-grid compact-language-cards">
+            <button class="language-card" type="button" data-language-choice="ko"><span lang="ko">한국어</span><small>Korean · 預設</small></button>
+            <button class="language-card" type="button" data-language-choice="en"><span>English</span><small>English practice</small></button>
+          </div>
+          <label class="visually-hidden" for="languageSelect">Language</label>
+          <select class="visually-hidden" id="languageSelect" tabindex="-1" aria-hidden="true">
+            <option value="en">English</option>
+            <option value="ko">한국어 · Korean</option>
+          </select>
+        </section>
+        <div class="settings-dialog-body" id="settingsDialogBody"></div>
+      </div>
+    </dialog>
+
+    <dialog class="welcome-dialog" id="languageWelcomeDialog" aria-labelledby="languageWelcomeTitle">
+      <p class="eyebrow">CHOOSE YOUR LANGUAGE</p>
+      <h2 id="languageWelcomeTitle">今天想練習哪一種語言？</h2>
+      <p>預設為韓文；之後可隨時從左上角 ☰ 設定切換。</p>
+      <div class="language-card-grid welcome-language-cards">
+        <button class="language-card is-active" type="button" data-language-choice="ko" data-welcome-language><span lang="ko">한국어</span><strong>韓文</strong><small>193 詞 · A1–A2 主題課程</small></button>
+        <button class="language-card" type="button" data-language-choice="en" data-welcome-language><span>English</span><strong>英文</strong><small>文章、單字與對話練習</small></button>
+      </div>
+    </dialog>
 
     <dialog class="error-dialog" id="piperErrorDialog" aria-labelledby="piperErrorTitle">
       <div class="dialog-icon" aria-hidden="true">!</div>

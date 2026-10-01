@@ -12,6 +12,8 @@ const KOREAN_REVIEW_KEY = 'vocabulary-reader:korean-review:v1';
 const KOREAN_WORD_PROGRESS_KEY = 'vocabulary-reader:korean-word-progress:v1';
 const KOREAN_WORD_QUIZ_KEY = 'vocabulary-reader:korean-word-quiz:v1';
 const KOREAN_VOICE_KEY = 'vocabulary-reader:korean-voice:v1';
+const LANGUAGE_KEY = 'vocabulary-reader:language:v1';
+const THEME_KEY = 'vocabulary-reader:theme:v1';
 const $ = (selector) => document.querySelector(selector);
 
 const elements = {
@@ -90,6 +92,18 @@ const elements = {
   voiceALabel: $('#voiceALabel'),
   voiceBLabel: $('#voiceBLabel'),
   koreanVoiceHint: $('#koreanVoiceHint'),
+  inputPanel: $('.input-panel'),
+  settingsPanel: $('.settings-panel'),
+  settingsDialog: $('#settingsDialog'),
+  settingsDialogBody: $('#settingsDialogBody'),
+  settingsMenuButton: $('#settingsMenuButton'),
+  closeSettingsButton: $('#closeSettingsButton'),
+  languageWelcomeDialog: $('#languageWelcomeDialog'),
+  themeToggleButton: $('#themeToggleButton'),
+  themeToggleIcon: $('#themeToggleIcon'),
+  themeToggleText: $('#themeToggleText'),
+  headerLanguageBadge: $('#headerLanguageBadge'),
+  themeColorMeta: $('meta[name="theme-color"]'),
 };
 
 function loadJsonStorage(key, fallback) {
@@ -112,7 +126,7 @@ function loadWeakWords() {
 }
 
 const state = {
-  language: 'en',
+  language: 'ko',
   mode: 'article',
   items: [],
   currentIndex: 0,
@@ -128,7 +142,7 @@ const state = {
   statusKey: 'ready',
   fullArticlePlayback: false,
   koreanContent: getKoreanContent(),
-  koreanLessonId: 'KR-R01',
+  koreanLessonId: 'KO-A1-01',
   koreanReview: loadJsonStorage(KOREAN_REVIEW_KEY, {}),
   koreanVocabSearch: '',
   koreanNotebookType: 'vocabulary',
@@ -155,6 +169,53 @@ const ttsManager = new TtsManager({
   onStatus: updateStatus,
   onAudioBlocked: () => showNotice('iOS 阻擋了播放，請先點擊 Enable Piper Audio。', 'warning'),
 });
+
+function openDialog(dialog) {
+  if (!dialog || dialog.open) return;
+  if (typeof dialog.showModal === 'function') dialog.showModal();
+  else dialog.setAttribute('open', '');
+}
+
+function closeDialog(dialog) {
+  if (!dialog?.open) return;
+  if (typeof dialog.close === 'function') dialog.close();
+  else dialog.removeAttribute('open');
+}
+
+function setTheme(theme, { persist = true } = {}) {
+  const nextTheme = theme === 'dark' ? 'dark' : 'light';
+  document.documentElement.dataset.theme = nextTheme;
+  elements.themeToggleIcon.textContent = nextTheme === 'dark' ? '☀' : '☾';
+  elements.themeToggleText.textContent = nextTheme === 'dark' ? 'Light' : 'Dark';
+  elements.themeToggleButton.setAttribute('aria-label', nextTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  elements.themeColorMeta?.setAttribute('content', nextTheme === 'dark' ? '#10111a' : '#f6f7fb');
+  if (persist) localStorage.setItem(THEME_KEY, nextTheme);
+}
+
+function syncLanguageChrome() {
+  elements.languageSelect.value = state.language;
+  elements.headerLanguageBadge.textContent = state.language === 'ko' ? '한국어' : 'English';
+  document.querySelectorAll('[data-language-choice]').forEach((button) => {
+    const active = button.dataset.languageChoice === state.language;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
+function chooseStudyLanguage(language, { closeWelcome = true } = {}) {
+  localStorage.setItem(LANGUAGE_KEY, language);
+  setLanguage(language);
+  syncLanguageChrome();
+  if (closeWelcome) closeDialog(elements.languageWelcomeDialog);
+}
+
+function initializeSettingsSurface() {
+  elements.settingsDialogBody.append(elements.inputPanel, elements.settingsPanel);
+  const savedTheme = localStorage.getItem(THEME_KEY);
+  const preferredTheme = savedTheme || (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  setTheme(preferredTheme, { persist: Boolean(savedTheme) });
+  syncLanguageChrome();
+}
 
 function parseWordLines(value) {
   return value.split('\n').map((line) => line.trim()).filter(Boolean).map((line, index) => {
@@ -1358,6 +1419,24 @@ function stopPlayback(showStatus = true) {
 }
 
 function stepItem(direction) {
+  if (state.language === 'ko') {
+    const lesson = currentKoreanLesson();
+    const total = state.koreanSection === 'vocabulary'
+      ? koreanPracticeEntries().length
+      : state.koreanSection === 'vocab-quiz'
+        ? state.koreanWordQuizQuestions.length
+        : state.koreanSection === 'sentences'
+          ? koreanSentenceItems(lesson).length
+          : lesson?.paragraphs?.length || 0;
+    if (!total) return;
+    stopPlayback(false);
+    const current = state.koreanSection === 'vocab-quiz' ? state.koreanWordQuizIndex : state.currentIndex;
+    const next = (current + direction + total) % total;
+    if (state.koreanSection === 'vocab-quiz') state.koreanWordQuizIndex = next;
+    else state.currentIndex = next;
+    renderAll();
+    return;
+  }
   const items = visibleItems();
   if (!items.length) return;
   stopPlayback(false);
@@ -1366,10 +1445,11 @@ function stepItem(direction) {
 }
 
 function setLanguage(language) {
-  if (language === state.language) return;
-  stopPlayback(false);
-  if (language === 'ko') {
-    state.previousEnglishEngine = elements.engineSelect.value;
+  const nextLanguage = language === 'en' ? 'en' : 'ko';
+  const changed = nextLanguage !== state.language;
+  if (changed) stopPlayback(false);
+  if (nextLanguage === 'ko') {
+    if (changed) state.previousEnglishEngine = elements.engineSelect.value;
     state.language = 'ko';
     state.mode = 'article';
     elements.engineSelect.value = 'native';
@@ -1386,6 +1466,7 @@ function setLanguage(language) {
   }
   renderAll();
   updateEngineFields();
+  syncLanguageChrome();
 }
 
 function updatePlayerControls() {
@@ -1466,7 +1547,12 @@ elements.sampleButton.addEventListener('click', () => {
   if (state.mode === 'article') loadArticleSample();
   else { elements.contentInput.value = getSample(state.mode); parseContent(); }
 });
-elements.languageSelect.addEventListener('change', () => setLanguage(elements.languageSelect.value));
+elements.languageSelect.addEventListener('change', () => chooseStudyLanguage(elements.languageSelect.value));
+elements.settingsMenuButton.addEventListener('click', () => openDialog(elements.settingsDialog));
+elements.closeSettingsButton.addEventListener('click', () => closeDialog(elements.settingsDialog));
+elements.themeToggleButton.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+document.querySelectorAll('[data-language-choice]').forEach((button) => button.addEventListener('click', () => chooseStudyLanguage(button.dataset.languageChoice)));
+elements.languageWelcomeDialog.addEventListener('cancel', (event) => event.preventDefault());
 elements.koreanLessonSelect.addEventListener('change', () => {
   state.koreanLessonId = elements.koreanLessonSelect.value;
   state.koreanVocabLesson = state.koreanLessonId;
@@ -1532,8 +1618,7 @@ document.querySelectorAll('[data-korean-section]').forEach((button) => button.ad
 window.speechSynthesis?.addEventListener?.('voiceschanged', populateNativeVoices);
 
 elements.n8nWebhookInput.value = localStorage.getItem(N8N_WEBHOOK_KEY) || '';
-ttsManager.setEngine('piper');
-updateKoreanLessonOptions();
-updateEngineFields();
-loadArticleSample();
+initializeSettingsSurface();
+setLanguage(localStorage.getItem(LANGUAGE_KEY) || 'ko');
 populateNativeVoices();
+if (!localStorage.getItem(LANGUAGE_KEY)) openDialog(elements.languageWelcomeDialog);
