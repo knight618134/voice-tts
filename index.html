@@ -90,6 +90,11 @@
             </div>
             <label class="field-label" for="contentInput">Paste lines</label>
             <textarea id="contentInput" rows="7" spellcheck="false"></textarea>
+            <div id="englishFields" class="english-fields">
+              <label class="field-label" for="englishCourseSelect">English course · A1–B1</label>
+              <select id="englishCourseSelect"></select>
+              <p class="field-hint" id="englishCourseHint">Choose a structured course; Words and Dialog use its built-in practice material.</p>
+            </div>
             <div id="koreanFields" class="korean-fields is-hidden">
               <label class="field-label" for="koreanLessonSelect">Korean course · A1–A2</label>
               <select id="koreanLessonSelect"></select>
@@ -211,6 +216,15 @@
                 <h2>韓文參考區 <span id="koreanVocabCount" class="count-badge">0</span></h2>
               </div>
             </div>
+            <section class="korean-grammar-guide is-hidden" id="koreanGrammarGuide" aria-labelledby="koreanGrammarGuideTitle">
+              <div class="korean-grammar-guide-heading">
+                <div><span class="article-index">ARTICLE COMPANION</span><h3 id="koreanGrammarGuideTitle">助詞・語法・動詞變化</h3></div>
+                <span class="pill">A1–B1</span>
+              </div>
+              <p class="field-hint">閱讀文章時依程度循序查看規則，並對照本課實際出現的動詞詞形。</p>
+              <div class="grammar-level-tabs" id="koreanGrammarLevelTabs" role="tablist" aria-label="Grammar level"></div>
+              <div class="korean-grammar-guide-body" id="koreanGrammarGuideBody"></div>
+            </section>
             <input id="koreanVocabSearch" type="search" placeholder="Search Korean or 中文" />
             <select id="koreanNotebookType" aria-label="Korean reference type">
               <option value="vocabulary">Vocabulary</option>

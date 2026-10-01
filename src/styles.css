@@ -132,7 +132,7 @@ input[type="range"] { accent-color: var(--purple); }
 .quiz-feedback.is-wrong { color: var(--red); }
 .language-picker { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: .76rem; font-weight: 800; }
 .language-picker select { width: auto; min-height: 38px; padding: 0 9px; }
-.korean-fields { margin-top: 8px; }
+.korean-fields, .english-fields { margin-top: 8px; }
 .import-preview { margin-top: 10px; padding: 10px 12px; border-radius: 9px; color: #267354; background: #ebf8f1; font-size: .75rem; line-height: 1.5; }
 .import-preview[data-type="error"] { color: #8c3f46; background: #fff0f1; }
 .korean-lesson-heading { display: flex; align-items: start; justify-content: space-between; gap: 15px; padding: 18px 20px; border: 1px solid #dedaf9; border-radius: 15px; background: linear-gradient(135deg, #fff, #f5f2ff); }
@@ -159,6 +159,34 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-reference-filters select { margin-top: 8px; }
 .korean-notebook-panel select { margin-top: 8px; }
 .korean-notebook { display: grid; flex: 1; gap: 10px; min-height: 0; max-height: none; margin-top: 13px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.korean-grammar-guide { flex: 0 0 auto; margin-bottom: 13px; padding: 13px; border: 1px solid #dedaf9; border-radius: 13px; background: var(--surface-soft); }
+.korean-grammar-guide-heading { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
+.korean-grammar-guide-heading h3 { margin: 4px 0 0; font-size: 1rem; }
+.grammar-level-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 11px; }
+.grammar-level-tab { min-height: 34px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); background: var(--surface-strong); font-size: .73rem; font-weight: 850; }
+.grammar-level-tab.is-active { border-color: #a79eee; color: var(--purple-dark); background: var(--lavender); }
+.korean-grammar-guide-body { display: grid; gap: 8px; max-height: min(38vh, 330px); margin-top: 10px; padding-right: 5px; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.korean-notebook-panel.is-article-companion > #koreanVocabSearch,
+.korean-notebook-panel.is-article-companion > #koreanNotebookType,
+.korean-notebook-panel.is-article-companion > .korean-reference-filters,
+.korean-notebook-panel.is-article-companion > #koreanVocabLessonFilter,
+.korean-notebook-panel.is-article-companion > #koreanNotebook { display: none; }
+.korean-notebook-panel.is-article-companion .korean-grammar-guide { display: flex; flex: 1; flex-direction: column; min-height: 0; margin-bottom: 0; }
+.korean-notebook-panel.is-article-companion .korean-grammar-guide-body { flex: 1; max-height: none; min-height: 0; }
+.grammar-guide-card, .lesson-conjugation-card { padding: 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-strong); }
+.grammar-guide-card > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.grammar-guide-card h4 { margin: 7px 0 4px; font-size: 1rem; }
+.grammar-guide-card p { margin: 0 0 5px; font-size: .76rem; line-height: 1.5; }
+.grammar-guide-card > small { display: block; color: var(--muted); font-size: .69rem; line-height: 1.45; }
+.grammar-guide-card ul { display: grid; gap: 5px; padding: 0; margin: 9px 0 0; list-style: none; }
+.grammar-guide-card li { display: grid; gap: 2px; padding-top: 6px; border-top: 1px solid var(--line); font-size: .72rem; }
+.grammar-guide-card li em { color: var(--muted); font-style: normal; }
+.grammar-kind { padding: 4px 6px; border-radius: 999px; color: var(--green); background: #ebf8f1; font-size: .62rem; font-weight: 850; }
+.lesson-conjugation-list { display: grid; gap: 6px; margin-top: 8px; }
+.lesson-conjugation-list > div { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 5px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font-size: .76rem; }
+.lesson-conjugation-list > div:last-child { padding-bottom: 0; border-bottom: 0; }
+.lesson-conjugation-list b { color: var(--purple-dark); }
+.lesson-conjugation-list small { grid-column: 1 / -1; color: var(--muted); }
 .korean-mode-tabs { margin-top: -4px; }
 .korean-practice-heading { display: flex; align-items: start; justify-content: space-between; gap: 15px; padding: 18px 20px; border: 1px solid #dedaf9; border-radius: 15px; background: linear-gradient(135deg, #fff, #f5f2ff); }
 .korean-practice-heading h3 { margin: 7px 0 3px; font-size: 1.35rem; letter-spacing: -.03em; }
@@ -189,7 +217,7 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-vocab-actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 .korean-vocab-actions .secondary-button { min-height: 34px; padding: 0 9px; font-size: .68rem; text-decoration: none; }
 .korean-quiz-setup { margin-top: 14px; }
-.korean-quiz-mode-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.korean-quiz-mode-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
 .korean-quiz-mode-card { display: grid; justify-items: start; gap: 7px; min-height: 160px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: #fff; text-align: left; }
 .korean-quiz-mode-card:hover, .korean-quiz-mode-card.is-selected { border-color: #aaa1ed; background: #faf9ff; box-shadow: 0 8px 24px rgba(103, 88, 216, .1); }
 .korean-quiz-mode-card > span { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 10px; color: var(--purple-dark); background: var(--lavender); font-weight: 900; }
@@ -213,6 +241,11 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-answer-explanation.is-correct strong { color: var(--green); }
 .korean-answer-explanation p { margin: 7px 0 2px; font-size: 1rem; }
 .korean-answer-explanation small { color: var(--muted); }
+.korean-listening-hint { margin: -4px 0 15px; padding: 10px 12px; border-radius: 9px; color: var(--muted); background: var(--surface-soft); font-size: .74rem; line-height: 1.5; }
+.korean-multi-blank-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 9px; }
+.korean-multi-blank-controls label { color: var(--muted); font-size: .7rem; font-weight: 850; }
+.korean-multi-blank-controls label span { display: block; margin: 0 0 5px 2px; }
+.korean-multi-blank-controls select { min-height: 42px; }
 .korean-quiz-navigation { display: flex; justify-content: flex-end; margin-top: 14px; }
 .korean-quiz-result { text-align: center; }
 .korean-quiz-result h3 { margin: 8px 0; color: var(--purple-dark); font-size: 3rem; }
@@ -302,6 +335,7 @@ html[data-theme="dark"] .quiz-option { color: var(--muted); background: var(--su
 html[data-theme="dark"] .speaker-b { background: #20222d; }
 html[data-theme="dark"] .review-pill { background: #3b3020; }
 html[data-theme="dark"] .review-pill.is-reviewed { background: #18382c; }
+html[data-theme="dark"] .grammar-kind { background: #18382c; }
 html[data-theme="dark"] .footer { color: #777c8f; }
 
 @keyframes dialog-in {
@@ -315,6 +349,8 @@ html[data-theme="dark"] .footer { color: #777c8f; }
   .sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .korean-notebook-panel { position: static; max-height: none; }
   .korean-notebook { max-height: 64vh; }
+  .korean-notebook-panel.is-article-companion .korean-grammar-guide { flex: none; }
+  .korean-notebook-panel.is-article-companion .korean-grammar-guide-body { flex: none; max-height: 62vh; }
   .settings-dialog-body { grid-template-columns: 1fr; }
   .korean-study-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .korean-study-filters .text-button { justify-self: start; }
