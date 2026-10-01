@@ -43,6 +43,12 @@
             <button class="tab-button" type="button" data-mode="dialog" role="tab" aria-selected="false">Dialog</button>
           </div>
 
+          <div id="koreanModeTabs" class="mode-tabs korean-mode-tabs is-hidden" role="tablist" aria-label="Korean study section">
+            <button class="tab-button is-active" type="button" data-korean-section="vocabulary" role="tab" aria-selected="true">單字複習</button>
+            <button class="tab-button" type="button" data-korean-section="sentences" role="tab" aria-selected="false">句子</button>
+            <button class="tab-button" type="button" data-korean-section="article" role="tab" aria-selected="false">文章</button>
+          </div>
+
           <div id="reader" class="reader" aria-live="polite"></div>
 
           <section class="quiz-panel is-hidden" id="quizPanel" aria-labelledby="quizTitle">
@@ -166,10 +172,11 @@
             </select>
 
             <div id="browserVoiceFields" class="is-hidden">
-              <label class="field-label" for="voiceASelect">Voice A <span class="field-note">dialog speaker A</span></label>
+              <label class="field-label" for="voiceASelect"><span id="voiceALabel">Voice A</span> <span class="field-note">dialog speaker A</span></label>
               <select id="voiceASelect"></select>
-              <label class="field-label" for="voiceBSelect">Voice B <span class="field-note">dialog speaker B</span></label>
+              <label class="field-label" for="voiceBSelect"><span id="voiceBLabel">Voice B</span> <span class="field-note">dialog speaker B</span></label>
               <select id="voiceBSelect"></select>
+              <p class="field-hint is-hidden" id="koreanVoiceHint">Korean mode filters Voice A/B to installed ko-* voices and speaks with ko-KR.</p>
             </div>
 
             <div id="piperVoiceFields">
@@ -219,7 +226,7 @@
             <div class="panel-heading">
               <div>
                 <p class="eyebrow">KOREAN NOTEBOOK</p>
-                <h2>Vocabulary <span id="koreanVocabCount" class="count-badge">0</span></h2>
+                <h2>Reference vocabulary <span id="koreanVocabCount" class="count-badge">0</span></h2>
               </div>
             </div>
             <input id="koreanVocabSearch" type="search" placeholder="Search Korean or 中文" />

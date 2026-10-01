@@ -37,6 +37,7 @@ export class NativeTtsEngine {
 
   speak(text, { voiceName = '', rate = 1, lang = '' } = {}) {
     if (!this.synthesis) return Promise.reject(new Error('SpeechSynthesis is unavailable.'));
+    this.refreshVoices();
     this.stop();
     this.cancelled = false;
     this.onStatus({ key: 'playing', label: 'Playing', detail: 'Browser voice' });
@@ -45,7 +46,7 @@ export class NativeTtsEngine {
       const utterance = new SpeechSynthesisUtterance(text);
       const voice = this.voices.find((candidate) => candidate.name === voiceName);
       if (voice) utterance.voice = voice;
-      if (lang) utterance.lang = lang;
+      if (lang || voice?.lang) utterance.lang = lang || voice.lang;
       utterance.rate = Number(rate) || 1;
       utterance.onend = () => {
         this.activeUtterance = null;

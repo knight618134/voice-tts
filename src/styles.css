@@ -143,6 +143,16 @@ input[type="range"] { accent-color: var(--purple); }
 .korean-notebook-panel input[type="search"] { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 9px; }
 .korean-notebook-panel select { margin-top: 8px; }
 .korean-notebook { display: grid; gap: 10px; max-height: 720px; margin-top: 13px; overflow: auto; }
+.korean-mode-tabs { margin-top: -4px; }
+.korean-practice-heading { display: flex; align-items: start; justify-content: space-between; gap: 15px; padding: 18px 20px; border: 1px solid #dedaf9; border-radius: 15px; background: linear-gradient(135deg, #fff, #f5f2ff); }
+.korean-practice-heading h3 { margin: 7px 0 3px; font-size: 1.35rem; letter-spacing: -.03em; }
+.korean-practice-heading p { margin: 0; color: var(--muted); font-size: .86rem; }
+.korean-practice-hint { margin: 9px 3px; }
+.korean-practice-list, .korean-sentence-list { display: grid; gap: 10px; margin-top: 13px; }
+.korean-practice-card, .korean-sentence-card { padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: #fff; }
+.korean-practice-card.is-reviewed { border-color: #bfe4d2; }
+.korean-sentence-card.is-current { border-color: #a79eee; box-shadow: 0 8px 24px rgba(103, 88, 216, .12); }
+.korean-practice-meta { margin-top: 8px; color: var(--muted); font-size: .7rem; }
 .korean-vocab-card { padding: 13px; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
 .korean-vocab-heading { display: flex; align-items: start; justify-content: space-between; gap: 10px; }
 .korean-vocab-heading h3 { margin: 0 0 3px; font-size: 1.08rem; }
@@ -202,6 +212,7 @@ input[type="range"] { accent-color: var(--purple); }
   .reader-item { align-items: flex-start; padding: 16px; }
   .reader-item small { white-space: normal; }
   .korean-lesson-heading { flex-direction: column; }
+  .korean-practice-heading { flex-direction: column; }
   .split-fields, .article-actions { grid-template-columns: 1fr; }
   .speaker-a, .speaker-b { margin-left: 0; margin-right: 0; }
   .speaker-b { background: #fbfbff; }
